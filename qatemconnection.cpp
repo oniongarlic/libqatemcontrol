@@ -114,6 +114,11 @@ bool QAtemConnection::isConnected() const
     return m_socket && m_socket->isValid() && m_isInitialized;
 }
 
+void QAtemConnection::connectToSwitcher(const QString address, int connectionTimeout)
+{
+    connectToSwitcher(QHostAddress(address));
+}
+
 void QAtemConnection::connectToSwitcher(const QHostAddress &address, int connectionTimeout)
 {
     m_address = address;

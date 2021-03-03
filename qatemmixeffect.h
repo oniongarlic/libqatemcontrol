@@ -32,68 +32,68 @@ public:
     explicit QAtemMixEffect(quint8 id, QAtemConnection *parent = nullptr);
     ~QAtemMixEffect();
 
-    void createUpstreamKeyers(quint8 count);
+    Q_INVOKABLE void createUpstreamKeyers(quint8 count);
 
     /// @returns the index of the input that is on program
-    quint16 programInput() const { return m_programInput; }
+    Q_INVOKABLE quint16 programInput() const { return m_programInput; }
     /// @returns the index of the input that is on preview
-    quint16 previewInput() const { return m_previewInput; }
+    Q_INVOKABLE quint16 previewInput() const { return m_previewInput; }
 
     /// @returns true if transition preview is enabled
-    bool transitionPreviewEnabled() const { return m_transitionPreviewEnabled; }
+    Q_INVOKABLE bool transitionPreviewEnabled() const { return m_transitionPreviewEnabled; }
     /// @returns number of frames left of transition
-    quint8 transitionFrameCount() const { return m_transitionFrameCount; }
+    Q_INVOKABLE quint8 transitionFrameCount() const { return m_transitionFrameCount; }
     /// @returns percent left of transition
-    quint16 transitionPosition() const { return m_transitionPosition; }
+    Q_INVOKABLE quint16 transitionPosition() const { return m_transitionPosition; }
     /// @returns keyers used on next transition. Bit 0 = Background, 1-4 = keys, only bit 0 and 1 available on TVS
-    quint8 keyersOnNextTransition() const { return m_keyersOnNextTransition; }
+    Q_INVOKABLE quint8 keyersOnNextTransition() const { return m_keyersOnNextTransition; }
     /// @returns index of selected transition style for next transition. Bit 0 = Mix, 1 = Dip, 2 = Wipe, 3 = DVE and 4 = Stinger, only bit 0-2 available on TVS
-    quint8 nextTransitionStyle() const { return m_nextTransitionStyle; }
+    Q_INVOKABLE quint8 nextTransitionStyle() const { return m_nextTransitionStyle; }
     /// @returns keyers used on current transition. Bit 0 = Background, 1-4 = keys, only bit 0 and 1 available on TVS
-    quint8 keyersOnCurrentTransition() const { return m_keyersOnCurrentTransition; }
+    Q_INVOKABLE quint8 keyersOnCurrentTransition() const { return m_keyersOnCurrentTransition; }
     /// @returns index of selected transition style for current transition. Bit 0 = Mix, 1 = Dip, 2 = Wipe, 3 = DVE and 4 = Stinger, only bit 0-2 available on TVS
-    quint8 currentTransitionStyle() const { return m_currentTransitionStyle; }
+    Q_INVOKABLE quint8 currentTransitionStyle() const { return m_currentTransitionStyle; }
 
     /// @returns true if fade to black is on.
-    bool fadeToBlackEnabled() const { return m_fadeToBlackEnabled; }
+    Q_INVOKABLE bool fadeToBlackEnabled() const { return m_fadeToBlackEnabled; }
     /// @returns true if fade to black is fading to/from black
-    bool fadeToBlackFading() const { return m_fadeToBlackFading; }
+    Q_INVOKABLE bool fadeToBlackFading() const { return m_fadeToBlackFading; }
     /// @returns number of frames left of fade to black transition.
-    quint8 fadeToBlackFrameCount() const { return m_fadeToBlackFrameCount; }
+    Q_INVOKABLE quint8 fadeToBlackFrameCount() const { return m_fadeToBlackFrameCount; }
     /// @returns duration in number of frames for the fade to black transition.
-    quint8 fadeToBlackFrames() const { return m_fadeToBlackFrames; }
+    Q_INVOKABLE quint8 fadeToBlackFrames() const { return m_fadeToBlackFrames; }
 
     /// @returns duration in number of frames for mix transition
-    quint8 mixFrames() const { return m_mixFrames; }
+    Q_INVOKABLE quint8 mixFrames() const { return m_mixFrames; }
 
     /// @returns duration in number of frames for dip transition
-    quint8 dipFrames() const { return m_dipFrames; }
+    Q_INVOKABLE quint8 dipFrames() const { return m_dipFrames; }
     /// @returns the source used for a dip transition
-    quint16 dipSource() const { return m_dipSource; }
+    Q_INVOKABLE quint16 dipSource() const { return m_dipSource; }
 
     /// @returns duration in number of frames for wipe transition
-    quint8 wipeFrames() const { return m_wipeFrames; }
+    Q_INVOKABLE quint8 wipeFrames() const { return m_wipeFrames; }
     /// @returns the border source index, used for wipe transition
-    quint16 wipeBorderSource() const { return m_wipeBorderSource; }
+    Q_INVOKABLE quint16 wipeBorderSource() const { return m_wipeBorderSource; }
     /// @returns border width for wipe transition
-    quint16 wipeBorderWidth() const { return m_wipeBorderWidth; }
+    Q_INVOKABLE quint16 wipeBorderWidth() const { return m_wipeBorderWidth; }
     /// @returns border softness for wipe transition
-    quint16 wipeBorderSoftness() const { return m_wipeBorderSoftness; }
+    Q_INVOKABLE quint16 wipeBorderSoftness() const { return m_wipeBorderSoftness; }
     /// @returns type of wipe transition
-    quint8 wipeType() const { return m_wipeType; }
+    Q_INVOKABLE quint8 wipeType() const { return m_wipeType; }
     /// @returns symmetry of wipe transition
-    quint16 wipeSymmetry() const { return m_wipeSymmetry; }
+    Q_INVOKABLE quint16 wipeSymmetry() const { return m_wipeSymmetry; }
     /// @returns x position of wipe transition
-    quint16 wipeXPosition() const { return m_wipeXPosition; }
+    Q_INVOKABLE quint16 wipeXPosition() const { return m_wipeXPosition; }
     /// @returns y position of wipe transition
-    quint16 wipeYPosition() const { return m_wipeYPosition; }
+    Q_INVOKABLE quint16 wipeYPosition() const { return m_wipeYPosition; }
     /// @returns true if wipe transition direction should be reversed
-    bool wipeReverseDirection() const { return m_wipeReverseDirection; }
+    Q_INVOKABLE bool wipeReverseDirection() const { return m_wipeReverseDirection; }
     /// @returns true if wipe transition direction should flip flop
-    bool wipeFlipFlop() const { return m_wipeFlipFlop; }
+    Q_INVOKABLE bool wipeFlipFlop() const { return m_wipeFlipFlop; }
 
     /// @returns duration in number of frames for DVE transition
-    quint8 dveRate() const { return m_dveRate; }
+    Q_INVOKABLE quint8 dveRate() const { return m_dveRate; }
     /**
      * @returns the selected effect for DVE transition
      *
@@ -142,132 +142,132 @@ public:
      * 33 = Spin anti clockwise
      * 34 = Logo wipe
      */
-    quint8 dveEffect() const { return m_dveEffect; }
-    quint16 dveFillSource() const { return m_dveFillSource; }
-    quint16 dveKeySource() const { return m_dveKeySource; }
-    bool dveKeyEnabled() const { return m_dveKeyEnabled; }
-    bool dvePreMultipliedKeyEnabled() const { return m_dvePreMultipliedKeyEnabled; }
+    Q_INVOKABLE quint8 dveEffect() const { return m_dveEffect; }
+    Q_INVOKABLE quint16 dveFillSource() const { return m_dveFillSource; }
+    Q_INVOKABLE quint16 dveKeySource() const { return m_dveKeySource; }
+    Q_INVOKABLE bool dveKeyEnabled() const { return m_dveKeyEnabled; }
+    Q_INVOKABLE bool dvePreMultipliedKeyEnabled() const { return m_dvePreMultipliedKeyEnabled; }
     /// @returns the clip of the key in per cent for the DVE transition
-    float dveKeyClip() const { return m_dveKeyClip; }
+    Q_INVOKABLE float dveKeyClip() const { return m_dveKeyClip; }
     /// @returns the gain of the key in per cent for the DVE transition
-    float dveKeyGain() const { return m_dveKeyGain; }
-    bool dveInvertKeyEnabled() const { return m_dveEnableInvertKey; }
-    bool dveReverseDirection() const { return m_dveReverseDirection; }
-    bool dveFlipFlopDirection() const { return m_dveFlipFlopDirection; }
+    Q_INVOKABLE float dveKeyGain() const { return m_dveKeyGain; }
+    Q_INVOKABLE bool dveInvertKeyEnabled() const { return m_dveEnableInvertKey; }
+    Q_INVOKABLE bool dveReverseDirection() const { return m_dveReverseDirection; }
+    Q_INVOKABLE bool dveFlipFlopDirection() const { return m_dveFlipFlopDirection; }
 
     /// @returns source used for the Stinger transition. 1 = Media player 1, 2 = Media player 2
-    quint8 stingerSource() const { return m_stingerSource; }
+    Q_INVOKABLE quint8 stingerSource() const { return m_stingerSource; }
     /// @returns true if the Stinger transition has a pre multiplied key
-    bool stingerPreMultipliedKeyEnabled() const { return m_stingerPreMultipliedKeyEnabled; }
-    float stingerClip() const { return m_stingerClip; }
-    float stingerGain() const { return m_stingerGain; }
-    bool stingerInvertKeyEnabled() const { return m_stingerInvertKeyEnabled; }
-    quint16 stingerPreRoll() const { return m_stingerPreRoll; }
-    quint16 stingerClipDuration() const { return m_stingerClipDuration; }
-    quint16 stingerTriggerPoint() const { return m_stingerTriggerPoint; }
-    quint16 stingerMixRate() const { return m_stingerMixRate; }
+    Q_INVOKABLE bool stingerPreMultipliedKeyEnabled() const { return m_stingerPreMultipliedKeyEnabled; }
+    Q_INVOKABLE float stingerClip() const { return m_stingerClip; }
+    Q_INVOKABLE float stingerGain() const { return m_stingerGain; }
+    Q_INVOKABLE bool stingerInvertKeyEnabled() const { return m_stingerInvertKeyEnabled; }
+    Q_INVOKABLE quint16 stingerPreRoll() const { return m_stingerPreRoll; }
+    Q_INVOKABLE quint16 stingerClipDuration() const { return m_stingerClipDuration; }
+    Q_INVOKABLE quint16 stingerTriggerPoint() const { return m_stingerTriggerPoint; }
+    Q_INVOKABLE quint16 stingerMixRate() const { return m_stingerMixRate; }
 
     /// @returns number of upstream keys available on this M/E
-    quint8 upstreamKeyCount() const { return static_cast<quint8>(m_upstreamKeys.count()); }
+    Q_INVOKABLE quint8 upstreamKeyCount() const { return static_cast<quint8>(m_upstreamKeys.count()); }
     /// @returns true if upstream key @p keyer is on air
-    bool upstreamKeyOnAir(quint8 keyer) const;
+    Q_INVOKABLE bool upstreamKeyOnAir(quint8 keyer) const;
     /// @returns the key type for upstream key @p keyer, 0 = luma, 1 = chroma, 2 = pattern, 3 = DVE
-    quint8 upstreamKeyType(quint8 keyer) const { return m_upstreamKeys[keyer]->m_type; }
+    Q_INVOKABLE quint8 upstreamKeyType(quint8 keyer) const { return m_upstreamKeys[keyer]->m_type; }
     /// @returns the source used as fill for upstream key @p keyer
-    quint16 upstreamKeyFillSource(quint8 keyer) const { return m_upstreamKeys[keyer]->m_fillSource; }
+    Q_INVOKABLE quint16 upstreamKeyFillSource(quint8 keyer) const { return m_upstreamKeys[keyer]->m_fillSource; }
     /// @returns the source used as key for upstream key @p keyer
-    quint16 upstreamKeyKeySource(quint8 keyer) const { return m_upstreamKeys[keyer]->m_keySource; }
+    Q_INVOKABLE quint16 upstreamKeyKeySource(quint8 keyer) const { return m_upstreamKeys[keyer]->m_keySource; }
     /// @returns true if the mask is enabled for upstream key @p keyer
-    bool upstreamKeyEnableMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_enableMask; }
+    Q_INVOKABLE bool upstreamKeyEnableMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_enableMask; }
     /// @returns top mask for upstream key @p keyer
-    float upstreamKeyTopMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_topMask; }
+    Q_INVOKABLE float upstreamKeyTopMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_topMask; }
     /// @returns bottom mask for upstream key @p keyer
-    float upstreamKeyBottomMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_bottomMask; }
+    Q_INVOKABLE float upstreamKeyBottomMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_bottomMask; }
     /// @returns left mask for upstream key @p keyer
-    float upstreamKeyLeftMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_leftMask; }
+    Q_INVOKABLE float upstreamKeyLeftMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_leftMask; }
     /// @returns right mask for upstream key @p keyer
-    float upstreamKeyRightMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_rightMask; }
+    Q_INVOKABLE float upstreamKeyRightMask(quint8 keyer) const { return m_upstreamKeys[keyer]->m_rightMask; }
     /// @returns true if the key is pre multiplied for luma upstream key @p keyer
-    bool upstreamKeyLumaPreMultipliedKey(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaPreMultipliedKey; }
+    Q_INVOKABLE bool upstreamKeyLumaPreMultipliedKey(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaPreMultipliedKey; }
     /// @returns true if the key source should be inverted for luma upstream key @p keyer
-    bool upstreamKeyLumaInvertKey(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaInvertKey; }
+    Q_INVOKABLE bool upstreamKeyLumaInvertKey(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaInvertKey; }
     /// @returns clip for luma upstream key @p keyer
-    float upstreamKeyLumaClip(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaClip; }
+    Q_INVOKABLE float upstreamKeyLumaClip(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaClip; }
     /// @returns gain for luma upstream key @p keyer
-    float upstreamKeyLumaGain(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaGain; }
+    Q_INVOKABLE float upstreamKeyLumaGain(quint8 keyer) const { return m_upstreamKeys[keyer]->m_lumaGain; }
     /// @returns hue for chroma upstream key @p keyer
-    float upstreamKeyChromaHue(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaHue; }
+    Q_INVOKABLE float upstreamKeyChromaHue(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaHue; }
     /// @returns gain for chroma upstream key @p keyer
-    float upstreamKeyChromaGain(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaGain; }
+    Q_INVOKABLE float upstreamKeyChromaGain(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaGain; }
     /// @returns y suppress for chroma upstream key @p keyer
-    float upstreamKeyChromaYSuppress(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaYSuppress; }
+    Q_INVOKABLE float upstreamKeyChromaYSuppress(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaYSuppress; }
     /// @returns lift for chroma upstream key @p keyer
-    float upstreamKeyChromaLift(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaLift; }
+    Q_INVOKABLE float upstreamKeyChromaLift(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaLift; }
     /// @returns true if chroma upstream key @p keyer should have narrow chroma key range
-    bool upstreamKeyChromaNarrowRange(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaNarrowRange; }
+    Q_INVOKABLE bool upstreamKeyChromaNarrowRange(quint8 keyer) const { return m_upstreamKeys[keyer]->m_chromaNarrowRange; }
     /// @returns pattern of pattern upstream key @p keyer
-    quint8 upstreamKeyPatternPattern(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternPattern; }
+    Q_INVOKABLE quint8 upstreamKeyPatternPattern(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternPattern; }
     /// @returns true if pattern upstream key @p keyer should invert the pattern
-    bool upstreamKeyPatternInvertPattern(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternInvertPattern; }
+    Q_INVOKABLE bool upstreamKeyPatternInvertPattern(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternInvertPattern; }
     /// @returns size for pattern upstream key @p keyer
-    float upstreamKeyPatternSize(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternSize; }
+    Q_INVOKABLE float upstreamKeyPatternSize(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternSize; }
     /// @returns symmetry for pattern upstream key @p keyer
-    float upstreamKeyPatternSymmetry(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternSymmetry; }
+    Q_INVOKABLE float upstreamKeyPatternSymmetry(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternSymmetry; }
     /// @returns softness for pattern upstream key @p keyer
-    float upstreamKeyPatternSoftness(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternSoftness; }
+    Q_INVOKABLE float upstreamKeyPatternSoftness(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternSoftness; }
     /// @returns x position for pattern upstream key @p keyer
-    float upstreamKeyPatternXPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternXPosition; }
+    Q_INVOKABLE float upstreamKeyPatternXPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternXPosition; }
     /// @returns y position for pattern upstream key @p keyer
-    float upstreamKeyPatternYPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternYPosition; }
+    Q_INVOKABLE float upstreamKeyPatternYPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_patternYPosition; }
     /// @returns x position of DVE for upstream key @p keyer
-    float upstreamKeyDVEXPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveXPosition; }
+    Q_INVOKABLE float upstreamKeyDVEXPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveXPosition; }
     /// @returns y position of DVE for upstream key @p keyer
-    float upstreamKeyDVEYPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveYPosition; }
+    Q_INVOKABLE float upstreamKeyDVEYPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveYPosition; }
     /// @returns x size of DVE for upstream key @p keyer
-    float upstreamKeyDVEXSize(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveXSize; }
+    Q_INVOKABLE float upstreamKeyDVEXSize(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveXSize; }
     /// @returns y size of DVE for upstream key @p keyer
-    float upstreamKeyDVEYSize(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveYSize; }
+    Q_INVOKABLE float upstreamKeyDVEYSize(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveYSize; }
     /// @returns rotation of DVE for upstream key @p keyer
-    float upstreamKeyDVERotation(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveRotation; }
+    Q_INVOKABLE float upstreamKeyDVERotation(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveRotation; }
     /// @returns true if the drop shadow is enabled on the DVE for upstream key @p keyer
-    bool upstreamKeyDVEDropShadowEnabled(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveEnableDropShadow; }
+    Q_INVOKABLE bool upstreamKeyDVEDropShadowEnabled(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveEnableDropShadow; }
     /// @returns direction of the light source for the drop shadow on the DVE for upstream key @p keyer
-    float upstreamKeyDVELightSourceDirection(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveLightSourceDirection; }
+    Q_INVOKABLE float upstreamKeyDVELightSourceDirection(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveLightSourceDirection; }
     /// @returns altitude of the light source for the drop shadow on the DVE for upstream keu @p keyer
-    quint8 upstreamKeyDVELightSourceAltitude(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveLightSourceAltitude; }
+    Q_INVOKABLE quint8 upstreamKeyDVELightSourceAltitude(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveLightSourceAltitude; }
     /// @returns true if the border is enabled on the DVE for upstream key @p keyer
-    bool upstreamKeyDVEBorderEnabled(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveEnableBorder; }
+    Q_INVOKABLE bool upstreamKeyDVEBorderEnabled(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveEnableBorder; }
     /// @returns the border style of the DVE for upstream key @p keyer. 0 = No Bevel, 1 = Bevel In Out, 2 = Bevel In, 3 = Bevel Out
-    quint8 upstreamKeyDVEBorderStyle(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderStyle; }
+    Q_INVOKABLE quint8 upstreamKeyDVEBorderStyle(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderStyle; }
     /// @returns the border color of the DVE for upstream key @p keyer
-    QColor upstreamKeyDVEBorderColor(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderColor; }
+    Q_INVOKABLE QColor upstreamKeyDVEBorderColor(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderColor; }
     /// @returns the outside width of the border of the DVE for upstream key @p keyer
-    float upstreamKeyDVEBorderOutsideWidth(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderOutsideWidth; }
+    Q_INVOKABLE float upstreamKeyDVEBorderOutsideWidth(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderOutsideWidth; }
     /// @returns the inside width of the border of the DVE for upstream key @p keyer
-    float upstreamKeyDVEBorderInsideWidth(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderInsideWidth; }
+    Q_INVOKABLE float upstreamKeyDVEBorderInsideWidth(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderInsideWidth; }
     /// @returns the outside soften (%) of the border of the DVE for upstream key @p keyer
-    quint8 upstreamKeyDVEBorderOutsideSoften(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderOutsideSoften; }
+    Q_INVOKABLE quint8 upstreamKeyDVEBorderOutsideSoften(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderOutsideSoften; }
     /// @returns the inside soften (%) of the border of the DVE for upstream key @p keyer
-    quint8 upstreamKeyDVEBorderInsideSoften(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderInsideSoften; }
+    Q_INVOKABLE quint8 upstreamKeyDVEBorderInsideSoften(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderInsideSoften; }
     /// @returns the opacity of the border of the DVE for upstream key @p keyer
-    quint8 upstreamKeyDVEBorderOpacity(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderOpacity; }
+    Q_INVOKABLE quint8 upstreamKeyDVEBorderOpacity(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderOpacity; }
     /// @returns the bevel position of the border of the DVE for upstream key @p keyer
-    float upstreamKeyDVEBorderBevelPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderBevelPosition; }
+    Q_INVOKABLE float upstreamKeyDVEBorderBevelPosition(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderBevelPosition; }
     /// @returns the bevel soften (%) of the border of the DVE for upstream key @p keyer
-    float upstreamKeyDVEBorderBevelSoften(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderBevelSoften; }
+    Q_INVOKABLE float upstreamKeyDVEBorderBevelSoften(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveBorderBevelSoften; }
     /// @returns the rate in frames the DVE for upstream key @p keyer runs at
-    quint8 upstreamKeyDVERate(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveRate; }
+    Q_INVOKABLE quint8 upstreamKeyDVERate(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveRate; }
     /// @returns true if key frame A has been set for the DVE for upstream key @p keyer
-    bool upstreamKeyDVEKeyFrameASet(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveKeyFrameASet; }
+    Q_INVOKABLE bool upstreamKeyDVEKeyFrameASet(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveKeyFrameASet; }
     /// @returns true if key frame B has been set for the DVE for upstream key @p keyer
-    bool upstreamKeyDVEKeyFrameBSet(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveKeyFrameBSet; }
-    bool upstreamKeyDVEMaskEnabled(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskEnabled; }
-    float upstreamKeyDVEMaskTop(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskTop; }
-    float upstreamKeyDVEMaskBottom(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskBottom; }
-    float upstreamKeyDVEMaskLeft(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskLeft; }
-    float upstreamKeyDVEMaskRight(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskRight; }
+    Q_INVOKABLE bool upstreamKeyDVEKeyFrameBSet(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveKeyFrameBSet; }
+    Q_INVOKABLE bool upstreamKeyDVEMaskEnabled(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskEnabled; }
+    Q_INVOKABLE float upstreamKeyDVEMaskTop(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskTop; }
+    Q_INVOKABLE float upstreamKeyDVEMaskBottom(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskBottom; }
+    Q_INVOKABLE float upstreamKeyDVEMaskLeft(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskLeft; }
+    Q_INVOKABLE float upstreamKeyDVEMaskRight(quint8 keyer) const { return m_upstreamKeys[keyer]->m_dveMaskRight; }
     /// @returns true if fly is enabled for non DVE type of the upstream key @p keyer
-    bool upstreamKeyEnableFly(quint8 keyer) const { return m_upstreamKeys[keyer]->m_enableFly; }
+    Q_INVOKABLE bool upstreamKeyEnableFly(quint8 keyer) const { return m_upstreamKeys[keyer]->m_enableFly; }
     /// @returns the current key frame settings for keyer @p keyer and key frame @frame. 1 = KeyFrame A, 2 = KeyFrame B
     QAtem::DveKeyFrame upstreamKeyKeyFrame(quint8 keyer, quint8 frame) const { return m_upstreamKeys[keyer]->m_keyFrames[frame - 1]; }
 

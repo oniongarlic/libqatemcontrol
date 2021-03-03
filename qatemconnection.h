@@ -67,63 +67,64 @@ public:
     explicit QAtemConnection(QObject* parent = nullptr);
     virtual ~QAtemConnection();
 
-    QHostAddress address() const { return m_address; }
+    Q_INVOKABLE QHostAddress address() const { return m_address; }
 
-    bool isConnected() const;
+    Q_INVOKABLE bool isConnected() const;
 
     /// Connect to ATEM switcher at @p address
     void connectToSwitcher(const QHostAddress& address, int connectionTimeout = 1000);
-    void disconnectFromSwitcher();
+    Q_INVOKABLE void connectToSwitcher(const QString address, int connectionTimeout = 1000);
+    Q_INVOKABLE void disconnectFromSwitcher();
 
-    void setDebugEnabled(bool enabled) { m_debugEnabled = enabled; }
-    bool debugEnabled() const { return m_debugEnabled; }
+    Q_INVOKABLE void setDebugEnabled(bool enabled) { m_debugEnabled = enabled; }
+    Q_INVOKABLE bool debugEnabled() const { return m_debugEnabled; }
 
     /// @returns the tally state of the input @p index. 1 = program, 2 = preview and 3 = both
-    quint8 tallyByIndex(quint8 index) const;
+    Q_INVOKABLE quint8 tallyByIndex(quint8 index) const;
     /// @returns number of tally indexes available
-    int tallyIndexCount() const { return m_tallyByIndex.count(); }
+    Q_INVOKABLE int tallyIndexCount() const { return m_tallyByIndex.count(); }
 
     /// @returns number of tally channels available
-    quint16 tallyChannelCount() const { return m_tallyChannelCount; }
+    Q_INVOKABLE quint16 tallyChannelCount() const { return m_tallyChannelCount; }
 
-    QColor colorGeneratorColor(quint8 generator) const;
+    Q_INVOKABLE QColor colorGeneratorColor(quint8 generator) const;
 
-    QAtemDownstreamKey *downstreamKey(quint8 id) const;
-    QVector<QAtemDownstreamKey*> downstreamKeys() const { return m_downstreamKeys; }
+    Q_INVOKABLE QAtemDownstreamKey *downstreamKey(quint8 id) const;
+    Q_INVOKABLE QVector<QAtemDownstreamKey*> downstreamKeys() const { return m_downstreamKeys; }
 
-    quint8 mediaPlayerType(quint8 player) const;
-    quint8 mediaPlayerSelectedStill(quint8 player) const;
-    quint8 mediaPlayerSelectedClip(quint8 player) const;
+    Q_INVOKABLE quint8 mediaPlayerType(quint8 player) const;
+    Q_INVOKABLE quint8 mediaPlayerSelectedStill(quint8 player) const;
+    Q_INVOKABLE quint8 mediaPlayerSelectedClip(quint8 player) const;
     /// @returns the current state of the media player @p player
     QAtem::MediaPlayerState mediaPlayerState(quint8 player) const { return m_mediaPlayerStates.value(player); }
 
-    quint16 auxSource(quint8 aux) const;
+    Q_INVOKABLE quint16 auxSource(quint8 aux) const;
 
-    QString productInformation() const { return m_productInformation; }
-    quint16 majorVersion() const { return m_majorversion; }
-    quint16 minorVersion() const { return m_minorversion; }
+    Q_INVOKABLE QString productInformation() const { return m_productInformation; }
+    Q_INVOKABLE quint16 majorVersion() const { return m_majorversion; }
+    Q_INVOKABLE quint16 minorVersion() const { return m_minorversion; }
 
     /// @returns Info about the input @p index
-    QAtem::InputInfo inputInfo(quint16 index) const { return m_inputInfos.value(index); }
-    QMap<quint16, QAtem::InputInfo> inputInfos () const { return m_inputInfos; }
+    Q_INVOKABLE QAtem::InputInfo inputInfo(quint16 index) const { return m_inputInfos.value(index); }
+    Q_INVOKABLE QMap<quint16, QAtem::InputInfo> inputInfos () const { return m_inputInfos; }
 
-    QAtem::MediaInfo stillMediaInfo(quint8 index) const { return m_stillMediaInfos.value(index); }
-    QAtem::MediaInfo clipMediaInfo(quint8 index) const { return m_clipMediaInfos.value(index); }
-    QAtem::MediaInfo soundMediaInfo(quint8 index) const { return m_soundMediaInfos.value(index); }
+    Q_INVOKABLE QAtem::MediaInfo stillMediaInfo(quint8 index) const { return m_stillMediaInfos.value(index); }
+    Q_INVOKABLE QAtem::MediaInfo clipMediaInfo(quint8 index) const { return m_clipMediaInfos.value(index); }
+    Q_INVOKABLE QAtem::MediaInfo soundMediaInfo(quint8 index) const { return m_soundMediaInfos.value(index); }
 
-    quint8 multiViewCount() const { return static_cast<quint8>(m_multiViews.count()); }
+    Q_INVOKABLE quint8 multiViewCount() const { return static_cast<quint8>(m_multiViews.count()); }
     QAtem::MultiView *multiView(quint8 index) const;
 
-    QMap<quint8, QAtem::VideoMode> availableVideoModes() const { return m_availableVideoModes; }
+    Q_INVOKABLE QMap<quint8, QAtem::VideoMode> availableVideoModes() const { return m_availableVideoModes; }
     /// @returns index of the video format in use. 0 = 525i5994, 1 = 625i50, 2 = 525i5994 16:9, 3 = 625i50 16:9, 4 = 720p50, 5 = 720p5994, 6 = 1080i50, 7 = 1080i5994
-    quint8 videoFormat() const { return m_videoFormat; }
+    Q_INVOKABLE quint8 videoFormat() const { return m_videoFormat; }
     /// @returns type of video down coversion, 0 = Center cut, 1 = Letterbox, 2 = Anamorphic
-    quint8 videoDownConvertType() const { return m_videoDownConvertType; }
+    Q_INVOKABLE quint8 videoDownConvertType() const { return m_videoDownConvertType; }
 
     /// @returns size of clip 1 in the media pool
-    quint16 mediaPoolClip1Size() const { return m_mediaPoolClip1Size; }
+    Q_INVOKABLE quint16 mediaPoolClip1Size() const { return m_mediaPoolClip1Size; }
     /// @returns size of clip 2 in the media pool
-    quint16 mediaPoolClip2Size() const { return m_mediaPoolClip2Size; }
+    Q_INVOKABLE quint16 mediaPoolClip2Size() const { return m_mediaPoolClip2Size; }
 
     /// @returns number of still banks in the media pool
     quint8 mediaPoolStillBankCount() const { return m_mediaPoolStillBankCount; }
@@ -134,35 +135,35 @@ public:
     QAtem::AudioInput audioInput(quint16 index) { return m_audioInputs.value(index); }
     QHash<quint16, QAtem::AudioInput> audioInputs() { return m_audioInputs; }
     /// @return audio tally state for audio input @p index
-    bool audioTallyState(quint16 index) { return m_audioTally.value(index); }
+    Q_INVOKABLE bool audioTallyState(quint16 index) { return m_audioTally.value(index); }
 
     /// @returns true if the monitor function is enabled on the audio breakout cable.
-    bool audioMonitorEnabled() const { return m_audioMonitorEnabled; }
-    float audioMonitorGain() const { return m_audioMonitorGain; }
-    bool audioMonitorMuted() const { return m_audioMonitorMuted; }
-    bool audioMonitorDimmed() const { return m_audioMonitorDimmed; }
+    Q_INVOKABLE bool audioMonitorEnabled() const { return m_audioMonitorEnabled; }
+    Q_INVOKABLE float audioMonitorGain() const { return m_audioMonitorGain; }
+    Q_INVOKABLE bool audioMonitorMuted() const { return m_audioMonitorMuted; }
+    Q_INVOKABLE bool audioMonitorDimmed() const { return m_audioMonitorDimmed; }
     /// @returns the audio channel that is solo on monitor out. -1 = None.
-    qint8 audioMonitorSolo() const { return m_audioMonitorSolo; }
-    float audioMonitorLevel() const { return m_audioMonitorLevel; }
-    float audioMasterOutputGain() const { return m_audioMasterOutputGain; }
+    Q_INVOKABLE qint8 audioMonitorSolo() const { return m_audioMonitorSolo; }
+    Q_INVOKABLE float audioMonitorLevel() const { return m_audioMonitorLevel; }
+    Q_INVOKABLE float audioMasterOutputGain() const { return m_audioMasterOutputGain; }
 
-    QAtem::AudioLevel audioLevel(quint16 index) const { return m_audioLevels.value(index); }
-    float audioMasterOutputLevelLeft() const { return m_audioMasterOutputLevelLeft;}
-    float audioMasterOutputLevelRight() const { return m_audioMasterOutputLevelRight;}
-    float audioMasterOutputPeakLeft() const { return m_audioMasterOutputPeakLeft; }
-    float audioMasterOutputPeakRight() const { return m_audioMasterOutputPeakRight; }
+    Q_INVOKABLE QAtem::AudioLevel audioLevel(quint16 index) const { return m_audioLevels.value(index); }
+    Q_INVOKABLE float audioMasterOutputLevelLeft() const { return m_audioMasterOutputLevelLeft;}
+    Q_INVOKABLE float audioMasterOutputLevelRight() const { return m_audioMasterOutputLevelRight;}
+    Q_INVOKABLE float audioMasterOutputPeakLeft() const { return m_audioMasterOutputPeakLeft; }
+    Q_INVOKABLE float audioMasterOutputPeakRight() const { return m_audioMasterOutputPeakRight; }
 
-    quint8 audioChannelCount() const { return m_audioChannelCount; }
-    bool hasAudioMonitor() const { return m_hasAudioMonitor; }
+    Q_INVOKABLE quint8 audioChannelCount() const { return m_audioChannelCount; }
+    Q_INVOKABLE bool hasAudioMonitor() const { return m_hasAudioMonitor; }
 
     /// Aquire the media pool lock with ID @p id. @returns false if the lock is already locked.
-    bool aquireMediaLock(quint8 id, quint8 index);
+    Q_INVOKABLE bool aquireMediaLock(quint8 id, quint8 index);
     /// Unlock the media pool lock with ID @p id.
-    void unlockMediaLock(quint8 id);
+    Q_INVOKABLE void unlockMediaLock(quint8 id);
     /// @returns the state of the media pool lock with ID @p id.
-    bool mediaLockState(quint8 id) const { return m_mediaLocks.value(id); }
+    Q_INVOKABLE bool mediaLockState(quint8 id) const { return m_mediaLocks.value(id); }
 
-    void aquireLock(quint8 storeId);
+    Q_INVOKABLE void aquireLock(quint8 storeId);
 
     /**
      * @brief Send data to a store in the switcher.
@@ -173,10 +174,10 @@ public:
      * @return Returns the ID of the data transfer if success else 0
      */
     quint16 sendDataToSwitcher(quint8 storeId, quint8 index, const QByteArray &name, const QByteArray &data);
-    bool transferActive() const { return m_transferActive; }
-    quint16 transferId () const { return m_transferId; }
-    int remainingTransferDataSize() const { return m_transferData.size(); }
-    quint16 getDataFromSwitcher(quint8 storeId, quint8 index);
+    Q_INVOKABLE bool transferActive() const { return m_transferActive; }
+    Q_INVOKABLE quint16 transferId () const { return m_transferId; }
+    Q_INVOKABLE int remainingTransferDataSize() const { return m_transferData.size(); }
+    Q_INVOKABLE quint16 getDataFromSwitcher(quint8 storeId, quint8 index);
     QByteArray transferData() const { return m_transferData; }
 
     /**
@@ -189,24 +190,24 @@ public:
 
     QAtem::Topology topology() const { return m_topology; }
 
-    QAtemMixEffect *mixEffect(quint8 me) const;
+    Q_INVOKABLE QAtemMixEffect *mixEffect(quint8 me) const;
 
     void registerCommand(const QByteArray &command, QObject *object, const QByteArray &slot);
     void unregisterCommand(const QByteArray &command, QObject *object);
 
     /// @returns the power status as a bitmask. Bit 0: Main power on/off, 1: Backup power on/off
-    quint8 powerStatus() const { return m_powerStatus; }
+    Q_INVOKABLE quint8 powerStatus() const { return m_powerStatus; }
 
     QAtemCameraControl *cameraControl() const { return m_cameraControl; }
 
-    QAtem::MacroInfo macroInfo(quint8 index) const { return m_macroInfos.at(index); }
-    QVector<QAtem::MacroInfo> macroInfos () const { return m_macroInfos; }
+    Q_INVOKABLE QAtem::MacroInfo macroInfo(quint8 index) const { return m_macroInfos.at(index); }
+    Q_INVOKABLE QVector<QAtem::MacroInfo> macroInfos () const { return m_macroInfos; }
 
-    QAtem::MacroRunningState macroRunningState() const { return m_macroRunningState; }
-    bool macroRepeating() const { return m_macroRepeating; }
-    quint8 runningMacro() const { return m_runningMacro; }
-    bool macroRecording() const { return m_macroRecording; }
-    quint8 recordingMacro() const { return m_recordingMacro; }
+    Q_INVOKABLE QAtem::MacroRunningState macroRunningState() const { return m_macroRunningState; }
+    Q_INVOKABLE bool macroRepeating() const { return m_macroRepeating; }
+    Q_INVOKABLE quint8 runningMacro() const { return m_runningMacro; }
+    Q_INVOKABLE bool macroRecording() const { return m_macroRecording; }
+    Q_INVOKABLE quint8 recordingMacro() const { return m_recordingMacro; }
 
 public slots:
     void saveSettings();

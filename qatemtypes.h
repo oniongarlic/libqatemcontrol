@@ -20,6 +20,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "libqatemcontrol_global.h"
 
+#include <QObject>
 #include <QtGlobal>
 #include <QString>
 #include <QPointF>
@@ -28,6 +29,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace QAtem
 {
+    Q_NAMESPACE
+
     typedef union
     {
         quint16 u16;
@@ -106,6 +109,7 @@ namespace QAtem
         ClipMedia = 2,
         SoundMedia = 3
     };
+    Q_ENUM_NS(MediaType)
 
     struct LIBQATEMCONTROLSHARED_EXPORT MediaInfo
     {
@@ -218,6 +222,7 @@ namespace QAtem
         MacroRunning,
         MacroWaiting
     };
+    Q_ENUM_NS(MacroRunningState)
 }
 
 #endif //QATEM_TOPOLOGY_H

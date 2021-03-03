@@ -43,23 +43,23 @@ public:
     explicit QAtemDownstreamKey(quint8 id, QAtemConnection *parent);
     ~QAtemDownstreamKey();
 
-    bool onAir() const { return m_onAir; }
-    bool inTransition() const { return m_inTransition; }
-    bool inAutoTransition() const { return m_inAutoTransition; }
-    bool tie() const { return m_tie; }
-    quint8 frameRate() const { return m_frameRate; }
-    quint8 frameCount() const { return m_frameCount; }
-    quint16 fillSource() const { return m_fillSource; }
-    quint16 keySource() const { return m_keySource; }
-    bool invertKey() const { return m_invertKey; }
-    bool preMultiplied() const { return m_preMultiplied; }
-    float clip() const { return m_clip; }
-    float gain() const { return m_gain; }
-    bool enableMask() const { return m_enableMask; }
-    float topMask() const { return m_topMask; }
-    float bottomMask() const { return m_bottomMask; }
-    float leftMask() const { return m_leftMask; }
-    float rightMask() const { return m_rightMask; }
+    Q_INVOKABLE bool onAir() const { return m_onAir; }
+    Q_INVOKABLE bool inTransition() const { return m_inTransition; }
+    Q_INVOKABLE bool inAutoTransition() const { return m_inAutoTransition; }
+    Q_INVOKABLE bool tie() const { return m_tie; }
+    Q_INVOKABLE quint8 frameRate() const { return m_frameRate; }
+    Q_INVOKABLE quint8 frameCount() const { return m_frameCount; }
+    Q_INVOKABLE quint16 fillSource() const { return m_fillSource; }
+    Q_INVOKABLE quint16 keySource() const { return m_keySource; }
+    Q_INVOKABLE bool invertKey() const { return m_invertKey; }
+    Q_INVOKABLE bool preMultiplied() const { return m_preMultiplied; }
+    Q_INVOKABLE float clip() const { return m_clip; }
+    Q_INVOKABLE float gain() const { return m_gain; }
+    Q_INVOKABLE bool enableMask() const { return m_enableMask; }
+    Q_INVOKABLE float topMask() const { return m_topMask; }
+    Q_INVOKABLE float bottomMask() const { return m_bottomMask; }
+    Q_INVOKABLE float leftMask() const { return m_leftMask; }
+    Q_INVOKABLE float rightMask() const { return m_rightMask; }
 
 public slots:
     void setOnAir(bool state);
