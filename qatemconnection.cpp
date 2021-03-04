@@ -330,6 +330,9 @@ void QAtemConnection::parsePayLoad(const QByteArray& datagram)
         {
             QString dbg;
 
+            qDebug() << "Unhandled Command: " << cmd << " size " << payload.size();
+            qDebug() << payload.toHex();
+
             for(int i = 0; i < payload.size(); ++i)
             {
                 uchar ch = static_cast<uchar>(payload[i]);
