@@ -116,7 +116,7 @@ bool QAtemConnection::isConnected() const
 
 void QAtemConnection::connectToSwitcher(const QString address, int connectionTimeout)
 {
-    connectToSwitcher(QHostAddress(address));
+    connectToSwitcher(QHostAddress(address), connectionTimeout);
 }
 
 void QAtemConnection::connectToSwitcher(const QHostAddress &address, int connectionTimeout)
