@@ -965,6 +965,39 @@ void QAtemConnection::onTime(const QByteArray& payload)
     emit timeChanged(val.u32);
 }
 
+void QAtemConnection::onSRST(const QByteArray& payload)
+{
+    QAtem::U32_U8 val;
+    val.u8[3] = static_cast<quint8>(payload.at(6));
+    val.u8[2] = static_cast<quint8>(payload.at(7));
+    val.u8[1] = static_cast<quint8>(payload.at(8));
+    val.u8[0] = static_cast<quint8>(payload.at(9));
+
+    qDebug() << "SRST" << payload.size() << ":" << val.u32;
+}
+
+void QAtemConnection::onSRSS(const QByteArray& payload)
+{
+    QAtem::U32_U8 val;
+    val.u8[3] = static_cast<quint8>(payload.at(6));
+    val.u8[2] = static_cast<quint8>(payload.at(7));
+    val.u8[1] = static_cast<quint8>(payload.at(8));
+    val.u8[0] = static_cast<quint8>(payload.at(9));
+
+    qDebug() << "SRSS" << payload.size() << ":" << val.u32;
+}
+
+void QAtemConnection::onStRS(const QByteArray& payload)
+{
+    QAtem::U32_U8 val;
+    val.u8[3] = static_cast<quint8>(payload.at(6));
+    val.u8[2] = static_cast<quint8>(payload.at(7));
+    val.u8[1] = static_cast<quint8>(payload.at(8));
+    val.u8[0] = static_cast<quint8>(payload.at(9));
+
+    qDebug() << "StRS" << payload.size() << ":" << val.u32;
+}
+
 void QAtemConnection::onDcOt(const QByteArray& payload)
 {
     m_videoDownConvertType = static_cast<quint8>(payload.at(6));
@@ -1043,6 +1076,11 @@ void QAtemConnection::initCommandSlotHash()
     m_commandSlotHash.insert("FTDa", ObjectSlot(this, "onFTDa"));
     m_commandSlotHash.insert("FTDE", ObjectSlot(this, "onFTDE"));
     m_commandSlotHash.insert("LKOB", ObjectSlot(this, "onLKOB"));
+
+    // Streaming
+    m_commandSlotHash.insert("SRST", ObjectSlot(this, "onSRST"));
+    m_commandSlotHash.insert("StRS", ObjectSlot(this, "onStRS"));
+    m_commandSlotHash.insert("SRSS", ObjectSlot(this, "onSRSS"));
 }
 
 void QAtemConnection::setAudioLevelsEnabled(bool enabled)
@@ -2033,6 +2071,26 @@ void QAtemConnection::stopMacro()
     payload[0] = static_cast<char>(0xff);
     payload[1] = static_cast<char>(0xff);
     payload[2] = 0x01;
+
+    sendCommand(cmd, payload);
+}
+
+void QAtemConnection::startStreaming()
+{
+    QByteArray cmd("StrR");
+    QByteArray payload(4, 0x0);
+
+    payload[0] = 0x01;
+
+    sendCommand(cmd, payload);
+}
+
+void QAtemConnection::stopStreaming()
+{
+    QByteArray cmd("StrR");
+    QByteArray payload(4, 0x0);
+
+    payload[0] = 0x00;
 
     sendCommand(cmd, payload);
 }

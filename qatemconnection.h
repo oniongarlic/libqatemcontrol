@@ -276,6 +276,9 @@ public slots:
     void continueMacro();
     void stopMacro();
 
+    void startStreaming();
+    void stopStreaming();
+
 protected slots:
     void handleSocketData();
 
@@ -326,6 +329,10 @@ protected slots:
     void onFTDa(const QByteArray& payload);
     void onFTDE(const QByteArray& payload);
     void onLKOB(const QByteArray& payload);
+
+    void onSRST(const QByteArray& payload);
+    void onSRSS(const QByteArray& payload);
+    void onStRS(const QByteArray& payload);
 
     void initDownloadToSwitcher();
     void flushTransferBuffer(quint8 count);
