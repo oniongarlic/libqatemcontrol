@@ -279,6 +279,9 @@ public slots:
     void startStreaming();
     void stopStreaming();
 
+    void startRecording();
+    void stopRecording();
+
 protected slots:
     void handleSocketData();
 

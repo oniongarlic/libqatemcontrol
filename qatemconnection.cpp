@@ -21,6 +21,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include "qatemdownstreamkey.h"
 
 #include <QDebug>
+#include <QDateTime>
 #include <QTimer>
 #include <QHostAddress>
 #include <QImage>
@@ -330,7 +331,7 @@ void QAtemConnection::parsePayLoad(const QByteArray& datagram)
         {
             QString dbg;
 
-            qDebug() << "Unhandled Command: " << cmd << " size " << payload.size();
+            qDebug() << QDateTime::currentDateTime() << "Unhandled Command: " << cmd << " size " << payload.size();
             qDebug() << payload.toHex();
 
             for(int i = 0; i < payload.size(); ++i)
@@ -2094,3 +2095,24 @@ void QAtemConnection::stopStreaming()
 
     sendCommand(cmd, payload);
 }
+
+void QAtemConnection::startRecording()
+{
+    QByteArray cmd("RcTM");
+    QByteArray payload(4, 0x0);
+
+    payload[0] = 0x01;
+
+    sendCommand(cmd, payload);
+}
+
+void QAtemConnection::stopRecording()
+{
+    QByteArray cmd("RcTM");
+    QByteArray payload(4, 0x0);
+
+    payload[0] = 0x00;
+
+    sendCommand(cmd, payload);
+}
+
