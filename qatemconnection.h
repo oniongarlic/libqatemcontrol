@@ -37,6 +37,12 @@ class LIBQATEMCONTROLSHARED_EXPORT QAtemConnection : public QObject
 friend class QAtemMixEffect;
 friend class QAtemCameraControl;
 friend class QAtemDownstreamKey;
+
+    Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
+    Q_PROPERTY(quint32 time READ getTime NOTIFY timeChanged)
+
+    Q_PROPERTY(quint32 streamingDatarate READ getStreamingDatarate NOTIFY streamingDatarateChanged)
+
 public:
     enum Command
     {
@@ -78,6 +84,10 @@ public:
 
     Q_INVOKABLE void setDebugEnabled(bool enabled) { m_debugEnabled = enabled; }
     Q_INVOKABLE bool debugEnabled() const { return m_debugEnabled; }
+
+    Q_INVOKABLE quint32 getTime() { return m_time; }
+
+    Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
 
     /// @returns the tally state of the input @p index. 1 = program, 2 = preview and 3 = both
     Q_INVOKABLE quint8 tallyByIndex(quint8 index) const;
@@ -337,6 +347,10 @@ protected slots:
     void onSRSS(const QByteArray& payload);
     void onStRS(const QByteArray& payload);
 
+    void onRTMD(const QByteArray& payload);
+    void onRTMS(const QByteArray& payload);
+    void onRTMR(const QByteArray& payload);
+
     void initDownloadToSwitcher();
     void flushTransferBuffer(quint8 count);
     void acceptData();
@@ -461,6 +475,10 @@ private:
 
     quint8 m_powerStatus;
 
+    quint32 m_time;
+    quint32 m_streaming_datarate;
+    quint32 m_recording_datarate;
+
     QMap<quint8, QAtem::VideoMode> m_availableVideoModes;
 
     QAtemCameraControl *m_cameraControl;
@@ -474,6 +492,7 @@ private:
 
 signals:
     void connected();
+    void connectedChanged();
     void disconnected();
     void socketError(const QString& errorString);
 
@@ -496,6 +515,8 @@ signals:
     void versionChanged(quint16 major, quint16 minor);
 
     void timeChanged(quint32 time);
+
+    void streamingDatarateChanged(quint32 datarate);
 
     void videoFormatChanged(quint8 format);
     void videoDownConvertTypeChanged(quint8 type);

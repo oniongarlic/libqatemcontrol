@@ -370,6 +370,7 @@ void QAtemConnection::setInitialized(bool state)
     {
         QMetaObject::invokeMethod(this, "emitConnectedSignal", Qt::QueuedConnection);
     }
+    emit connectedChanged();
 }
 
 void QAtemConnection::emitConnectedSignal()
@@ -963,6 +964,8 @@ void QAtemConnection::onTime(const QByteArray& payload)
     val.u8[1] = static_cast<quint8>(payload.at(8));
     val.u8[0] = static_cast<quint8>(payload.at(9));
 
+    m_time = val.u32;
+
     emit timeChanged(val.u32);
 }
 
@@ -986,6 +989,10 @@ void QAtemConnection::onSRSS(const QByteArray& payload)
     val.u8[0] = static_cast<quint8>(payload.at(9));
 
     qDebug() << "SRSS" << payload.size() << ":" << val.u32;
+
+    m_streaming_datarate = val.u32;
+
+    emit streamingDatarateChanged(m_streaming_datarate);
 }
 
 void QAtemConnection::onStRS(const QByteArray& payload)
@@ -997,6 +1004,47 @@ void QAtemConnection::onStRS(const QByteArray& payload)
     val.u8[0] = static_cast<quint8>(payload.at(9));
 
     qDebug() << "StRS" << payload.size() << ":" << val.u32;
+}
+
+/**
+ * @brief QAtemConnection::onRTMD
+ * @param payload
+ *
+ * Recording media information
+ */
+void QAtemConnection::onRTMD(const QByteArray& payload)
+{
+    qDebug() << "RTMD" << payload.size() << ":";
+}
+
+/**
+ * @brief QAtemConnection::onRTMS
+ * @param payload
+ */
+void QAtemConnection::onRTMS(const QByteArray& payload)
+{
+    QAtem::U32_U8 val;
+    val.u8[3] = static_cast<quint8>(payload.at(6));
+    val.u8[2] = static_cast<quint8>(payload.at(7));
+    val.u8[1] = static_cast<quint8>(payload.at(8));
+    val.u8[0] = static_cast<quint8>(payload.at(9));
+
+    qDebug() << "RTMS" << payload.size() << ":" << val.u32;
+}
+
+/**
+ * @brief QAtemConnection::onRTMR
+ * @param payload
+ */
+void QAtemConnection::onRTMR(const QByteArray& payload)
+{
+    QAtem::U32_U8 val;
+    val.u8[3] = static_cast<quint8>(payload.at(6));
+    val.u8[2] = static_cast<quint8>(payload.at(7));
+    val.u8[1] = static_cast<quint8>(payload.at(8));
+    val.u8[0] = static_cast<quint8>(payload.at(9));
+
+    qDebug() << "RTMR" << payload.size() << ":" << val.u32;
 }
 
 void QAtemConnection::onDcOt(const QByteArray& payload)
@@ -1082,6 +1130,11 @@ void QAtemConnection::initCommandSlotHash()
     m_commandSlotHash.insert("SRST", ObjectSlot(this, "onSRST"));
     m_commandSlotHash.insert("StRS", ObjectSlot(this, "onStRS"));
     m_commandSlotHash.insert("SRSS", ObjectSlot(this, "onSRSS"));
+
+    // Recording
+    m_commandSlotHash.insert("RTMS", ObjectSlot(this, "onRTMS"));
+    m_commandSlotHash.insert("RTMD", ObjectSlot(this, "onRTMD"));
+    m_commandSlotHash.insert("RTMR", ObjectSlot(this, "onRTMR"));
 }
 
 void QAtemConnection::setAudioLevelsEnabled(bool enabled)
