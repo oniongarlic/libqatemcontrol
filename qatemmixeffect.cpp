@@ -19,6 +19,13 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QColor>
 
+QAtemMixEffect::QAtemMixEffect(QAtemConnection *parent) :
+    QObject(parent), m_id(255), m_atemConnection(parent)
+{
+    qWarning("Not yet implemented!");
+    qDebug() << parent->address();
+}
+
 QAtemMixEffect::QAtemMixEffect(quint8 id, QAtemConnection *parent) :
     QObject(parent), m_id(id), m_atemConnection(parent)
 {
@@ -150,6 +157,11 @@ void QAtemMixEffect::createUpstreamKeyers(quint8 count)
         QUpstreamKeySettings *key = new QUpstreamKeySettings(i);
         m_upstreamKeys[i] = key;
     }
+}
+
+QAtemMixEffect::FTBStatus QAtemMixEffect::fadeToBlackStatus() const
+{
+    return m_fadeToBlackFading ? FadeInProgress : m_fadeToBlackEnabled ? FadeOn : FadeOff;
 }
 
 void QAtemMixEffect::cut()
@@ -1648,6 +1660,7 @@ void QAtemMixEffect::onFtbS(const QByteArray& payload)
 
         emit fadeToBlackChanged(m_id, m_fadeToBlackFading, m_fadeToBlackEnabled);
         emit fadeToBlackFrameCountChanged(m_id, m_fadeToBlackFrameCount);
+        emit fadeToBlackStatusChanged(m_fadeToBlackFading ? FadeInProgress : m_fadeToBlackEnabled ? FadeOn : FadeOff);
     }
 }
 

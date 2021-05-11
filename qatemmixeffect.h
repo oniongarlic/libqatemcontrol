@@ -28,9 +28,22 @@ class QColor;
 class LIBQATEMCONTROLSHARED_EXPORT QAtemMixEffect : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(quint8 meID READ meId NOTIFY meIdChanged)
+    Q_PROPERTY(FTBStatus fadeToBlackStatus READ fadeToBlackStatus NOTIFY fadeToBlackStatusChanged)
+
 public:
+    explicit QAtemMixEffect(QAtemConnection *parent = nullptr);
     explicit QAtemMixEffect(quint8 id, QAtemConnection *parent = nullptr);
     ~QAtemMixEffect();
+
+    enum FTBStatus {
+            FadeOff,
+            FadeOn,
+            FadeInProgress
+    };
+
+    Q_ENUM(FTBStatus)
 
     Q_INVOKABLE void createUpstreamKeyers(quint8 count);
 
@@ -62,6 +75,8 @@ public:
     Q_INVOKABLE quint8 fadeToBlackFrameCount() const { return m_fadeToBlackFrameCount; }
     /// @returns duration in number of frames for the fade to black transition.
     Q_INVOKABLE quint8 fadeToBlackFrames() const { return m_fadeToBlackFrames; }
+
+    FTBStatus fadeToBlackStatus() const;
 
     /// @returns duration in number of frames for mix transition
     Q_INVOKABLE quint8 mixFrames() const { return m_mixFrames; }
@@ -270,6 +285,11 @@ public:
     Q_INVOKABLE bool upstreamKeyEnableFly(quint8 keyer) const { return m_upstreamKeys[keyer]->m_enableFly; }
     /// @returns the current key frame settings for keyer @p keyer and key frame @frame. 1 = KeyFrame A, 2 = KeyFrame B
     QAtem::DveKeyFrame upstreamKeyKeyFrame(quint8 keyer, quint8 frame) const { return m_upstreamKeys[keyer]->m_keyFrames[frame - 1]; }
+
+    quint8 meId() const
+    {
+        return m_id;
+    }
 
 public slots:
     void cut();
@@ -536,6 +556,8 @@ private:
 
     QVector<QUpstreamKeySettings*> m_upstreamKeys;
 
+    quint8 m_meID;
+
 signals:
     void programInputChanged(quint8 me, quint16 oldIndex, quint16 newIndex);
     void previewInputChanged(quint8 me, quint16 oldIndex, quint16 newIndex);
@@ -552,6 +574,8 @@ signals:
     void fadeToBlackChanged(quint8 me, bool fading, bool enabled);
     void fadeToBlackFrameCountChanged(quint8 me, quint8 count);
     void fadeToBlackFramesChanged(quint8 me, quint8 frames);
+
+    void fadeToBlackStatusChanged(FTBStatus status);
 
     void mixFramesChanged(quint8 me, quint8 frames);
 
@@ -644,6 +668,7 @@ signals:
     void upstreamKeyDVEMaskBottomChanged(quint8 me, quint8 keyer, float bottom);
     void upstreamKeyDVEMaskLeftChanged(quint8 me, quint8 keyer, float left);
     void upstreamKeyDVEMaskRightChanged(quint8 me, quint8 keyer, float right);
+    void meIdChanged(quint8 meID);
 };
 
 #endif // QATEMMIXEFFECT_H
