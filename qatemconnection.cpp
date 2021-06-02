@@ -420,6 +420,7 @@ void QAtemConnection::handleError(QAbstractSocket::SocketError)
     m_socket = nullptr;
     m_isInitialized = false;
 
+    emit connectedChanged();
     emit disconnected();
 }
 
@@ -429,7 +430,9 @@ void QAtemConnection::handleConnectionTimeout()
     m_socket = nullptr;
     m_isInitialized = false;
     m_connectionTimer->stop();
+
     emit socketError(tr("The switcher connection timed out"));
+    emit connectedChanged();
     emit disconnected();
 }
 
