@@ -73,7 +73,8 @@ public:
     explicit QAtemConnection(QObject* parent = nullptr);
     virtual ~QAtemConnection();
 
-    Q_INVOKABLE QHostAddress address() const { return m_address; }
+    QHostAddress address() const { return m_address; }
+    Q_INVOKABLE QString hostname() const { return m_address.toString(); }
 
     Q_INVOKABLE bool isConnected() const;
 
