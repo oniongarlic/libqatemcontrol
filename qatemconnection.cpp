@@ -164,6 +164,9 @@ void QAtemConnection::disconnectFromSwitcher()
     delete m_socket;
     m_socket = nullptr;
     m_connectionTimer->stop();
+
+    emit connectedChanged();
+    emit disconnected();
 }
 
 void QAtemConnection::handleSocketData()
