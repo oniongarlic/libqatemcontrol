@@ -55,6 +55,17 @@ namespace QAtem
         quint8 DVEs;
         quint8 supersources;
         bool hasSD;
+        Q_GADGET
+        Q_PROPERTY(int MEs MEMBER MEs)
+        Q_PROPERTY(int sources MEMBER sources)
+        Q_PROPERTY(int colorGenerators MEMBER colorGenerators)
+        Q_PROPERTY(int auxBusses MEMBER auxBusses)
+        Q_PROPERTY(int downstreamKeyers MEMBER downstreamKeyers)
+        Q_PROPERTY(int upstreamKeyers MEMBER upstreamKeyers)
+        Q_PROPERTY(int stingers MEMBER stingers)
+        Q_PROPERTY(int DVEs MEMBER DVEs)
+        Q_PROPERTY(int supersources MEMBER supersources)
+        Q_PROPERTY(bool hasSD MEMBER hasSD)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT VideoMode
@@ -67,6 +78,7 @@ namespace QAtem
         QString name;
         QSize size;
         float framesPerSecond;
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT MultiView
@@ -77,6 +89,7 @@ namespace QAtem
         /// Multi view layout, 0 = prg/prv on top, 1 = prg/prv on bottom, 2 = prg/prv on left, 3 = prg/prv on right
         quint8 layout;
         quint16 sources[10];
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT InputInfo
@@ -101,6 +114,13 @@ namespace QAtem
         quint8 meAvailability; // Bit 0: ME1 + Fill Sources, 1: ME2 + Fill Sources
         QString longText;
         QString shortText;
+        Q_GADGET
+        Q_PROPERTY(int index MEMBER index)
+        Q_PROPERTY(int tally MEMBER tally)
+        Q_PROPERTY(int externalType MEMBER externalType)
+        Q_PROPERTY(int internalType MEMBER internalType)
+        Q_PROPERTY(QString longText MEMBER longText)
+        Q_PROPERTY(QString shortText MEMBER shortText)
     };
 
     enum MediaType
@@ -119,6 +139,7 @@ namespace QAtem
         QString name;
         MediaType type;
         QByteArray hash;
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT MediaPlayerState
@@ -128,6 +149,7 @@ namespace QAtem
         bool playing;
         bool atBegining;
         quint8 currentFrame;
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT AudioInput
@@ -138,6 +160,7 @@ namespace QAtem
         quint8 state; // 0 = Off, 1 = On, 2 = AFV
         float balance;
         float gain; // dB
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT AudioLevel
@@ -147,6 +170,7 @@ namespace QAtem
         float right;
         float peakLeft;
         float peakRight;
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT DveKeyFrame
@@ -168,6 +192,7 @@ namespace QAtem
         float maskBottom;
         float maskLeft;
         float maskRight;
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT Camera
@@ -206,6 +231,7 @@ namespace QAtem
         quint8 lumMix;
         quint16 hue;
         quint8 saturation;
+        Q_GADGET
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT MacroInfo
@@ -214,6 +240,7 @@ namespace QAtem
         bool used;
         QString name;
         QString description;
+        Q_GADGET
     };
 
     enum MacroRunningState

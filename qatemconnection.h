@@ -117,6 +117,7 @@ public:
 
     /// @returns Info about the input @p index
     Q_INVOKABLE QAtem::InputInfo inputInfo(quint16 index) const { return m_inputInfos.value(index); }
+    Q_INVOKABLE quint16 inputInfoCount () const { return m_inputInfos.count(); }
     Q_INVOKABLE QMap<quint16, QAtem::InputInfo> inputInfos () const { return m_inputInfos; }
 
     Q_INVOKABLE QAtem::MediaInfo stillMediaInfo(quint8 index) const { return m_stillMediaInfos.value(index); }
@@ -199,7 +200,7 @@ public:
      */
     static QByteArray prepImageForSwitcher(QImage &image, const int width, const int height);
 
-    QAtem::Topology topology() const { return m_topology; }
+    Q_INVOKABLE QAtem::Topology topology() const { return m_topology; }
 
     Q_INVOKABLE QAtemMixEffect *mixEffect(quint8 me) const;
 
