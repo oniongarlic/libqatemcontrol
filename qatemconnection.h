@@ -42,6 +42,7 @@ friend class QAtemDownstreamKey;
     Q_PROPERTY(quint32 time READ getTime NOTIFY timeChanged)
 
     Q_PROPERTY(quint32 streamingDatarate READ getStreamingDatarate NOTIFY streamingDatarateChanged)
+    Q_PROPERTY(quint16 streamingCache READ getStreamingCache NOTIFY streamingCacheChanged)
 
 public:
     enum Command
@@ -89,6 +90,7 @@ public:
     Q_INVOKABLE quint32 getTime() { return m_time; }
 
     Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
+    Q_INVOKABLE quint16 getStreamingCache() { return m_streaming_cache; }
 
     /// @returns the tally state of the input @p index. 1 = program, 2 = preview and 3 = both
     Q_INVOKABLE quint8 tallyByIndex(quint8 index) const;
@@ -480,6 +482,7 @@ private:
     quint32 m_time;
     quint32 m_streaming_datarate;
     quint32 m_recording_datarate;
+    quint16 m_streaming_cache;
 
     QMap<quint8, QAtem::VideoMode> m_availableVideoModes;
 
@@ -519,6 +522,7 @@ signals:
     void timeChanged(quint32 time);
 
     void streamingDatarateChanged(quint32 datarate);
+    void streamingCacheChanged(quint16 cache);
 
     void videoFormatChanged(quint8 format);
     void videoDownConvertTypeChanged(quint8 type);

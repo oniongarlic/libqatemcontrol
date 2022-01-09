@@ -994,11 +994,18 @@ void QAtemConnection::onSRSS(const QByteArray& payload)
     val.u8[1] = static_cast<quint8>(payload.at(8));
     val.u8[0] = static_cast<quint8>(payload.at(9));
 
-    qDebug() << "SRSS" << payload.size() << ":" << val.u32;
-
     m_streaming_datarate = val.u32;
 
+    QAtem::U16_U8 val2;
+    val2.u8[1] = static_cast<quint8>(payload.at(10));
+    val2.u8[0] = static_cast<quint8>(payload.at(11));
+
+    m_streaming_cache = val2.u16;
+
+    qDebug() << "SRSS" << payload.size() << ":" << val.u32 << val2.u16;
+
     emit streamingDatarateChanged(m_streaming_datarate);
+    emit streamingCacheChanged(m_streaming_cache);
 }
 
 void QAtemConnection::onStRS(const QByteArray& payload)
