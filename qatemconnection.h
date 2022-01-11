@@ -24,6 +24,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QUdpSocket>
 #include <QColor>
+#include <QTime>
 
 class QTimer;
 class QHostAddress;
@@ -43,6 +44,8 @@ friend class QAtemDownstreamKey;
 
     Q_PROPERTY(quint32 streamingDatarate READ getStreamingDatarate NOTIFY streamingDatarateChanged)
     Q_PROPERTY(quint16 streamingCache READ getStreamingCache NOTIFY streamingCacheChanged)
+
+    Q_PROPERTY(QTime recordingTime READ getRecordingTime NOTIFY recordingTimeChanged)
 
 public:
     enum Command
@@ -91,6 +94,7 @@ public:
 
     Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
     Q_INVOKABLE quint16 getStreamingCache() { return m_streaming_cache; }
+    Q_INVOKABLE QTime getRecordingTime() const { return m_record_time; }
 
     /// @returns the tally state of the input @p index. 1 = program, 2 = preview and 3 = both
     Q_INVOKABLE quint8 tallyByIndex(quint8 index) const;
@@ -290,11 +294,16 @@ public slots:
     void continueMacro();
     void stopMacro();
 
+    void stream(bool stream);
+
     void startStreaming();
     void stopStreaming();
 
+    void record(bool record);
     void startRecording();
     void stopRecording();
+    void requestRecordingStatus();
+
 
 protected slots:
     void handleSocketData();
@@ -483,6 +492,8 @@ private:
     quint32 m_streaming_datarate;
     quint32 m_recording_datarate;
     quint16 m_streaming_cache;
+    bool m_record_framedrop;
+    QTime m_record_time;
 
     QMap<quint8, QAtem::VideoMode> m_availableVideoModes;
 
@@ -523,6 +534,7 @@ signals:
 
     void streamingDatarateChanged(quint32 datarate);
     void streamingCacheChanged(quint16 cache);
+    void recordingTimeChanged(QTime time);
 
     void videoFormatChanged(quint8 format);
     void videoDownConvertTypeChanged(quint8 type);
