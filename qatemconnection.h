@@ -47,6 +47,8 @@ friend class QAtemDownstreamKey;
 
     Q_PROPERTY(QTime recordingTime READ getRecordingTime NOTIFY recordingTimeChanged)
 
+    Q_PROPERTY(bool timecodeLocked READ getTimecodeLocked NOTIFY timecodeLockedChanged)
+
 public:
     enum Command
     {
@@ -91,6 +93,7 @@ public:
     Q_INVOKABLE bool debugEnabled() const { return m_debugEnabled; }
 
     Q_INVOKABLE quint32 getTime() { return m_time; }
+    Q_INVOKABLE bool getTimecodeLocked() { return m_timecode_locked; }
 
     Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
     Q_INVOKABLE quint16 getStreamingCache() { return m_streaming_cache; }
@@ -364,6 +367,8 @@ protected slots:
     void onRTMS(const QByteArray& payload);
     void onRTMR(const QByteArray& payload);
 
+    void onTcLK(const QByteArray& payload);
+
     void initDownloadToSwitcher();
     void flushTransferBuffer(quint8 count);
     void acceptData();
@@ -488,6 +493,8 @@ private:
 
     quint8 m_powerStatus;
 
+    bool m_timecode_locked;
+
     quint32 m_time;
     quint32 m_streaming_datarate;
     quint32 m_recording_datarate;
@@ -531,6 +538,7 @@ signals:
     void versionChanged(quint16 major, quint16 minor);
 
     void timeChanged(quint32 time);
+    void timecodeLockedChanged(bool locked);
 
     void streamingDatarateChanged(quint32 datarate);
     void streamingCacheChanged(quint16 cache);

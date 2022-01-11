@@ -1076,6 +1076,15 @@ void QAtemConnection::onRTMR(const QByteArray& payload)
     qDebug() << "RTMR" << m_record_time << f << m_record_framedrop;
 }
 
+void QAtemConnection::onTcLK(const QByteArray &payload)
+{
+    m_timecode_locked = static_cast<bool>(payload.at(6));
+
+    qDebug() << "TcLK" << m_timecode_locked;
+
+    emit timecodeLockedChanged(m_timecode_locked);
+}
+
 void QAtemConnection::onDcOt(const QByteArray& payload)
 {
     m_videoDownConvertType = static_cast<quint8>(payload.at(6));
@@ -1154,6 +1163,8 @@ void QAtemConnection::initCommandSlotHash()
     m_commandSlotHash.insert("FTDa", ObjectSlot(this, "onFTDa"));
     m_commandSlotHash.insert("FTDE", ObjectSlot(this, "onFTDE"));
     m_commandSlotHash.insert("LKOB", ObjectSlot(this, "onLKOB"));
+
+    m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));
 
     // Streaming
     m_commandSlotHash.insert("SRST", ObjectSlot(this, "onSRST"));
