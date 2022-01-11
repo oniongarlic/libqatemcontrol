@@ -977,13 +977,18 @@ void QAtemConnection::onTime(const QByteArray& payload)
 
 void QAtemConnection::onSRST(const QByteArray& payload)
 {
-    QAtem::U32_U8 val;
-    val.u8[3] = static_cast<quint8>(payload.at(6));
-    val.u8[2] = static_cast<quint8>(payload.at(7));
-    val.u8[1] = static_cast<quint8>(payload.at(8));
-    val.u8[0] = static_cast<quint8>(payload.at(9));
+    quint8 h,m,s,f;
+    h = static_cast<quint8>(payload.at(6)); // h
+    m = static_cast<quint8>(payload.at(7)); // m
+    s = static_cast<quint8>(payload.at(8)); // s
+    f = static_cast<quint8>(payload.at(9)); // frame
 
-    qDebug() << "SRST" << payload.size() << ":" << val.u32;
+    m_stream_framedrop = static_cast<bool>(payload.at(10));
+
+    m_stream_time.setHMS(h, m, s);
+    emit streamingTimeChanged(m_stream_time);
+
+    qDebug() << "SRST" << m_stream_time << f << m_stream_framedrop;
 }
 
 void QAtemConnection::onSRSS(const QByteArray& payload)
@@ -2212,6 +2217,14 @@ void QAtemConnection::stopRecording()
 void QAtemConnection::requestRecordingStatus()
 {
     QByteArray cmd("RMDR");
+    QByteArray payload;
+
+    sendCommand(cmd, payload);
+}
+
+void QAtemConnection::requestStreamingStatus()
+{
+    QByteArray cmd("SRDR");
     QByteArray payload;
 
     sendCommand(cmd, payload);

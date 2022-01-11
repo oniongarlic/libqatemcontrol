@@ -44,6 +44,7 @@ friend class QAtemDownstreamKey;
 
     Q_PROPERTY(quint32 streamingDatarate READ getStreamingDatarate NOTIFY streamingDatarateChanged)
     Q_PROPERTY(quint16 streamingCache READ getStreamingCache NOTIFY streamingCacheChanged)
+    Q_PROPERTY(QTime streamingTime READ getStreamingTime NOTIFY streamingTimeChanged)
 
     Q_PROPERTY(QTime recordingTime READ getRecordingTime NOTIFY recordingTimeChanged)
 
@@ -97,6 +98,7 @@ public:
 
     Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
     Q_INVOKABLE quint16 getStreamingCache() { return m_streaming_cache; }
+    Q_INVOKABLE QTime getStreamingTime() const { return m_stream_time; }
     Q_INVOKABLE QTime getRecordingTime() const { return m_record_time; }
 
     /// @returns the tally state of the input @p index. 1 = program, 2 = preview and 3 = both
@@ -301,6 +303,7 @@ public slots:
 
     void startStreaming();
     void stopStreaming();
+    void requestStreamingStatus();
 
     void record(bool record);
     void startRecording();
@@ -499,8 +502,12 @@ private:
     quint32 m_streaming_datarate;
     quint32 m_recording_datarate;
     quint16 m_streaming_cache;
+
     bool m_record_framedrop;
     QTime m_record_time;
+
+    bool m_stream_framedrop;
+    QTime m_stream_time;
 
     QMap<quint8, QAtem::VideoMode> m_availableVideoModes;
 
@@ -542,6 +549,8 @@ signals:
 
     void streamingDatarateChanged(quint32 datarate);
     void streamingCacheChanged(quint16 cache);
+    void streamingTimeChanged(QTime time);
+
     void recordingTimeChanged(QTime time);
 
     void videoFormatChanged(quint8 format);
