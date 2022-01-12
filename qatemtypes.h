@@ -43,6 +43,12 @@ namespace QAtem
         quint8 u8[4];
     } U32_U8;
 
+    typedef union
+    {
+        qint32 s32;
+        qint8 s8[4];
+    } S32_S8;
+
     struct LIBQATEMCONTROLSHARED_EXPORT Topology
     {
         quint8 MEs;
