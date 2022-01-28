@@ -33,13 +33,14 @@ namespace QAtem
 
     typedef union
     {
-        quint16 u16;
+        quint16 u16;        
         quint8 u8[2];
     } U16_U8;
 
     typedef union
     {
         quint32 u32;
+        quint16 u16[2];
         quint8 u8[4];
     } U32_U8;
 

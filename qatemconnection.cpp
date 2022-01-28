@@ -964,15 +964,15 @@ void QAtemConnection::onVidM(const QByteArray& payload)
 
 void QAtemConnection::onTime(const QByteArray& payload)
 {
-    QAtem::U32_U8 val;
-    val.u8[3] = static_cast<quint8>(payload.at(6));
-    val.u8[2] = static_cast<quint8>(payload.at(7));
-    val.u8[1] = static_cast<quint8>(payload.at(8));
-    val.u8[0] = static_cast<quint8>(payload.at(9));
+    quint8 h,m,s,f;
+    h = static_cast<quint8>(payload.at(6));
+    m = static_cast<quint8>(payload.at(7));
+    s = static_cast<quint8>(payload.at(8));
+    f = static_cast<quint8>(payload.at(9));
 
-    m_time = val.u32;
+    m_time.setHMS(h, m, s);
 
-    emit timeChanged(val.u32);
+    emit timeChanged(m_time, f);
 }
 
 void QAtemConnection::onSRST(const QByteArray& payload)
@@ -1021,7 +1021,7 @@ void QAtemConnection::onStRS(const QByteArray& payload)
     val.u8[1] = static_cast<quint8>(payload.at(8));
     val.u8[0] = static_cast<quint8>(payload.at(9));
 
-    qDebug() << "StRS" << payload.size() << ":" << val.u32;
+    qDebug() << "StRS" << payload.size() << ":" << val.u16[0] << val.u16[1];
 }
 
 /**
@@ -1070,7 +1070,7 @@ void QAtemConnection::onRTMS(const QByteArray& payload)
     val2.u8[1] = static_cast<quint8>(payload.at(12));
     val2.u8[0] = static_cast<quint8>(payload.at(13));
 
-    qDebug() << "RTMS" << payload.size() << ":" << val1.u32 << val2.u32;
+    qDebug() << "RTMS" << payload.size() << ":" << val1.u16 << val1.u16 << val2.u32;
 }
 
 /**
@@ -1320,7 +1320,9 @@ void QAtemConnection::onAMLv(const QByteArray& payload)
         m_audioLevels[index].peakRight = convertToDecibel(val.u16);
     }
 
-    emit audioLevelsChanged();
+    emit audioMasterLevelsChanged(m_audioMasterOutputLevelLeft, m_audioMasterOutputLevelRight, m_audioMasterOutputPeakLeft, m_audioMasterOutputPeakRight);
+    emit audioMonitorLevelChanged(m_audioMonitorLevel);
+    emit audioLevelsChanged(numInputs.u16);
 }
 
 float QAtemConnection::convertToDecibel(quint16 level)

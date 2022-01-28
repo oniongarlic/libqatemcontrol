@@ -38,9 +38,10 @@ class LIBQATEMCONTROLSHARED_EXPORT QAtemConnection : public QObject
 friend class QAtemMixEffect;
 friend class QAtemCameraControl;
 friend class QAtemDownstreamKey;
+friend class QAtemFairlight;
 
     Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
-    Q_PROPERTY(quint32 time READ getTime NOTIFY timeChanged)
+    Q_PROPERTY(QTime time READ getTime NOTIFY timeChanged)
 
     Q_PROPERTY(quint32 streamingDatarate READ getStreamingDatarate NOTIFY streamingDatarateChanged)
     Q_PROPERTY(quint16 streamingCache READ getStreamingCache NOTIFY streamingCacheChanged)
@@ -49,6 +50,8 @@ friend class QAtemDownstreamKey;
     Q_PROPERTY(QTime recordingTime READ getRecordingTime NOTIFY recordingTimeChanged)
 
     Q_PROPERTY(bool timecodeLocked READ getTimecodeLocked NOTIFY timecodeLockedChanged)
+
+    Q_PROPERTY(float audioMixerMasterVolume READ audioMasterOutputGain NOTIFY audioMasterOutputGainChanged)
 
 public:
     enum Command
@@ -93,7 +96,7 @@ public:
     Q_INVOKABLE void setDebugEnabled(bool enabled) { m_debugEnabled = enabled; }
     Q_INVOKABLE bool debugEnabled() const { return m_debugEnabled; }
 
-    Q_INVOKABLE quint32 getTime() { return m_time; }
+    Q_INVOKABLE QTime getTime() const { return m_time; }
     Q_INVOKABLE bool getTimecodeLocked() { return m_timecode_locked; }
 
     Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
@@ -498,7 +501,7 @@ private:
 
     bool m_timecode_locked;
 
-    quint32 m_time;
+    QTime m_time;
     quint32 m_streaming_datarate;
     quint32 m_recording_datarate;
     quint16 m_streaming_cache;
@@ -544,7 +547,7 @@ signals:
     void productInformationChanged(const QString& info);
     void versionChanged(quint16 major, quint16 minor);
 
-    void timeChanged(quint32 time);
+    void timeChanged(QTime time, quint8 frame);
     void timecodeLockedChanged(bool locked);
 
     void streamingDatarateChanged(quint32 datarate);
@@ -566,7 +569,10 @@ signals:
     void audioMonitorDimmedChanged(bool dimmed);
     void audioMonitorSoloChanged(qint8 solo);
     void audioMasterOutputGainChanged(float gain);
-    void audioLevelsChanged();
+
+    void audioMasterLevelsChanged(float left, float right, float peak_left, float peak_right);
+    void audioMonitorLevelChanged(float level);
+    void audioLevelsChanged(int sources);
 
     void mediaLockStateChanged(quint8 id, bool state);
     void getLockStateChanged(quint8 storeId, bool state);
