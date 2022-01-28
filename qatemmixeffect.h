@@ -424,6 +424,7 @@ public slots:
     void setUpstreamKeyPatternYPosition(quint8 keyer, float yPosition);
     void setUpstreamKeyDVEPosition(quint8 keyer, float xPosition, float yPosition);
     void setUpstreamKeyDVESize(quint8 keyer, float xSize, float ySize);
+    void setUpstreamKeyDVEPositionAndSize(quint8 keyer, QPointF position, QSizeF size);
     void setUpstreamKeyDVERotation(quint8 keyer, float rotation);
     void setUpstreamKeyDVELightSource(quint8 keyer, float direction, quint8 altitude);
     void setUpstreamKeyDVEDropShadowEnabled(quint8 keyer, bool enabled);

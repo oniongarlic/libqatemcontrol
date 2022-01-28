@@ -1241,6 +1241,48 @@ void QAtemMixEffect::setUpstreamKeyPatternYPosition(quint8 keyer, float yPositio
     m_atemConnection->sendCommand(cmd, payload);
 }
 
+
+void QAtemMixEffect::setUpstreamKeyDVEPositionAndSize(quint8 keyer, QPointF position, QSizeF size)
+{
+    QByteArray cmd("CKDV");
+    QByteArray payload(64, 0x0);
+    QAtem::S32_S8 x,y;
+    QAtem::U32_U8 sx,sy;
+
+    x.s32=qBound(-1000*1000, (qint32)(position.x()*1000.0f), 1000*1000);
+    y.s32=qBound(-1000*1000, (qint32)(position.y()*1000.0f), 1000*1000);
+
+    sx.u32=static_cast<quint32>(qBound(0.0f, (float)size.width(), 100.0f)*1000.0f);
+    sy.u32=static_cast<quint32>(qBound(0.0f, (float)size.height(), 100.0f)*1000.0f);
+
+    payload[3] = static_cast<char>(0x0c | 0x03);
+    payload[4] = static_cast<char>(m_id);
+    payload[5] = static_cast<char>(keyer);
+    // X
+    payload[16] = static_cast<char>(x.s8[3]);
+    payload[17] = static_cast<char>(x.s8[2]);
+    payload[18] = static_cast<char>(x.s8[1]);
+    payload[19] = static_cast<char>(x.s8[0]);
+    // Y
+    payload[20] = static_cast<char>(y.s8[3]);
+    payload[21] = static_cast<char>(y.s8[2]);
+    payload[22] = static_cast<char>(y.s8[1]);
+    payload[23] = static_cast<char>(y.s8[0]);
+
+    // X Size
+    payload[8] = static_cast<char>(sx.u8[3]);
+    payload[9] = static_cast<char>(sx.u8[2]);
+    payload[10] = static_cast<char>(sx.u8[1]);
+    payload[11] = static_cast<char>(sx.u8[0]);
+    // Y Size
+    payload[12] = static_cast<char>(sy.u8[3]);
+    payload[13] = static_cast<char>(sy.u8[2]);
+    payload[14] = static_cast<char>(sy.u8[1]);
+    payload[15] = static_cast<char>(sy.u8[0]);
+
+    m_atemConnection->sendCommand(cmd, payload);
+}
+
 void QAtemMixEffect::setUpstreamKeyDVEPosition(quint8 keyer, float xPosition, float yPosition)
 {
     QByteArray cmd("CKDV");
@@ -1262,7 +1304,7 @@ void QAtemMixEffect::setUpstreamKeyDVEPosition(quint8 keyer, float xPosition, fl
     payload[20] = static_cast<char>(y.s8[3]);
     payload[21] = static_cast<char>(y.s8[2]);
     payload[22] = static_cast<char>(y.s8[1]);
-    payload[23] = static_cast<char>(y.s8[0]);
+    payload[23] = static_cast<char>(y.s8[0]);    
 
     m_atemConnection->sendCommand(cmd, payload);
 }
