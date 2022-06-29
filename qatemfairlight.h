@@ -10,7 +10,7 @@ class QAtemConnection;
 class LIBQATEMCONTROLSHARED_EXPORT QAtemFairlight : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QAtemConnection* atemConnection READ getAtemConnection WRITE setAtemConnection NOTIFY atemConnectionChanged)
+    Q_PROPERTY(QAtemConnection* atemConnection READ getAtemConnection WRITE setAtemConnection NOTIFY atemConnectionChanged FINAL REQUIRED)
 
 public:
     explicit QAtemFairlight(QObject *parent=nullptr);
@@ -21,11 +21,15 @@ public:
     QAtemConnection *getAtemConnection() { return m_atemConnection; }
 
 public slots:
-    void setFairlightAudioLevelsEnabled(bool enabled);
+    void setAudioLevelsEnabled(bool enabled);
+    void resetPeakLevels(bool all, bool master);
 
 protected slots:
     void onFMLv(const QByteArray &payload);
     void onFDLv(const QByteArray &payload);
+    void onFAAI(const QByteArray &payload);
+    void onFAIP(const QByteArray &payload);
+    void onFASP(const QByteArray &payload);
 
 private:
     QAtemConnection *m_atemConnection;
