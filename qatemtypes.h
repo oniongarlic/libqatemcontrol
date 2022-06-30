@@ -39,6 +39,12 @@ namespace QAtem
 
     typedef union
     {
+        qint16 s16;
+        qint8 u8[2];
+    } S16_S8;
+
+    typedef union
+    {
         quint32 u32;
         quint16 u16[2];
         quint8 u8[4];
@@ -62,6 +68,14 @@ namespace QAtem
         val.u8[0] = static_cast<quint8>(ba.at(p+1));
 
         return val.u16;
+    };
+
+    inline qint16 int16at(const QByteArray &ba, int p) {
+        QAtem::S16_S8 val;
+        val.u8[1] = static_cast<quint8>(ba.at(p));
+        val.u8[0] = static_cast<quint8>(ba.at(p+1));
+
+        return val.s16;
     };
 
     inline quint16 uint32at(const QByteArray &ba, int p) {
