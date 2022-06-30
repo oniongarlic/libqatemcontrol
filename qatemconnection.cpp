@@ -1024,6 +1024,11 @@ void QAtemConnection::onStRS(const QByteArray& payload)
     qDebug() << "StRS" << payload.size() << ":" << val.u16[0] << val.u16[1];
 }
 
+void QAtemConnection::onSLow(const QByteArray& payload)
+{
+    m_low_latency = QAtem::boolat(payload, 6);
+}
+
 /**
  * @brief QAtemConnection::onRTMD
  * @param payload
@@ -1187,6 +1192,8 @@ void QAtemConnection::initCommandSlotHash()
     m_commandSlotHash.insert("SRST", ObjectSlot(this, "onSRST"));
     m_commandSlotHash.insert("StRS", ObjectSlot(this, "onStRS"));
     m_commandSlotHash.insert("SRSS", ObjectSlot(this, "onSRSS"));
+
+    m_commandSlotHash.insert("SLow", ObjectSlot(this, "onSLow"));
 
     // Recording
     m_commandSlotHash.insert("RTMS", ObjectSlot(this, "onRTMS"));
@@ -2240,6 +2247,16 @@ void QAtemConnection::requestStreamingStatus()
 {
     QByteArray cmd("SRDR");
     QByteArray payload;
+
+    sendCommand(cmd, payload);
+}
+
+void QAtemConnection::setLowLatencyStreaming(bool low)
+{
+    QByteArray cmd("SLow");
+    QByteArray payload(4, 0x0);
+
+    payload[0] = static_cast<char>(low);
 
     sendCommand(cmd, payload);
 }

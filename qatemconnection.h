@@ -308,6 +308,8 @@ public slots:
     void stopStreaming();
     void requestStreamingStatus();
 
+    void setLowLatencyStreaming(bool low);
+
     void record(bool record);
     void startRecording();
     void stopRecording();
@@ -368,6 +370,7 @@ protected slots:
     void onSRST(const QByteArray& payload);
     void onSRSS(const QByteArray& payload);
     void onStRS(const QByteArray& payload);
+    void onSLow(const QByteArray& payload);
 
     void onRTMD(const QByteArray& payload);
     void onRTMS(const QByteArray& payload);
@@ -504,13 +507,15 @@ private:
     QTime m_time;
     quint32 m_streaming_datarate;
     quint32 m_recording_datarate;
-    quint16 m_streaming_cache;
+    quint16 m_streaming_cache;    
 
     bool m_record_framedrop;
     QTime m_record_time;
 
     bool m_stream_framedrop;
     QTime m_stream_time;
+
+    bool m_low_latency;
 
     QMap<quint8, QAtem::VideoMode> m_availableVideoModes;
 
