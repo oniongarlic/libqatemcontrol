@@ -30,9 +30,19 @@ protected slots:
     void onFAAI(const QByteArray &payload);
     void onFAIP(const QByteArray &payload);
     void onFASP(const QByteArray &payload);
+    void onFAMP(const QByteArray &payload);
+    void onFMTl(const QByteArray &payload);
+
+signals:
+    void audioLevelChanged(quint16 audioSource, quint16 levelLeft, quint16 levelRight, quint16 levelPeakLeft, quint16 levelPeakRight);
+    void tallyChanged(quint16 audioSource, qint8 state);
 
 private:
     QAtemConnection *m_atemConnection;
+    QList<QByteArray> m_commands;
+    QMap<quint16, QAtem::AudioInput> m_inputs;
+    QMap<qint16, QAtem::AudioLevel> m_input;
+    QMap<qint16, QAtem::AudioLevel> m_output;
 
 signals:
     void atemConnectionChanged();

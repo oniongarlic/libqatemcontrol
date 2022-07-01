@@ -223,6 +223,10 @@ namespace QAtem
         quint8 state; // 0 = Off, 1 = On, 2 = AFV
         float balance;
         float gain; // dB
+        bool fairlight;
+        bool eq;
+        quint8 eq_bands;
+        float eq_gain;
         Q_GADGET
     };
 
