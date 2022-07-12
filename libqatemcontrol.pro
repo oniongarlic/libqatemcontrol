@@ -34,3 +34,12 @@ unix {
     header_files.files = $$HEADERS
     INSTALLS += header_files
 }
+
+windows {
+    headers.path= $$[QT_INSTALL_PREFIX]/include/qatemcontrol
+    headers.files=$$HEADERS
+    target.path=$$[QT_INSTALL_PREFIX]/lib/qatemcontrol
+    INSTALLS += headers target
+}
+
+!isEmpty(target.path): INSTALLS += target
