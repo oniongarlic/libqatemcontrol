@@ -2,9 +2,11 @@
 #include "qatemfairlight.h"
 #include "qatemconnection.h"
 
-QAtemFairlight::QAtemFairlight(QObject *parent) : QObject(parent)
+QAtemFairlight::QAtemFairlight(QObject *parent) :
+    QObject(parent)
 {
     m_commands << "FDLv" << "FMLv" << "FAAI" << "FAIP" << "FASP" << "FAMP" << "FMTl";
+    m_atemConnection=nullptr;
 }
 
 QAtemFairlight::~QAtemFairlight()
