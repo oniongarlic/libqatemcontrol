@@ -98,6 +98,7 @@ public:
 
     Q_INVOKABLE QTime getTime() const { return m_time; }
     Q_INVOKABLE bool getTimecodeLocked() { return m_timecode_locked; }
+    Q_INVOKABLE void requestTimeCode();
 
     Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
     Q_INVOKABLE quint16 getStreamingCache() { return m_streaming_cache; }

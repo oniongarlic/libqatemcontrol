@@ -1486,6 +1486,14 @@ void QAtemConnection::onAMMO(const QByteArray& payload)
     emit audioMasterOutputGainChanged(m_audioMasterOutputGain);
 }
 
+void QAtemConnection::requestTimeCode()
+{
+    QByteArray cmd("TiRq");
+    QByteArray payload(4, 0x0);
+
+    sendCommand(cmd, payload);
+}
+
 bool QAtemConnection::aquireMediaLock(quint8 id, quint8 index)
 {
     if(m_mediaLocks.value(id))
