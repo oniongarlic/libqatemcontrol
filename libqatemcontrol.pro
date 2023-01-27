@@ -20,26 +20,23 @@ HEADERS += qatemconnection.h \
     qatemcameracontrol.h \
     qatemdownstreamkey.h
 
-macx {
-    target.path = /usr/local/lib
-    header_files.path = /usr/local/include
-}
-unix:!macx {
-    target.path = /usr/lib
-    header_files.path = /usr/include
-}
+isEmpty(QAC_INSTALL_LIBS):QAC_INSTALL_LIBS = $$[QT_INSTALL_LIBS]
+isEmpty(QAC_INSTALL_BINS):QAC_INSTALL_BINS = $$[QT_INSTALL_BINS]
+isEmpty(QAC_INSTALL_HEADERS):QAC_INSTALL_HEADERS = $$[QT_INSTALL_HEADERS]/QAtemControl
+
 unix {
-    INSTALLS += target
+    target.path = $$QAC_INSTALL_LIBS
+    headers.path = $$QAC_INSTALL_HEADERS
+    headers.files = $$HEADERS
 
-    header_files.files = $$HEADERS
-    INSTALLS += header_files
-}
-
-windows {
-    headers.path= $$[QT_INSTALL_PREFIX]/include/qatemcontrol
-    headers.files=$$HEADERS
-    target.path=$$[QT_INSTALL_PREFIX]/lib/qatemcontrol
     INSTALLS += headers target
 }
 
-!isEmpty(target.path): INSTALLS += target
+windows {
+    target.path = $$QAC_INSTALL_LIBS
+    headers.path = $$QAC_INSTALL_HEADERS
+    headers.files=$$HEADERS
+
+    INSTALLS += headers target
+}
+
