@@ -42,8 +42,115 @@ public:
             FadeOn,
             FadeInProgress
     };
-
     Q_ENUM(FTBStatus)
+
+    enum Sources {
+        BlackInput=0,
+
+        CameraInput1=1,
+        CameraInput2=2,
+        CameraInput3=3,
+        CameraInput4=4,
+        CameraInput5=5,
+        CameraInput6=6,
+        CameraInput7=7,
+        CameraInput8=8,
+        CameraInput9=9,
+
+        CameraInput10=10,
+        CameraInput11=11,
+        CameraInput12=12,
+        CameraInput13=13,
+        CameraInput14=14,
+        CameraInput15=15,
+        CameraInput16=16,
+        CameraInput17=17,
+        CameraInput18=18,
+        CameraInput19=19,
+
+        CameraInput20=20,
+        CameraInput21=21,
+        CameraInput22=22,
+        CameraInput23=23,
+        CameraInput24=24,
+        CameraInput25=25,
+        CameraInput26=26,
+        CameraInput27=27,
+        CameraInput28=28,
+        CameraInput29=29,
+
+        CameraInput30=30,
+        CameraInput31=31,
+        CameraInput32=32,
+        CameraInput33=33,
+        CameraInput34=34,
+        CameraInput35=35,
+        CameraInput36=36,
+        CameraInput37=37,
+        CameraInput38=38,
+        CameraInput39=39,
+        CameraInput40=40,
+
+        ColorBarsInput=1000,
+        ColorGenerator1=2001,
+        ColorGenerator2=2002,
+
+        MediaPlayer1=3010,
+        MediaPlayer1Key=3011,
+
+        MediaPlayer2=3020,
+        MediaPlayer2Key=3021,
+
+        MediaPlayer3=3030,
+        MediaPlayer3Key=3031,
+
+        MediaPlayer4=3040,
+        MediaPlayer4Key=3041,
+
+        Key1Mask=4010,
+        Key2Mask=4020,
+        Key3Mask=4030,
+        Key4Mask=4040,
+        Key5Mask=4050,
+        Key6Mask=4060,
+        Key7Mask=4070,
+        Key8Mask=4080,
+        Key9Mask=4090,
+        Key10Mask=4100,
+        Key11Mask=4110,
+        Key12Mask=4120,
+        Key13Mask=4130,
+        Key14Mask=4140,
+        Key15Mask=4150,
+        Key16Mask=4160,
+
+        DSK1Mask=5010,
+        DSK2Mask=5020,
+        DSK3Mask=5030,
+        DSK4Mask=5040,
+
+        SuperSource1=6000,
+        SuperSource2=6001,
+
+        CleanFeed1=7001,
+        CleanFeed2=7002,
+        CleanFeed3=7003,
+        CleanFeed4=7004,
+
+        ME1Program=10010,
+        ME1Preview=10011,
+
+        ME2Program=10020,
+        ME2Preview=10021,
+
+        ME3Program=10030,
+        ME3Preview=10031,
+
+        ME4Program=10040,
+        ME4Preview=10041,
+
+    };
+    Q_ENUM(Sources)
 
     Q_INVOKABLE void createUpstreamKeyers(quint8 count);
 
