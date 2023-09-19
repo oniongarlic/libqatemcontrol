@@ -30,7 +30,10 @@ class LIBQATEMCONTROLSHARED_EXPORT QAtemMixEffect : public QObject
     Q_OBJECT
 
     Q_PROPERTY(quint8 meID READ meId NOTIFY meIdChanged)
-    Q_PROPERTY(FTBStatus fadeToBlackStatus READ fadeToBlackStatus NOTIFY fadeToBlackStatusChanged)
+    Q_PROPERTY(FTBStatus fadeToBlackStatus READ fadeToBlackStatus NOTIFY fadeToBlackStatusChanged FINAL)
+
+    Q_PROPERTY(quint16 programInput READ programInput NOTIFY programInputChanged FINAL)
+    Q_PROPERTY(quint16 previewInput READ previewInput NOTIFY previewInputChanged FINAL)
 
 public:
     explicit QAtemMixEffect(QAtemConnection *parent = nullptr);

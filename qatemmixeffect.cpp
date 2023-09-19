@@ -1641,7 +1641,8 @@ void QAtemMixEffect::onPrgI(const QByteArray& payload)
         val.u8[1] = static_cast<quint8>(payload.at(8));
         val.u8[0] = static_cast<quint8>(payload.at(9));
         m_programInput = val.u16;
-        emit programInputChanged(m_id, old, m_programInput);
+        if (old!=m_programInput)
+            emit programInputChanged(m_id, old, m_programInput);
     }
 }
 
@@ -1656,7 +1657,8 @@ void QAtemMixEffect::onPrvI(const QByteArray& payload)
         val.u8[1] = static_cast<quint8>(payload.at(8));
         val.u8[0] = static_cast<quint8>(payload.at(9));
         m_previewInput = val.u16;
-        emit previewInputChanged(m_id, old, m_previewInput);
+        if (old!=m_previewInput)
+            emit previewInputChanged(m_id, old, m_previewInput);
     }
 }
 
