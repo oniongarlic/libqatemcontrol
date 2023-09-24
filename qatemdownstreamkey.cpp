@@ -19,7 +19,9 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include "qatemconnection.h"
 
 QAtemDownstreamKey::QAtemDownstreamKey(quint8 id, QAtemConnection *parent) :
-    QObject(parent), m_id (id), m_atemConnection(parent)
+    QObject(parent),
+    m_id (id),
+    m_atemConnection(parent)
 {
     m_onAir = false;
     m_tie = false;

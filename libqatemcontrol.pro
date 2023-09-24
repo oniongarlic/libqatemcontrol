@@ -9,11 +9,13 @@ SOURCES += qatemconnection.cpp \
     qatemfairlight.cpp \
     qatemmixeffect.cpp \
     qatemcameracontrol.cpp \
-    qatemdownstreamkey.cpp
+    qatemdownstreamkey.cpp \
+    qatemsubsystembase.cpp
 
 HEADERS += qatemconnection.h \
         libqatemcontrol_global.h \
     qatemfairlight.h \
+    qatemsubsystembase.h \
     qupstreamkeysettings.h \
     qatemmixeffect.h \
     qatemtypes.h \

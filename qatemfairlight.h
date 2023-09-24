@@ -11,19 +11,14 @@ class QAtemConnection;
 class LIBQATEMCONTROLSHARED_EXPORT QAtemFairlight : public QAtemSubsystemBase
 {
     Q_OBJECT
-    Q_PROPERTY(QAtemConnection* atemConnection READ getAtemConnection WRITE setAtemConnection NOTIFY atemConnectionChanged FINAL REQUIRED)
 
 public:
     explicit QAtemFairlight(QObject *parent=nullptr);
-    ~QAtemFairlight();
-
-    void setAtemConnection(QAtemConnection *qac);
-
-    QAtemConnection *getAtemConnection() { return m_atemConnection; }
 
 public slots:
     void setAudioLevelsEnabled(bool enabled);
     void resetPeakLevels(bool all, bool master);
+    qint16 getFairlightInputCount();
 
 protected slots:
     void onFMLv(const QByteArray &payload);
@@ -39,16 +34,11 @@ signals:
     void masterAudioLevelChanged(quint16 levelLeft, quint16 levelRight, quint16 levelPeakLeft, quint16 levelPeakRight);
     void tallyChanged(quint16 audioSource, qint8 state);
 
-private:
-    bool sendCommand(const QByteArray cmd, const QByteArray payload);
-    QAtemConnection *m_atemConnection;
-    QList<QByteArray> m_commands;
+private:    
     QMap<quint16, QAtem::AudioInput> m_inputs;
     QMap<qint16, QAtem::AudioLevel> m_input;
     QMap<qint16, QAtem::AudioLevel> m_output;
 
-signals:
-    void atemConnectionChanged();
 };
 
 #endif // QATEMFAIRLIGHT_H

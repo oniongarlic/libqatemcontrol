@@ -3,36 +3,10 @@
 #include "qatemconnection.h"
 
 QAtemFairlight::QAtemFairlight(QObject *parent) :
-    QObject(parent)
+    QAtemSubsystemBase(parent)
 {
     m_commands << "FDLv" << "FMLv" << "FAAI" << "FAIP" << "FASP" << "FAMP" << "FMTl";
     m_atemConnection=nullptr;
-}
-
-QAtemFairlight::~QAtemFairlight()
-{
-    if (m_atemConnection) {
-        for (const auto &i : qAsConst(m_commands)) {
-            m_atemConnection->unregisterCommand(i, this);
-        }
-    }
-}
-
-void QAtemFairlight::setAtemConnection(QAtemConnection *qac)
-{
-    if (m_atemConnection) {        
-        for (const auto &i : qAsConst(m_commands)) {
-            m_atemConnection->unregisterCommand(i, this);
-        }
-    }
-
-    m_atemConnection=qac;
-
-    for (const auto &i : qAsConst(m_commands)) {
-        m_atemConnection->registerCommand(i, this, "on"+i);
-    }
-
-    emit atemConnectionChanged();
 }
 
 /**
@@ -60,6 +34,11 @@ void QAtemFairlight::resetPeakLevels(bool all, bool master)
     payload[0] = static_cast<char>(all | master << 1) ;
 
     sendCommand(cmd, payload);
+}
+
+qint16 QAtemFairlight::getFairlightInputCount()
+{
+    return m_inputs.count();
 }
 
 /**
@@ -191,15 +170,6 @@ void QAtemFairlight::onFMTl(const QByteArray &payload)
             emit tallyChanged(as, state);
         }
     }
-}
-
-bool QAtemFairlight::sendCommand(const QByteArray cmd, const QByteArray payload)
-{
-    if (m_atemConnection)
-        return m_atemConnection->sendCommand(cmd, payload);
-
-    qWarning("atemConnection must be set");
-    return false;
 }
 
 /**
