@@ -11,7 +11,11 @@ QAtemFairlight::QAtemFairlight(QObject *parent) :
 
 QAtemFairlight::~QAtemFairlight()
 {
-
+    if (m_atemConnection) {
+        for (const auto &i : qAsConst(m_commands)) {
+            m_atemConnection->unregisterCommand(i, this);
+        }
+    }
 }
 
 void QAtemFairlight::setAtemConnection(QAtemConnection *qac)
@@ -45,7 +49,7 @@ void QAtemFairlight::setAudioLevelsEnabled(bool enabled)
 
     payload[0] = static_cast<char>(enabled);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemFairlight::resetPeakLevels(bool all, bool master)
@@ -55,7 +59,7 @@ void QAtemFairlight::resetPeakLevels(bool all, bool master)
 
     payload[0] = static_cast<char>(all | master << 1) ;
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 /**
@@ -77,14 +81,23 @@ void QAtemFairlight::onFMLv(const QByteArray &payload)
     quint16 ilp=QAtem::uint16at(payload, 20);
     quint16 irp=QAtem::uint16at(payload, 22);
 
+    quint16 egr=QAtem::uint16at(payload, 24);
+    quint16 cgr=QAtem::uint16at(payload, 26);
+    quint16 lgr=QAtem::uint16at(payload, 28);
+
     quint16 oll=QAtem::uint16at(payload, 30);
     quint16 orl=QAtem::uint16at(payload, 32);
     quint16 orp=QAtem::uint16at(payload, 34);
     quint16 olp=QAtem::uint16at(payload, 36);
 
-    qDebug() << "L: " << s << as << ill << irl << oll << orl;
+    quint16 ll=QAtem::uint16at(payload, 38);
+    quint16 rl=QAtem::uint16at(payload, 40);
+    quint16 rp=QAtem::uint16at(payload, 42);
+    quint16 lp=QAtem::uint16at(payload, 44);
 
-    emit audioLevelChanged(as, oll, orl, orp, olp);
+    // qDebug() << "L: " << s << as << ill << irl << oll << orl;
+
+    emit audioLevelChanged(as, ll, rl, rp, lp);
 }
 
 void QAtemFairlight::onFDLv(const QByteArray &payload)
@@ -110,16 +123,29 @@ void QAtemFairlight::onFDLv(const QByteArray &payload)
     qint16 mrp=QAtem::int16at(payload, 32);
 
     qDebug() << "Master:" << moll << morl << molp << morp;
+
+    emit masterAudioLevelChanged(mll, mrl, mrp, mlp);
 }
 
 void QAtemFairlight::onFAAI(const QByteArray &payload)
 {
     qDebug() << "FAAI: " << payload;
+
+    quint16 s=QAtem::uint16at(payload, 6);
+    quint8 sil=static_cast<qint8>(payload.at(8));
+    quint8 ail=static_cast<qint8>(payload.at(8));
+
+    qDebug() << "FAIP: " << s << sil << ail;
 }
 
 void QAtemFairlight::onFAIP(const QByteArray &payload)
 {
     qDebug() << "FAIP: " << payload;
+
+    quint16 s=QAtem::uint16at(payload, 6);
+    quint8 it=static_cast<qint8>(payload.at(8));
+
+    qDebug() << "FAIP: " << s << it;
 }
 
 /**
@@ -165,6 +191,15 @@ void QAtemFairlight::onFMTl(const QByteArray &payload)
             emit tallyChanged(as, state);
         }
     }
+}
+
+bool QAtemFairlight::sendCommand(const QByteArray cmd, const QByteArray payload)
+{
+    if (m_atemConnection)
+        return m_atemConnection->sendCommand(cmd, payload);
+
+    qWarning("atemConnection must be set");
+    return false;
 }
 
 /**

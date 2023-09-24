@@ -4,10 +4,11 @@
 #include <QObject>
 #include "libqatemcontrol_global.h"
 #include "qatemconnection.h"
+#include "qatemsubsystembase.h"
 
 class QAtemConnection;
 
-class LIBQATEMCONTROLSHARED_EXPORT QAtemFairlight : public QObject
+class LIBQATEMCONTROLSHARED_EXPORT QAtemFairlight : public QAtemSubsystemBase
 {
     Q_OBJECT
     Q_PROPERTY(QAtemConnection* atemConnection READ getAtemConnection WRITE setAtemConnection NOTIFY atemConnectionChanged FINAL REQUIRED)
@@ -35,9 +36,11 @@ protected slots:
 
 signals:
     void audioLevelChanged(quint16 audioSource, quint16 levelLeft, quint16 levelRight, quint16 levelPeakLeft, quint16 levelPeakRight);
+    void masterAudioLevelChanged(quint16 levelLeft, quint16 levelRight, quint16 levelPeakLeft, quint16 levelPeakRight);
     void tallyChanged(quint16 audioSource, qint8 state);
 
 private:
+    bool sendCommand(const QByteArray cmd, const QByteArray payload);
     QAtemConnection *m_atemConnection;
     QList<QByteArray> m_commands;
     QMap<quint16, QAtem::AudioInput> m_inputs;
