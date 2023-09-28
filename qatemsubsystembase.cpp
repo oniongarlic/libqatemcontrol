@@ -33,3 +33,12 @@ void QAtemSubsystemBase::setAtemConnection(QAtemConnection *qac)
 
     emit atemConnectionChanged();
 }
+
+bool QAtemSubsystemBase::sendCommand(const QByteArray cmd, const QByteArray payload)
+{
+    if (!m_atemConnection) {
+        qWarning() << "No ATEM connection set" ;
+        return false;
+    }
+    return m_atemConnection->sendCommand(cmd, payload);
+}

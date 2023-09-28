@@ -33,6 +33,8 @@ class QHostAddress;
 class QAtemMixEffect;
 class QAtemCameraControl;
 class QAtemDownstreamKey;
+class QAtemFairlight;
+class QAtemSubsystemBase;
 
 class LIBQATEMCONTROLSHARED_EXPORT QAtemConnection : public QObject
 {
@@ -41,6 +43,7 @@ friend class QAtemMixEffect;
 friend class QAtemCameraControl;
 friend class QAtemDownstreamKey;
 friend class QAtemFairlight;
+friend class QAtemSubsystemBase;
 
     Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
     Q_PROPERTY(QTime time READ getTime NOTIFY timeChanged)
