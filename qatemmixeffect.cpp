@@ -83,6 +83,11 @@ QAtemMixEffect::QAtemMixEffect(quint8 id, QAtemConnection *parent) :
     m_stingerTriggerPoint = 0;
     m_stingerMixRate = 0;
 
+    //m_commands << "PrgI" << "PrvI" << "TrPr" << "TrPs" << "TrSS" << "FtbS" << "FtbP";
+    //m_commands << "TMxP" << "TDpP" << "TWpP" << "TDvP" << "TStP";
+    //m_commands << "KeOn" << "KeBP" << "KeLm" << "KeCk" << "KePt" << "KeDV" << "KeFS" << "KKFP";
+    //m_commands << "SSBP" << "SSrc";
+
     m_atemConnection->registerCommand("PrgI", this, "onPrgI");
     m_atemConnection->registerCommand("PrvI", this, "onPrvI");
 
@@ -111,9 +116,6 @@ QAtemMixEffect::QAtemMixEffect(quint8 id, QAtemConnection *parent) :
     m_atemConnection->registerCommand("KeDV", this, "onKeDV");
     m_atemConnection->registerCommand("KeFS", this, "onKeFS");
     m_atemConnection->registerCommand("KKFP", this, "onKKFP");
-
-    m_atemConnection->registerCommand("SSBP", this, "onSSBP");
-    m_atemConnection->registerCommand("SSrc", this, "onSSrc");
 }
 
 QAtemMixEffect::~QAtemMixEffect()
@@ -146,9 +148,6 @@ QAtemMixEffect::~QAtemMixEffect()
     m_atemConnection->unregisterCommand("KeDV", this);
     m_atemConnection->unregisterCommand("KeFS", this);
     m_atemConnection->unregisterCommand("KKFP", this);
-
-    m_atemConnection->unregisterCommand("SSBP", this);
-    m_atemConnection->unregisterCommand("SSrc", this);
 
     qDeleteAll(m_upstreamKeys);
 }
@@ -2230,41 +2229,4 @@ void QAtemMixEffect::onKKFP(const QByteArray& payload)
 
         emit upstreamKeyDVEKeyFrameChanged(m_id, index, frameIndex);
     }
-}
-
-void QAtemMixEffect::onSSBP(const QByteArray &payload)
-{
-    quint8 sid,box;
-    bool enabled, cropped;
-    quint16 src, posx, posy, size, cropTop, cropBottom, cropLeft, cropRight;
-
-    sid = static_cast<quint8>(payload.at(6));
-    box = static_cast<quint8>(payload.at(7));
-    enabled = static_cast<quint8>(payload.at(8));
-
-    src=QAtem::uint16at(payload, 9);
-    posx=QAtem::uint16at(payload, 11);
-    posy=QAtem::uint16at(payload, 13);
-    size=QAtem::uint16at(payload, 15);
-
-    cropped = static_cast<quint8>(payload.at(17));
-    cropTop=QAtem::uint16at(payload, 18);
-    cropBottom=QAtem::uint16at(payload, 20);
-    cropLeft=QAtem::uint16at(payload, 22);
-    cropRight=QAtem::uint16at(payload, 24);
-
-    qDebug() << sid << box << enabled << src << posx << posy << size;
-    qDebug() << cropped << cropLeft << cropRight << cropTop << cropBottom;
-}
-
-void QAtemMixEffect::onSSrc(const QByteArray &payload)
-{
-    quint8 sid;
-    quint16 a,b;
-
-    sid = static_cast<quint8>(payload.at(6));
-    a=QAtem::uint16at(payload, 7);
-    b=QAtem::uint16at(payload, 9);
-
-    qDebug() << sid << a << b;
 }
