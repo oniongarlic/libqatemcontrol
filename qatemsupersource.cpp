@@ -5,6 +5,18 @@ QAtemSuperSource::QAtemSuperSource(QObject *parent)
 {
     m_commands << "SSBP" << "SSrc" << "SSCs" << "SSBd";
     m_atemConnection=nullptr;
+
+    createSuperSourceBoxes();
+}
+
+void QAtemSuperSource::createSuperSourceBoxes()
+{
+    qDeleteAll(m_superSourceBoxes);
+    m_superSourceBoxes.resize(4);
+
+    for(quint8 i = 0; i < m_superSourceBoxes.count(); i++) {
+        m_superSourceBoxes[i] = new QSuperSourceBoxSettings();
+    }
 }
 
 void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, double size, bool crop_enabled, QRect crop)
@@ -57,9 +69,13 @@ void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source,
 
 void QAtemSuperSource::onSSBP(const QByteArray &payload)
 {
-    qDebug() << "SSBP: " << payload.toHex();
+    qDebug() << "SSBP: " << payload.toHex(':');
 
     quint8 ssid=static_cast<qint8>(payload.at(6));
+
+    if (m_superSourceID!=ssid)
+        return;
+
     quint8 ssboxid=static_cast<qint8>(payload.at(7));
     bool enabled=static_cast<qint8>(payload.at(8));
 
@@ -78,19 +94,66 @@ void QAtemSuperSource::onSSBP(const QByteArray &payload)
     qDebug() << "SuperSource: " << ssid << ssboxid << enabled << source;
     qDebug() << "-Pos: " << posx << posy << size;
     qDebug() << "-Crop" << crop << cropTop << cropBottom << cropLeft << cropRight;
+
+    m_superSourceBoxes[ssboxid]->m_enabled=enabled;
+    m_superSourceBoxes[ssboxid]->m_source=source;
+    m_superSourceBoxes[ssboxid]->m_position.setX(posx);
+    m_superSourceBoxes[ssboxid]->m_position.setY(posy);
+    m_superSourceBoxes[ssboxid]->m_size=size;
+
+    m_superSourceBoxes[ssboxid]->m_crop_enabled=crop;
+    m_superSourceBoxes[ssboxid]->m_crop.setTop(cropTop);
+    m_superSourceBoxes[ssboxid]->m_crop.setBottom(cropBottom);
+    m_superSourceBoxes[ssboxid]->m_crop.setLeft(cropLeft);
+    m_superSourceBoxes[ssboxid]->m_crop.setRight(cropRight);
+
+    emit superSourceChanged(ssboxid);
 }
 
 void QAtemSuperSource::onSSCs(const QByteArray &payload)
 {
-    qDebug() << "SSCs: " << payload.toHex();
+    qDebug() << "SSCs: " << payload.toHex(':');
 }
 
 void QAtemSuperSource::onSSrc(const QByteArray &payload)
 {
-    qDebug() << "SSrc: " << payload.toHex();
+    qDebug() << "SSrc: " << payload.toHex(':');
+
+    quint8 ssid=static_cast<qint8>(payload.at(6));
+
+    if (m_superSourceID!=ssid)
+        return;
+
+    quint16 art_fill_source=QAtem::uint16at(payload, 7);
+    quint16 art_cut_source=QAtem::uint16at(payload, 9);
+
+    quint8 art_option=static_cast<qint8>(payload.at(11));
+    bool art_premultiplied=static_cast<qint8>(payload.at(12));
+
+    quint16 art_clip=QAtem::uint16at(payload, 13);
+    quint16 art_gain=QAtem::uint16at(payload, 15);
+    bool art_invert_key=static_cast<qint8>(payload.at(17));
+
+    qDebug() << "SuperSourceProperties: " << art_fill_source << art_cut_source;
+    qDebug() << "-" << art_option << art_premultiplied << art_clip << art_gain << art_invert_key;
+
+    emit superSourcePropertiesChanged();
 }
 
 void QAtemSuperSource::onSSBd(const QByteArray &payload)
 {
-    qDebug() << "SSBd: " << payload.toHex();
+    qDebug() << "SSBd: " << payload.toHex(':');
+}
+
+quint8 QAtemSuperSource::superSourceID() const
+{
+    return m_superSourceID;
+}
+
+void QAtemSuperSource::setSuperSourceID(quint8 newSuperSourceID)
+{
+    if (m_superSourceID == newSuperSourceID)
+        return;
+    m_superSourceID = newSuperSourceID;
+    emit superSourceIDChanged();
 }
