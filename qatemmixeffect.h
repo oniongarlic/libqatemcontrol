@@ -604,9 +604,6 @@ protected slots:
     void onKeFS(const QByteArray& payload);
     void onKKFP(const QByteArray& payload);
 
-    void onSSBP(const QByteArray& payload);
-    void onSSrc(const QByteArray& payload);
-
 protected:
     void setKeyOnNextTransition (int index, bool state);
 
