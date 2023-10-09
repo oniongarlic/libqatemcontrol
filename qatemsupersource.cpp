@@ -79,21 +79,21 @@ void QAtemSuperSource::onSSBP(const QByteArray &payload)
     quint8 ssboxid=static_cast<qint8>(payload.at(7));
     bool enabled=static_cast<qint8>(payload.at(8));
 
-    quint16 source=QAtem::uint16at(payload, 9);
+    quint16 source=QAtem::uint16at(payload, 10);
 
-    quint16 posx=QAtem::uint16at(payload, 11);
-    quint16 posy=QAtem::uint16at(payload, 13);
-    quint16 size=QAtem::uint16at(payload, 15);
+    qint16 posx=QAtem::int16at(payload, 12); // 0-4800 -4800-0
+    qint16 posy=QAtem::int16at(payload, 14);
+    quint16 size=QAtem::uint16at(payload, 16); // 0-1000
 
-    bool crop=static_cast<qint8>(payload.at(17));
-    quint16 cropTop=QAtem::uint16at(payload, 18);
-    quint16 cropBottom=QAtem::uint16at(payload, 20);
-    quint16 cropLeft=QAtem::uint16at(payload, 22);
-    quint16 cropRight=QAtem::uint16at(payload, 24);
+    bool crop=static_cast<qint8>(payload.at(18));
+    quint16 cropTop=QAtem::uint16at(payload, 20); // 0-18000
+    quint16 cropBottom=QAtem::uint16at(payload, 22);
+    quint16 cropLeft=QAtem::uint16at(payload, 24);
+    quint16 cropRight=QAtem::uint16at(payload, 26);
 
     qDebug() << "SuperSource: " << ssid << ssboxid << enabled << source;
-    qDebug() << "-Pos: " << posx << posy << size;
-    qDebug() << "-Crop" << crop << cropTop << cropBottom << cropLeft << cropRight;
+    qDebug() << "-Pos (X Y S): " << posx << posy << size;
+    qDebug() << "-Crop (T B L R)" << crop << cropTop << cropBottom << cropLeft << cropRight;
 
     m_superSourceBoxes[ssboxid]->m_enabled=enabled;
     m_superSourceBoxes[ssboxid]->m_source=source;
