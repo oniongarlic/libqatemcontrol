@@ -40,7 +40,7 @@ public:
     void setSuperSourceID(quint8 newSuperSourceID);
 
 public slots:
-    void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, double size, bool crop_enabled, QRect crop);
+    void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop);
 
 signals:
     void superSourceChanged(quint8 boxid);

@@ -19,50 +19,60 @@ void QAtemSuperSource::createSuperSourceBoxes()
     }
 }
 
-void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, double size, bool crop_enabled, QRect crop)
+void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop)
 {
-    QByteArray cmd("SSBP");
-    QByteArray payload(20, 0x0);
+    QByteArray cmd("CSBP");
+    QByteArray payload(24, 0x0);
     QAtem::U16_U8 v1;
     QAtem::S16_S8 v2;
 
-    payload[0] = static_cast<char>(m_superSourceID);
-    payload[1] = static_cast<char>(boxid);
-    payload[2] = static_cast<char>(enabled);
+    v1.u16 = 1+2+4+8+16+32+64+128+256+512;
+    payload[0] = static_cast<char>(v1.u8[1]);
+    payload[1] = static_cast<char>(v1.u8[0]);
+
+    payload[2] = static_cast<char>(m_superSourceID);
+    payload[3] = static_cast<char>(boxid);
+    payload[4] = static_cast<char>(enabled);
 
     v1.u16 = source;
-    payload[3] = static_cast<char>(v1.u8[1]);
-    payload[4] = static_cast<char>(v1.u8[0]);
+    payload[6] = static_cast<char>(v1.u8[1]);
+    payload[7] = static_cast<char>(v1.u8[0]);
 
     v2.s16 = pos.x();
-    payload[5] = static_cast<char>(v2.u8[1]);
-    payload[6] = static_cast<char>(v2.u8[0]);
+    payload[8] = static_cast<char>(v2.u8[1]);
+    payload[9] = static_cast<char>(v2.u8[0]);
 
     v2.s16 = pos.y();
-    payload[7] = static_cast<char>(v2.u8[1]);
-    payload[8] = static_cast<char>(v2.u8[0]);
+    payload[10] = static_cast<char>(v2.u8[1]);
+    payload[11] = static_cast<char>(v2.u8[0]);
 
-    v1.u16 = (int16_t)size*1000.0;
-    payload[9] = static_cast<char>(v1.u8[1]);
-    payload[10] = static_cast<char>(v1.u8[0]);
-
-    payload[11] = static_cast<char>(crop_enabled);
-
-    v1.u16 = crop.top();
+    v1.u16 = size;
     payload[12] = static_cast<char>(v1.u8[1]);
     payload[13] = static_cast<char>(v1.u8[0]);
 
-    v1.u16 = crop.bottom();
-    payload[14] = static_cast<char>(v1.u8[1]);
-    payload[15] = static_cast<char>(v1.u8[0]);
+    payload[14] = static_cast<char>(crop_enabled);
 
-    v1.u16 = crop.left();
+    // Top
+    v1.u16 = crop.y();
     payload[16] = static_cast<char>(v1.u8[1]);
     payload[17] = static_cast<char>(v1.u8[0]);
 
-    v1.u16 = crop.right();
+    // Bottom
+    v1.u16 = crop.height();
     payload[18] = static_cast<char>(v1.u8[1]);
     payload[19] = static_cast<char>(v1.u8[0]);
+
+    // Left
+    v1.u16 = crop.x();
+    payload[20] = static_cast<char>(v1.u8[1]);
+    payload[21] = static_cast<char>(v1.u8[0]);
+
+    // Right
+    v1.u16 = crop.width();
+    payload[22] = static_cast<char>(v1.u8[1]);
+    payload[23] = static_cast<char>(v1.u8[0]);
+
+    qDebug() << pos << size << crop << payload.toHex(':');
 
     sendCommand(cmd, payload);
 }
@@ -124,15 +134,15 @@ void QAtemSuperSource::onSSrc(const QByteArray &payload)
     if (m_superSourceID!=ssid)
         return;
 
-    quint16 art_fill_source=QAtem::uint16at(payload, 7);
-    quint16 art_cut_source=QAtem::uint16at(payload, 9);
+    quint16 art_fill_source=QAtem::uint16at(payload, 8);
+    quint16 art_cut_source=QAtem::uint16at(payload, 10);
 
-    quint8 art_option=static_cast<qint8>(payload.at(11));
-    bool art_premultiplied=static_cast<qint8>(payload.at(12));
+    quint8 art_option=static_cast<qint8>(payload.at(12));
+    bool art_premultiplied=static_cast<qint8>(payload.at(13));
 
-    quint16 art_clip=QAtem::uint16at(payload, 13);
-    quint16 art_gain=QAtem::uint16at(payload, 15);
-    bool art_invert_key=static_cast<qint8>(payload.at(17));
+    quint16 art_clip=QAtem::uint16at(payload, 14);
+    quint16 art_gain=QAtem::uint16at(payload, 16);
+    bool art_invert_key=static_cast<qint8>(payload.at(18));
 
     qDebug() << "SuperSourceProperties: " << art_fill_source << art_cut_source;
     qDebug() << "-" << art_option << art_premultiplied << art_clip << art_gain << art_invert_key;
