@@ -20,7 +20,7 @@ public:
     quint8 superSourceID() const;
     void setSuperSourceID(quint8 newSuperSourceID);
 
-    QAtem::SuperSourceBoxSettings getSuperSourceBox(quint8 boxid);
+    Q_INVOKABLE QAtem::SuperSourceBoxSettings getSuperSourceBox(quint8 boxid);
 
 public slots:
     void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop);

@@ -23,6 +23,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QtGlobal>
 #include <QString>
+#include <QPoint>
 #include <QPointF>
 #include <QSizeF>
 #include <QColor>
@@ -321,6 +322,11 @@ namespace QAtem
         QRect m_crop;
         Q_GADGET
         Q_PROPERTY(bool enabled MEMBER m_enabled)
+        Q_PROPERTY(quint8 source MEMBER m_source)
+        Q_PROPERTY(QPoint position MEMBER m_position)
+        Q_PROPERTY(double size MEMBER m_size)
+        Q_PROPERTY(bool cropEnabled MEMBER m_crop_enabled)
+        Q_PROPERTY(QRect crop MEMBER m_crop)
     };
 
     enum MacroRunningState

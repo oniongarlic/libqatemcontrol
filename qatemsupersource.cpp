@@ -12,6 +12,18 @@ QAtemSuperSource::QAtemSuperSource(QObject *parent)
 void QAtemSuperSource::createSuperSourceBoxes()
 {
     m_superSourceBoxes.resize(4);
+    for (int i=0;i<4;i++) {
+        QAtem::SuperSourceBoxSettings box=m_superSourceBoxes[i];
+        box.m_enabled=false;
+        box.m_source=0;
+        box.m_size=1;
+        box.m_crop_enabled=false;
+        box.m_crop.setX(0);
+        box.m_crop.setY(0);
+        box.m_crop.setWidth(0);
+        box.m_crop.setHeight(0);
+        qDebug() << box.m_enabled << box.m_size;
+    }
 }
 
 void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop)
@@ -107,10 +119,10 @@ void QAtemSuperSource::onSSBP(const QByteArray &payload)
     m_superSourceBoxes[ssboxid].m_size=size;
 
     m_superSourceBoxes[ssboxid].m_crop_enabled=crop;
-    m_superSourceBoxes[ssboxid].m_crop.setTop(cropTop);
-    m_superSourceBoxes[ssboxid].m_crop.setBottom(cropBottom);
-    m_superSourceBoxes[ssboxid].m_crop.setLeft(cropLeft);
-    m_superSourceBoxes[ssboxid].m_crop.setRight(cropRight);
+    m_superSourceBoxes[ssboxid].m_crop.setY(cropTop);
+    m_superSourceBoxes[ssboxid].m_crop.setHeight(cropBottom);
+    m_superSourceBoxes[ssboxid].m_crop.setX(cropLeft);
+    m_superSourceBoxes[ssboxid].m_crop.setWidth(cropRight);
 
     emit superSourceChanged(ssboxid);
 }
