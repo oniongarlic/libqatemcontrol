@@ -11,12 +11,7 @@ QAtemSuperSource::QAtemSuperSource(QObject *parent)
 
 void QAtemSuperSource::createSuperSourceBoxes()
 {
-    qDeleteAll(m_superSourceBoxes);
     m_superSourceBoxes.resize(4);
-
-    for(quint8 i = 0; i < m_superSourceBoxes.count(); i++) {
-        m_superSourceBoxes[i] = new QSuperSourceBoxSettings();
-    }
 }
 
 void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop)
@@ -105,17 +100,17 @@ void QAtemSuperSource::onSSBP(const QByteArray &payload)
     qDebug() << "-Pos (X Y S): " << posx << posy << size;
     qDebug() << "-Crop (T B L R)" << crop << cropTop << cropBottom << cropLeft << cropRight;
 
-    m_superSourceBoxes[ssboxid]->m_enabled=enabled;
-    m_superSourceBoxes[ssboxid]->m_source=source;
-    m_superSourceBoxes[ssboxid]->m_position.setX(posx);
-    m_superSourceBoxes[ssboxid]->m_position.setY(posy);
-    m_superSourceBoxes[ssboxid]->m_size=size;
+    m_superSourceBoxes[ssboxid].m_enabled=enabled;
+    m_superSourceBoxes[ssboxid].m_source=source;
+    m_superSourceBoxes[ssboxid].m_position.setX(posx);
+    m_superSourceBoxes[ssboxid].m_position.setY(posy);
+    m_superSourceBoxes[ssboxid].m_size=size;
 
-    m_superSourceBoxes[ssboxid]->m_crop_enabled=crop;
-    m_superSourceBoxes[ssboxid]->m_crop.setTop(cropTop);
-    m_superSourceBoxes[ssboxid]->m_crop.setBottom(cropBottom);
-    m_superSourceBoxes[ssboxid]->m_crop.setLeft(cropLeft);
-    m_superSourceBoxes[ssboxid]->m_crop.setRight(cropRight);
+    m_superSourceBoxes[ssboxid].m_crop_enabled=crop;
+    m_superSourceBoxes[ssboxid].m_crop.setTop(cropTop);
+    m_superSourceBoxes[ssboxid].m_crop.setBottom(cropBottom);
+    m_superSourceBoxes[ssboxid].m_crop.setLeft(cropLeft);
+    m_superSourceBoxes[ssboxid].m_crop.setRight(cropRight);
 
     emit superSourceChanged(ssboxid);
 }
@@ -166,4 +161,9 @@ void QAtemSuperSource::setSuperSourceID(quint8 newSuperSourceID)
         return;
     m_superSourceID = newSuperSourceID;
     emit superSourceIDChanged();
+}
+
+QAtem::SuperSourceBoxSettings QAtemSuperSource::getSuperSourceBox(quint8 boxid)
+{
+    return m_superSourceBoxes.at(boxid);
 }

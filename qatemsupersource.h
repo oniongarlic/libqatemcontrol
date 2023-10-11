@@ -9,25 +9,6 @@
 
 class QAtemConnection;
 
-struct LIBQATEMCONTROLSHARED_EXPORT QSuperSourceBoxSettings
-{
-    QSuperSourceBoxSettings()
-    {
-        m_enabled = false;
-        m_source = 0;
-    }
-
-    Q_GADGET
-
-public:
-    bool m_enabled;
-    quint8 m_source;
-    QPoint m_position;
-    double m_size;
-    bool m_crop_enabled;
-    QRect m_crop;
-};
-
 class QAtemSuperSource : public QAtemSubsystemBase
 {
     Q_OBJECT
@@ -38,6 +19,8 @@ public:
 
     quint8 superSourceID() const;
     void setSuperSourceID(quint8 newSuperSourceID);
+
+    QAtem::SuperSourceBoxSettings getSuperSourceBox(quint8 boxid);
 
 public slots:
     void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop);
@@ -57,7 +40,7 @@ protected slots:
 
 private:
     quint8 m_superSourceID=0;
-    QVector<QSuperSourceBoxSettings *> m_superSourceBoxes;
+    QVector<QAtem::SuperSourceBoxSettings> m_superSourceBoxes;
 };
 
 #endif // QATEMSUPERSOURCE_H

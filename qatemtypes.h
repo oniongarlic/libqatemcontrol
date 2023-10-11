@@ -26,6 +26,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPointF>
 #include <QSizeF>
 #include <QColor>
+#include <QRect>
 
 namespace QAtem
 {
@@ -308,6 +309,18 @@ namespace QAtem
         QString name;
         QString description;
         Q_GADGET
+    };
+
+    struct LIBQATEMCONTROLSHARED_EXPORT SuperSourceBoxSettings
+    {
+        bool m_enabled;
+        quint8 m_source;
+        QPoint m_position;
+        double m_size;
+        bool m_crop_enabled;
+        QRect m_crop;
+        Q_GADGET
+        Q_PROPERTY(bool enabled MEMBER m_enabled)
     };
 
     enum MacroRunningState
