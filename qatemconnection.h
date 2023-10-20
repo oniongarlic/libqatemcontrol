@@ -56,6 +56,9 @@ friend class QAtemSubsystemBase;
 
     Q_PROPERTY(bool timecodeLocked READ getTimecodeLocked NOTIFY timecodeLockedChanged)
 
+    Q_PROPERTY(bool macroRunning READ runningMacro NOTIFY macroRunningChanged)
+    Q_PROPERTY(bool macroRecording READ recordingMacro NOTIFY macroRecordingChanged)
+
     Q_PROPERTY(float audioMixerMasterVolume READ audioMasterOutputGain NOTIFY audioMasterOutputGainChanged)
 
 public:
@@ -534,6 +537,8 @@ private:
     bool m_macroRecording;
     quint8 m_recordingMacro;
 
+    bool m_macroRunning;
+
 signals:
     void connected();
     void connectedChanged();
@@ -600,6 +605,8 @@ signals:
     void macroInfoChanged(quint8 index, const QAtem::MacroInfo &info);
     void macroRunningStateChanged(QAtem::MacroRunningState running, bool repeating, quint8 macroIndex);
     void macroRecordingStateChanged(bool recording, quint8 macroIndex);
+    void macroRunningChanged();
+    void macroRecordingChanged();
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QAtemConnection::Commands)

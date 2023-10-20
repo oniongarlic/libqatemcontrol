@@ -2042,6 +2042,7 @@ void QAtemConnection::onMRPr(const QByteArray& payload)
     m_runningMacro = static_cast<quint8>(payload.at(9));
 
     emit macroRunningStateChanged(m_macroRunningState, m_macroRepeating, m_runningMacro);
+    emit macroRunningChanged();
 }
 
 void QAtemConnection::onMRcS(const QByteArray& payload)
@@ -2050,6 +2051,7 @@ void QAtemConnection::onMRcS(const QByteArray& payload)
     m_recordingMacro = static_cast<quint8>(payload.at(9));
 
     emit macroRecordingStateChanged(m_macroRecording, m_recordingMacro);
+    emit macroRecordingChanged();
 }
 
 void QAtemConnection::on_MAC(const QByteArray& payload)
