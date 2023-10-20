@@ -26,6 +26,16 @@ void QAtemSuperSource::createSuperSourceBoxes()
     }
 }
 
+void QAtemSuperSource::updateSuperSource(quint8 boxid) {
+    setSuperSource(boxid,
+                   m_superSourceBoxes[boxid].m_enabled,
+                   m_superSourceBoxes[boxid].m_source,
+                   m_superSourceBoxes[boxid].m_position,
+                   m_superSourceBoxes[boxid].m_size,
+                   m_superSourceBoxes[boxid].m_crop_enabled,
+                   m_superSourceBoxes[boxid].m_crop);
+}
+
 void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop)
 {
     QByteArray cmd("CSBP");
