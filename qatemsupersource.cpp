@@ -177,5 +177,7 @@ void QAtemSuperSource::setSuperSourceID(quint8 newSuperSourceID)
 
 QAtem::SuperSourceBoxSettings QAtemSuperSource::getSuperSourceBox(quint8 boxid)
 {
+    if (boxid>m_superSourceBoxes.size())
+        boxid=3;
     return m_superSourceBoxes.at(boxid);
 }
