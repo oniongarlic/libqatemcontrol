@@ -312,6 +312,32 @@ namespace QAtem
         Q_GADGET
     };
 
+    enum SuperSourceArtOption
+    {
+        SuperSourceBackground=0,
+        SuperSourceForeground
+    };
+    Q_ENUM_NS(SuperSourceArtOption)
+
+    struct LIBQATEMCONTROLSHARED_EXPORT SuperSourceArt
+    {
+        quint16 fillSource;
+        quint16 cutSource;
+        SuperSourceArtOption option;
+        bool premultiplied;
+        double clip;
+        double gain;
+        bool invertkey;
+        Q_GADGET
+        Q_PROPERTY(quint16 fillSource MEMBER fillSource)
+        Q_PROPERTY(quint16 cutSource MEMBER cutSource)
+        Q_PROPERTY(SuperSourceArtOption option MEMBER option)
+        Q_PROPERTY(bool premultiplied MEMBER premultiplied)
+        Q_PROPERTY(double clip MEMBER clip)
+        Q_PROPERTY(double gain MEMBER gain)
+        Q_PROPERTY(bool invertKey MEMBER invertkey)
+    };
+
     struct LIBQATEMCONTROLSHARED_EXPORT SuperSourceBoxSettings
     {
         bool m_enabled;

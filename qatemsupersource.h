@@ -22,6 +22,8 @@ public:
 
     Q_INVOKABLE QAtem::SuperSourceBoxSettings getSuperSourceBox(quint8 boxid);
     Q_INVOKABLE void updateSuperSource(quint8 boxid);
+
+    Q_INVOKABLE QAtem::SuperSourceArt getSuperSourceProperties();
 public slots:
     void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop);
 
@@ -41,6 +43,7 @@ protected slots:
 private:
     quint8 m_superSourceID=0;
     QVector<QAtem::SuperSourceBoxSettings> m_superSourceBoxes;
+    QAtem::SuperSourceArt m_ssart;
 };
 
 #endif // QATEMSUPERSOURCE_H

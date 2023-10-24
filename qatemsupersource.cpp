@@ -21,8 +21,7 @@ void QAtemSuperSource::createSuperSourceBoxes()
         box.m_crop.setX(0);
         box.m_crop.setY(0);
         box.m_crop.setWidth(0);
-        box.m_crop.setHeight(0);
-        qDebug() << box.m_enabled << box.m_size;
+        box.m_crop.setHeight(0);        
     }
 }
 
@@ -34,6 +33,11 @@ void QAtemSuperSource::updateSuperSource(quint8 boxid) {
                    m_superSourceBoxes[boxid].m_size,
                    m_superSourceBoxes[boxid].m_crop_enabled,
                    m_superSourceBoxes[boxid].m_crop);
+}
+
+QAtem::SuperSourceArt QAtemSuperSource::getSuperSourceProperties()
+{
+    return m_ssart;
 }
 
 void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop)
@@ -89,7 +93,7 @@ void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source,
     payload[22] = static_cast<char>(v1.u8[1]);
     payload[23] = static_cast<char>(v1.u8[0]);
 
-    qDebug() << pos << size << crop << payload.toHex(':');
+    // qDebug() << pos << size << crop << payload.toHex(':');
 
     sendCommand(cmd, payload);
 }
@@ -118,9 +122,9 @@ void QAtemSuperSource::onSSBP(const QByteArray &payload)
     quint16 cropLeft=QAtem::uint16at(payload, 24);
     quint16 cropRight=QAtem::uint16at(payload, 26);
 
-    qDebug() << "SuperSource: " << ssid << ssboxid << enabled << source;
-    qDebug() << "-Pos (X Y S): " << posx << posy << size;
-    qDebug() << "-Crop (T B L R)" << crop << cropTop << cropBottom << cropLeft << cropRight;
+    //qDebug() << "SuperSource: " << ssid << ssboxid << enabled << source;
+    //qDebug() << "-Pos (X Y S): " << posx << posy << size;
+    //qDebug() << "-Crop (T B L R)" << crop << cropTop << cropBottom << cropLeft << cropRight;
 
     m_superSourceBoxes[ssboxid].m_enabled=enabled;
     m_superSourceBoxes[ssboxid].m_source=source;
@@ -163,6 +167,14 @@ void QAtemSuperSource::onSSrc(const QByteArray &payload)
 
     qDebug() << "SuperSourceProperties: " << art_fill_source << art_cut_source;
     qDebug() << "-" << art_option << art_premultiplied << art_clip << art_gain << art_invert_key;
+
+    m_ssart.fillSource=art_fill_source;
+    m_ssart.cutSource=art_cut_source;
+    m_ssart.option=art_option==0 ? QAtem::SuperSourceBackground : QAtem::SuperSourceForeground;
+    m_ssart.clip=art_clip;
+    m_ssart.gain=art_gain;
+    m_ssart.premultiplied=art_premultiplied;
+    m_ssart.invertkey=art_invert_key;
 
     emit superSourcePropertiesChanged();
 }
