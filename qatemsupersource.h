@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE void updateSuperSource(quint8 boxid);
 
     Q_INVOKABLE QAtem::SuperSourceArt getSuperSourceProperties();
+    Q_INVOKABLE void updateSuperSourceProperties();
 public slots:
     void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop);
 

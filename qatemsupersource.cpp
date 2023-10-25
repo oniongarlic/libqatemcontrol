@@ -7,6 +7,14 @@ QAtemSuperSource::QAtemSuperSource(QObject *parent)
     m_atemConnection=nullptr;
 
     createSuperSourceBoxes();
+
+    m_ssart.fillSource=0;
+    m_ssart.cutSource=0;
+    m_ssart.option=QAtem::SuperSourceBackground;
+    m_ssart.clip=0;
+    m_ssart.gain=0;
+    m_ssart.premultiplied=true;
+    m_ssart.invertkey=false;
 }
 
 void QAtemSuperSource::createSuperSourceBoxes()
@@ -26,6 +34,10 @@ void QAtemSuperSource::createSuperSourceBoxes()
 }
 
 void QAtemSuperSource::updateSuperSource(quint8 boxid) {
+    if (boxid>m_superSourceBoxes.size()) {
+        qWarning("Invalid SuperSource Box id");
+        return;
+    }
     setSuperSource(boxid,
                    m_superSourceBoxes[boxid].m_enabled,
                    m_superSourceBoxes[boxid].m_source,
@@ -38,6 +50,39 @@ void QAtemSuperSource::updateSuperSource(quint8 boxid) {
 QAtem::SuperSourceArt QAtemSuperSource::getSuperSourceProperties()
 {
     return m_ssart;
+}
+
+void QAtemSuperSource::updateSuperSourceProperties()
+{
+    QByteArray cmd("CSSc");
+    QByteArray payload(16, 0x0);
+    QAtem::U16_U8 v1;
+
+    payload[0]=1+2+4+8+16+32+64;
+    payload[1]=m_superSourceID;
+
+    v1.u16 = m_ssart.fillSource;
+    payload[2]=static_cast<char>(v1.u8[1]);
+    payload[3]=static_cast<char>(v1.u8[0]);
+
+    v1.u16 = m_ssart.cutSource;
+    payload[4]=static_cast<char>(v1.u8[1]);
+    payload[5]=static_cast<char>(v1.u8[0]);
+
+    payload[6]=m_ssart.option;
+    payload[7]=m_ssart.premultiplied;
+
+    v1.u16 = qBound(0, (int)(m_ssart.clip * 1000.0), 1000);
+    payload[8]=static_cast<char>(v1.u8[1]);
+    payload[9]=static_cast<char>(v1.u8[0]);
+
+    v1.u16 = qBound(0, (int)(m_ssart.gain * 1000.0), 1000);
+    payload[10]=static_cast<char>(v1.u8[1]);
+    payload[11]=static_cast<char>(v1.u8[0]);
+
+    payload[12]=m_ssart.invertkey;
+
+    sendCommand(cmd, payload);
 }
 
 void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop)
@@ -171,8 +216,8 @@ void QAtemSuperSource::onSSrc(const QByteArray &payload)
     m_ssart.fillSource=art_fill_source;
     m_ssart.cutSource=art_cut_source;
     m_ssart.option=art_option==0 ? QAtem::SuperSourceBackground : QAtem::SuperSourceForeground;
-    m_ssart.clip=art_clip;
-    m_ssart.gain=art_gain;
+    m_ssart.clip=art_clip/1000.0;
+    m_ssart.gain=art_gain/1000.0;
     m_ssart.premultiplied=art_premultiplied;
     m_ssart.invertkey=art_invert_key;
 
@@ -199,7 +244,9 @@ void QAtemSuperSource::setSuperSourceID(quint8 newSuperSourceID)
 
 QAtem::SuperSourceBoxSettings QAtemSuperSource::getSuperSourceBox(quint8 boxid)
 {
-    if (boxid>m_superSourceBoxes.size())
+    if (boxid>m_superSourceBoxes.size()) {
+        qWarning("Invalid SuperSource Box id");
         boxid=3;
+    }
     return m_superSourceBoxes.at(boxid);
 }
