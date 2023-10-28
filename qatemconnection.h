@@ -56,8 +56,8 @@ friend class QAtemSubsystemBase;
 
     Q_PROPERTY(bool timecodeLocked READ getTimecodeLocked NOTIFY timecodeLockedChanged)
 
-    Q_PROPERTY(bool macroRunning READ runningMacro NOTIFY macroRunningChanged)
-    Q_PROPERTY(bool macroRecording READ recordingMacro NOTIFY macroRecordingChanged)
+    Q_PROPERTY(bool macroRunning READ macroRunning NOTIFY macroRunningChanged)
+    Q_PROPERTY(bool macroRecording READ macroRecording NOTIFY macroRecordingChanged)
 
     Q_PROPERTY(float audioMixerMasterVolume READ audioMasterOutputGain NOTIFY audioMasterOutputGainChanged)
 
@@ -243,6 +243,7 @@ public:
     Q_INVOKABLE quint8 runningMacro() const { return m_runningMacro; }
     Q_INVOKABLE bool macroRecording() const { return m_macroRecording; }
     Q_INVOKABLE quint8 recordingMacro() const { return m_recordingMacro; }
+    Q_INVOKABLE bool macroRunning() const { return m_macroRunningState!=QAtem::MacroStoped; }
 
 public slots:
     void saveSettings();
@@ -532,12 +533,10 @@ private:
 
     QVector<QAtem::MacroInfo> m_macroInfos;
     QAtem::MacroRunningState m_macroRunningState;
-    bool m_macroRepeating;
+    bool m_macroRepeating=false;
     quint8 m_runningMacro;
-    bool m_macroRecording;
-    quint8 m_recordingMacro;
-
-    bool m_macroRunning;
+    bool m_macroRecording=false;
+    quint8 m_recordingMacro=false;
 
 signals:
     void connected();
