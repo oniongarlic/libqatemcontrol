@@ -310,6 +310,10 @@ namespace QAtem
         QString name;
         QString description;
         Q_GADGET
+        Q_PROPERTY(quint8 macroIndex MEMBER index)
+        Q_PROPERTY(bool used MEMBER used)
+        Q_PROPERTY(QString name MEMBER name)
+        Q_PROPERTY(QString description MEMBER description)
     };
 
     enum SuperSourceArtOption
