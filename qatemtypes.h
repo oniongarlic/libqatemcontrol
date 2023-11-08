@@ -144,6 +144,10 @@ namespace QAtem
         QSize size;
         float framesPerSecond;
         Q_GADGET
+        Q_PROPERTY(quint8 index MEMBER index)
+        Q_PROPERTY(QString name MEMBER name)
+        Q_PROPERTY(QSize size MEMBER size)
+        Q_PROPERTY(float framesPerSecond MEMBER framesPerSecond)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT MultiView
@@ -155,6 +159,8 @@ namespace QAtem
         quint8 layout;
         quint16 sources[10];
         Q_GADGET
+        Q_PROPERTY(quint8 index MEMBER index)
+        Q_PROPERTY(quint8 layout MEMBER layout)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT InputInfo
@@ -180,10 +186,13 @@ namespace QAtem
         QString longText;
         QString shortText;
         Q_GADGET
-        Q_PROPERTY(int index MEMBER index)
-        Q_PROPERTY(int tally MEMBER tally)
-        Q_PROPERTY(int externalType MEMBER externalType)
-        Q_PROPERTY(int internalType MEMBER internalType)
+        Q_PROPERTY(quint16 index MEMBER index)
+        Q_PROPERTY(quint8 tally MEMBER tally)
+        Q_PROPERTY(quint8 externalType MEMBER externalType)
+        Q_PROPERTY(quint8 internalType MEMBER internalType)
+        Q_PROPERTY(quint8 availableExternalTypes MEMBER availableExternalTypes)
+        Q_PROPERTY(quint8 availability MEMBER availability)
+        Q_PROPERTY(quint8 meAvailability MEMBER meAvailability)
         Q_PROPERTY(QString longText MEMBER longText)
         Q_PROPERTY(QString shortText MEMBER shortText)
     };
@@ -205,6 +214,11 @@ namespace QAtem
         MediaType type;
         QByteArray hash;
         Q_GADGET
+        Q_PROPERTY(quint8 index MEMBER index)
+        Q_PROPERTY(bool used MEMBER used)
+        Q_PROPERTY(quint16 frameCount MEMBER frameCount)
+        Q_PROPERTY(QString name MEMBER name)
+        Q_PROPERTY(MediaType type MEMBER type)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT MediaPlayerState
@@ -215,6 +229,11 @@ namespace QAtem
         bool atBegining;
         quint8 currentFrame;
         Q_GADGET
+        Q_PROPERTY(quint8 index MEMBER index)
+        Q_PROPERTY(bool loop MEMBER loop)
+        Q_PROPERTY(bool playing MEMBER playing)
+        Q_PROPERTY(bool atBegining MEMBER atBegining)
+        Q_PROPERTY(quint8 currentFrame MEMBER currentFrame)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT AudioInput
@@ -230,6 +249,16 @@ namespace QAtem
         quint8 eq_bands;
         float eq_gain;
         Q_GADGET
+        Q_PROPERTY(quint16 index MEMBER index)
+        Q_PROPERTY(quint8 type MEMBER type)
+        Q_PROPERTY(quint8 plugType MEMBER plugType)
+        Q_PROPERTY(quint8 state MEMBER state)
+        Q_PROPERTY(float balance MEMBER balance)
+        Q_PROPERTY(float gain MEMBER gain)
+        Q_PROPERTY(bool fairlight MEMBER fairlight)
+        Q_PROPERTY(bool eq MEMBER eq)
+        Q_PROPERTY(quint8 eq_bands MEMBER eq_bands)
+        Q_PROPERTY(float eq_gain MEMBER eq_gain)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT AudioLevel
@@ -240,6 +269,11 @@ namespace QAtem
         float peakLeft;
         float peakRight;
         Q_GADGET
+        Q_PROPERTY(quint16 index MEMBER index)
+        Q_PROPERTY(float left MEMBER left)
+        Q_PROPERTY(float right MEMBER right)
+        Q_PROPERTY(float peakLeft MEMBER peakLeft)
+        Q_PROPERTY(float peakRight MEMBER peakRight)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT DveKeyFrame
@@ -262,6 +296,22 @@ namespace QAtem
         float maskLeft;
         float maskRight;
         Q_GADGET
+        Q_PROPERTY(QPointF position MEMBER position)
+        Q_PROPERTY(QSizeF size MEMBER size)
+        Q_PROPERTY(float rotation MEMBER rotation)
+        Q_PROPERTY(float lightSourceDirection MEMBER lightSourceDirection)
+        Q_PROPERTY(quint8 lightSourceAltitude MEMBER lightSourceAltitude)
+        Q_PROPERTY(float borderOutsideWidth MEMBER borderOutsideWidth)
+        Q_PROPERTY(float borderInsideWidth MEMBER borderInsideWidth)
+        Q_PROPERTY(quint8 borderOutsideSoften MEMBER borderOutsideSoften)
+        Q_PROPERTY(quint8 borderInsideSoften MEMBER borderInsideSoften)
+        Q_PROPERTY(quint8 borderOpacity MEMBER borderOpacity)
+        Q_PROPERTY(float borderBevelPosition MEMBER borderBevelPosition)
+        Q_PROPERTY(quint8 borderBevelSoften MEMBER borderBevelSoften)
+        Q_PROPERTY(float maskTop MEMBER maskTop)
+        Q_PROPERTY(float maskBottom MEMBER maskBottom)
+        Q_PROPERTY(float maskLeft MEMBER maskLeft)
+        Q_PROPERTY(float maskRight MEMBER maskRight)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT Camera
@@ -301,6 +351,30 @@ namespace QAtem
         quint16 hue;
         quint8 saturation;
         Q_GADGET
+        Q_PROPERTY(quint8 input MEMBER input)
+        Q_PROPERTY(quint16 focus MEMBER focus)
+        Q_PROPERTY(bool autoFocused MEMBER autoFocused)
+        Q_PROPERTY(quint16 iris MEMBER iris)
+        Q_PROPERTY(qint16 zoomSpeed MEMBER zoomSpeed)
+        Q_PROPERTY(quint16 gain MEMBER gain)
+        Q_PROPERTY(quint16 whiteBalance MEMBER whiteBalance)
+        Q_PROPERTY(quint16 shutter MEMBER shutter)
+        Q_PROPERTY(float liftR MEMBER liftR)
+        Q_PROPERTY(float liftG MEMBER liftG)
+        Q_PROPERTY(float liftB MEMBER liftB)
+        Q_PROPERTY(float liftY MEMBER liftY)
+        Q_PROPERTY(float gammaR MEMBER gammaR)
+        Q_PROPERTY(float gammaG MEMBER gammaG)
+        Q_PROPERTY(float gammaB MEMBER gammaB)
+        Q_PROPERTY(float gammaY MEMBER gammaY)
+        Q_PROPERTY(float gainR MEMBER gainR)
+        Q_PROPERTY(float gainG MEMBER gainG)
+        Q_PROPERTY(float gainB MEMBER gainB)
+        Q_PROPERTY(float gainY MEMBER gainY)
+        Q_PROPERTY(quint8 contrast MEMBER contrast)
+        Q_PROPERTY(quint8 lumMix MEMBER lumMix)
+        Q_PROPERTY(quint16 hue MEMBER hue)
+        Q_PROPERTY(quint8 saturation MEMBER saturation)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT MacroInfo
