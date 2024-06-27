@@ -975,60 +975,6 @@ void QAtemConnection::onTime(const QByteArray& payload)
     emit timeChanged(m_time, f);
 }
 
-void QAtemConnection::onSRST(const QByteArray& payload)
-{
-    quint8 h,m,s,f;
-    h = static_cast<quint8>(payload.at(6)); // h
-    m = static_cast<quint8>(payload.at(7)); // m
-    s = static_cast<quint8>(payload.at(8)); // s
-    f = static_cast<quint8>(payload.at(9)); // frame
-
-    m_stream_framedrop = static_cast<bool>(payload.at(10));
-
-    m_stream_time.setHMS(h, m, s);
-    emit streamingTimeChanged(m_stream_time);
-
-    qDebug() << "SRST" << m_stream_time << f << m_stream_framedrop;
-}
-
-void QAtemConnection::onSRSS(const QByteArray& payload)
-{
-    QAtem::U32_U8 val;
-    val.u8[3] = static_cast<quint8>(payload.at(6));
-    val.u8[2] = static_cast<quint8>(payload.at(7));
-    val.u8[1] = static_cast<quint8>(payload.at(8));
-    val.u8[0] = static_cast<quint8>(payload.at(9));
-
-    m_streaming_datarate = val.u32;
-
-    QAtem::U16_U8 val2;
-    val2.u8[1] = static_cast<quint8>(payload.at(10));
-    val2.u8[0] = static_cast<quint8>(payload.at(11));
-
-    m_streaming_cache = val2.u16;
-
-    qDebug() << "SRSS" << payload.size() << ":" << val.u32 << val2.u16;
-
-    emit streamingDatarateChanged(m_streaming_datarate);
-    emit streamingCacheChanged(m_streaming_cache);
-}
-
-void QAtemConnection::onStRS(const QByteArray& payload)
-{
-    QAtem::U32_U8 val;
-    val.u8[3] = static_cast<quint8>(payload.at(6));
-    val.u8[2] = static_cast<quint8>(payload.at(7));
-    val.u8[1] = static_cast<quint8>(payload.at(8));
-    val.u8[0] = static_cast<quint8>(payload.at(9));
-
-    qDebug() << "StRS" << payload.size() << ":" << val.u16[0] << val.u16[1];
-}
-
-void QAtemConnection::onSLow(const QByteArray& payload)
-{
-    m_low_latency = QAtem::boolat(payload, 6);
-}
-
 /**
  * @brief QAtemConnection::onRTMD
  * @param payload
@@ -2205,26 +2151,6 @@ void QAtemConnection::stopMacro()
     sendCommand(cmd, payload);
 }
 
-void QAtemConnection::stream(bool stream)
-{
-    QByteArray cmd("StrR");
-    QByteArray payload(4, 0x0);
-
-    payload[0] = static_cast<char>(stream);
-
-    sendCommand(cmd, payload);
-}
-
-void QAtemConnection::startStreaming()
-{
-    stream(true);
-}
-
-void QAtemConnection::stopStreaming()
-{
-    stream(false);
-}
-
 void QAtemConnection::record(bool record)
 {
     QByteArray cmd("RcTM");
@@ -2249,24 +2175,6 @@ void QAtemConnection::requestRecordingStatus()
 {
     QByteArray cmd("RMDR");
     QByteArray payload;
-
-    sendCommand(cmd, payload);
-}
-
-void QAtemConnection::requestStreamingStatus()
-{
-    QByteArray cmd("SRDR");
-    QByteArray payload;
-
-    sendCommand(cmd, payload);
-}
-
-void QAtemConnection::setLowLatencyStreaming(bool low)
-{
-    QByteArray cmd("SLow");
-    QByteArray payload(4, 0x0);
-
-    payload[0] = static_cast<char>(low);
 
     sendCommand(cmd, payload);
 }

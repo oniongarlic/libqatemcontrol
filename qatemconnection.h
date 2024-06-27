@@ -30,27 +30,28 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 class QTimer;
 class QHostAddress;
+class QAtemSubsystemBase;
 class QAtemMixEffect;
 class QAtemCameraControl;
 class QAtemDownstreamKey;
 class QAtemFairlight;
-class QAtemSubsystemBase;
+class QAtemSuperSource;
+class QAtemStreaming;
 
 class LIBQATEMCONTROLSHARED_EXPORT QAtemConnection : public QObject
 {
     Q_OBJECT
-friend class QAtemMixEffect;
-friend class QAtemCameraControl;
-friend class QAtemDownstreamKey;
-friend class QAtemFairlight;
-friend class QAtemSubsystemBase;
+    friend class QAtemSubsystemBase;
+    friend class QAtemMixEffect;
+    friend class QAtemCameraControl;
+    friend class QAtemDownstreamKey;
+    friend class QAtemFairlight;
+    friend class QAtemSuperSource;
+    friend class QAtemStreaming;
+
 
     Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
     Q_PROPERTY(QTime time READ getTime NOTIFY timeChanged)
-
-    Q_PROPERTY(quint32 streamingDatarate READ getStreamingDatarate NOTIFY streamingDatarateChanged)
-    Q_PROPERTY(quint16 streamingCache READ getStreamingCache NOTIFY streamingCacheChanged)
-    Q_PROPERTY(QTime streamingTime READ getStreamingTime NOTIFY streamingTimeChanged)
 
     Q_PROPERTY(QTime recordingTime READ getRecordingTime NOTIFY recordingTimeChanged)
 
@@ -108,9 +109,6 @@ public:
     Q_INVOKABLE bool getTimecodeLocked() { return m_timecode_locked; }
     Q_INVOKABLE void requestTimeCode();
 
-    Q_INVOKABLE quint32 getStreamingDatarate() { return m_streaming_datarate; }
-    Q_INVOKABLE quint16 getStreamingCache() { return m_streaming_cache; }
-    Q_INVOKABLE QTime getStreamingTime() const { return m_stream_time; }
     Q_INVOKABLE QTime getRecordingTime() const { return m_record_time; }
 
     /// @returns the tally state of the input @p index. 1 = program, 2 = preview and 3 = both
@@ -312,14 +310,6 @@ public slots:
     void continueMacro();
     void stopMacro();
 
-    void stream(bool stream);
-
-    void startStreaming();
-    void stopStreaming();
-    void requestStreamingStatus();
-
-    void setLowLatencyStreaming(bool low);
-
     void record(bool record);
     void startRecording();
     void stopRecording();
@@ -376,11 +366,6 @@ protected slots:
     void onFTDa(const QByteArray& payload);
     void onFTDE(const QByteArray& payload);
     void onLKOB(const QByteArray& payload);
-
-    void onSRST(const QByteArray& payload);
-    void onSRSS(const QByteArray& payload);
-    void onStRS(const QByteArray& payload);
-    void onSLow(const QByteArray& payload);
 
     void onRTMD(const QByteArray& payload);
     void onRTMS(const QByteArray& payload);
@@ -515,17 +500,10 @@ private:
     bool m_timecode_locked;
 
     QTime m_time;
-    quint32 m_streaming_datarate;
-    quint32 m_recording_datarate;
-    quint16 m_streaming_cache;    
 
+    quint32 m_recording_datarate;
     bool m_record_framedrop;
     QTime m_record_time;
-
-    bool m_stream_framedrop;
-    QTime m_stream_time;
-
-    bool m_low_latency;
 
     QMap<quint8, QAtem::VideoMode> m_availableVideoModes;
 
@@ -564,10 +542,6 @@ signals:
 
     void timeChanged(QTime time, quint8 frame);
     void timecodeLockedChanged(bool locked);
-
-    void streamingDatarateChanged(quint32 datarate);
-    void streamingCacheChanged(quint16 cache);
-    void streamingTimeChanged(QTime time);
 
     void recordingTimeChanged(QTime time);
 
