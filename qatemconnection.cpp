@@ -1132,14 +1132,7 @@ void QAtemConnection::initCommandSlotHash()
     m_commandSlotHash.insert("FTDE", ObjectSlot(this, "onFTDE"));
     m_commandSlotHash.insert("LKOB", ObjectSlot(this, "onLKOB"));
 
-    m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));
-
-    // Streaming
-    m_commandSlotHash.insert("SRST", ObjectSlot(this, "onSRST"));
-    m_commandSlotHash.insert("StRS", ObjectSlot(this, "onStRS"));
-    m_commandSlotHash.insert("SRSS", ObjectSlot(this, "onSRSS"));
-
-    m_commandSlotHash.insert("SLow", ObjectSlot(this, "onSLow"));
+    m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));    
 
     // Recording
     m_commandSlotHash.insert("RTMS", ObjectSlot(this, "onRTMS"));
