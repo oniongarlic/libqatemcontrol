@@ -80,7 +80,7 @@ namespace QAtem
         return val.s16;
     };
 
-    inline quint16 uint32at(const QByteArray &ba, int p) {
+    inline quint32 uint32at(const QByteArray &ba, int p) {
         QAtem::U32_U8 val;
         val.u8[3] = static_cast<quint8>(ba.at(p));
         val.u8[2] = static_cast<quint8>(ba.at(p+1));
