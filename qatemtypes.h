@@ -174,25 +174,28 @@ namespace QAtem
             availableExternalTypes = 0;
             availability = 0;
             meAvailability = 0;
+            defaultName = true;
         }
 
         quint16 index;
-        quint8 tally;
-        quint8 externalType; // 0 = Internal, 1 = SDI, 2 = HDMI, 3 = Composite, 4 = Component, 5 = SVideo
-        quint8 internalType; // 0 = External, 1 = Black, 2 = Color Bars, 3 = Color Generator, 4 = Media Player Fill, 5 = Media Player Key, 6 = SuperSource, 128 = ME Output, 129 = Auxiliary, 130 = Mask
-        quint8 availableExternalTypes; // Bit 0: SDI, 1: HDMI, 2: Component, 3: Composite, 4: SVideo
-        quint8 availability; // Bit 0: Auxiliary, 1: Multiviewer, 2: SuperSource Art, 3: SuperSource Box, 4: Key Sources
-        quint8 meAvailability; // Bit 0: ME1 + Fill Sources, 1: ME2 + Fill Sources
+        quint16 tally;
+        quint16 externalType; // 0 = Internal, 1 = SDI, 2 = HDMI, 3 = Composite, 4 = Component, 5 = SVideo
+        quint16 internalType; // 0 = External, 1 = Black, 2 = Color Bars, 3 = Color Generator, 4 = Media Player Fill, 5 = Media Player Key, 6 = SuperSource, 128 = ME Output, 129 = Auxiliary, 130 = Mask
+        quint16 availableExternalTypes; // Bit 0: SDI, 1: HDMI, 2: Component, 3: Composite, 4: SVideo
+        quint16 availability; // Bit 0: Auxiliary, 1: Multiviewer, 2: SuperSource Art, 3: SuperSource Box, 4: Key Sources
+        quint16 meAvailability; // Bit 0: ME1 + Fill Sources, 1: ME2 + Fill Sources
+        bool defaultName;
         QString longText;
         QString shortText;
         Q_GADGET
         Q_PROPERTY(quint16 index MEMBER index)
-        Q_PROPERTY(quint8 tally MEMBER tally)
-        Q_PROPERTY(quint8 externalType MEMBER externalType)
-        Q_PROPERTY(quint8 internalType MEMBER internalType)
-        Q_PROPERTY(quint8 availableExternalTypes MEMBER availableExternalTypes)
-        Q_PROPERTY(quint8 availability MEMBER availability)
-        Q_PROPERTY(quint8 meAvailability MEMBER meAvailability)
+        Q_PROPERTY(quint16 tally MEMBER tally)
+        Q_PROPERTY(quint16 externalType MEMBER externalType)
+        Q_PROPERTY(quint16 internalType MEMBER internalType)
+        Q_PROPERTY(quint16 availableExternalTypes MEMBER availableExternalTypes)
+        Q_PROPERTY(quint16 availability MEMBER availability)
+        Q_PROPERTY(quint16 meAvailability MEMBER meAvailability)
+        Q_PROPERTY(bool defaultName MEMBER defaultName)
         Q_PROPERTY(QString longText MEMBER longText)
         Q_PROPERTY(QString shortText MEMBER shortText)
     };

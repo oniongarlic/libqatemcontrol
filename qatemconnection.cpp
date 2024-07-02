@@ -167,6 +167,12 @@ void QAtemConnection::disconnectFromSwitcher()
 
     emit connectedChanged();
     emit disconnected();
+
+    // XXX
+    m_inputInfos.clear();
+    m_clipMediaInfos.clear();
+    m_stillMediaInfos.clear();
+    m_soundMediaInfos.clear();
 }
 
 void QAtemConnection::handleSocketData()
@@ -335,7 +341,7 @@ void QAtemConnection::parsePayLoad(const QByteArray& datagram)
             QString dbg;
 
             qDebug() << QDateTime::currentDateTime() << "Unhandled Command: " << cmd << " size " << payload.size();
-            qDebug() << payload.toHex();
+            qDebug() << payload.toHex(':');
 
             for(int i = 0; i < payload.size(); ++i)
             {
@@ -860,6 +866,7 @@ void QAtemConnection::onInPr(const QByteArray& payload)
     info.index = index.u16;
     info.longText = payload.mid(8, 20);
     info.shortText = payload.mid(28, 4);
+    info.defaultName = static_cast<quint8>(payload.at(32));
     info.availableExternalTypes = static_cast<quint8>(payload.at(35)); // Bit 0: SDI, 1: HDMI, 2: Component, 3: Composite, 4: SVideo
     info.externalType = static_cast<quint8>(payload.at(37)); // 1 = SDI, 2 = HDMI, 3 = Composite, 4 = Component, 5 = SVideo, 0 = Internal
     info.internalType = static_cast<quint8>(payload.at(38)); // 0 = External, 1 = Black, 2 = Color Bars, 3 = Color Generator, 4 = Media Player Fill, 5 = Media Player Key, 6 = SuperSource, 128 = ME Output, 129 = Auxiliary, 130 = Mask
