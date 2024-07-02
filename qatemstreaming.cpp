@@ -111,8 +111,6 @@ void QAtemStreaming::onSLow(const QByteArray& payload)
  */
 void QAtemStreaming::onSRSU(const QByteArray &payload)
 {
-    qDebug() << "SRSU: " << payload.toHex(':');
-
     m_name=QString(payload.mid(6, 64));
     m_url=QString(payload.mid(6+64, 512));
     m_key=QString(payload.mid(6+64+512, 512));
@@ -120,7 +118,7 @@ void QAtemStreaming::onSRSU(const QByteArray &payload)
     m_vbitrates[0]=QAtem::uint32at(payload, 1024+64+6);
     m_vbitrates[1]=QAtem::uint32at(payload, 1024+64+6+4);
 
-    qDebug() << "Streaming:" << m_name << m_url << m_key << m_vbitrates;
+    qDebug() << "VideoBitrates:" << m_vbitrates;
 
     emit streamingServiceUpdated(m_name, m_url, m_key);
 }
@@ -139,7 +137,7 @@ void QAtemStreaming::onSTAB(const QByteArray &payload)
     m_abitrates[0]=QAtem::uint32at(payload, 6);
     m_abitrates[1]=QAtem::uint32at(payload, 6+4);
 
-    qDebug() << "Audio:" << m_vbitrates;
+    qDebug() << "AudioBitrates:" << m_abitrates;
 }
 
 /**
@@ -151,12 +149,8 @@ void QAtemStreaming::onSTAB(const QByteArray &payload)
  */
 void QAtemStreaming::onSAth(const QByteArray &payload)
 {
-    qDebug() << "SAth: " << payload.toHex(':');
-
     m_username=QString(payload.mid(6, 64));
     m_password=QString(payload.mid(6+64, 64));
-
-    qDebug() << "Auth:" << m_username << m_password;
 
     emit streamingAuthenticatonUpdated(m_username, m_password);
 }
