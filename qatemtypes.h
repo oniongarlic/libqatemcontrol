@@ -197,6 +197,13 @@ namespace QAtem
         Q_PROPERTY(QString shortText MEMBER shortText)
     };
 
+    enum TimeCodeMode
+    {
+        FreeRun = 0,
+        TimeOfDay = 1
+    };
+    Q_ENUM_NS(TimeCodeMode)
+
     enum MediaType
     {
         StillMedia = 1,

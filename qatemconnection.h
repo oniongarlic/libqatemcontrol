@@ -372,6 +372,7 @@ protected slots:
     void onRTMR(const QByteArray& payload);
 
     void onTcLK(const QByteArray& payload);
+    void onTCCc(const QByteArray &payload);
 
     void initDownloadToSwitcher();
     void flushTransferBuffer(quint8 count);
@@ -498,6 +499,7 @@ private:
     quint8 m_powerStatus;
 
     bool m_timecode_locked;
+    QAtem::TimeCodeMode m_timecode_mode;
 
     QTime m_time;
 
@@ -542,6 +544,7 @@ signals:
 
     void timeChanged(QTime time, quint8 frame);
     void timecodeLockedChanged(bool locked);
+    void timecodeModeChanged(QAtem::TimeCodeMode mode);
 
     void recordingTimeChanged(QTime time);
 
