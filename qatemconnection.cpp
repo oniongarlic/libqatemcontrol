@@ -1060,6 +1060,13 @@ void QAtemConnection::onTcLK(const QByteArray &payload)
     emit timecodeLockedChanged(m_timecode_locked);
 }
 
+void QAtemConnection::onTCCc(const QByteArray &payload)
+{
+    m_timecode_mode = static_cast<QAtem::TimeCodeMode>(payload.at(6));
+
+    emit timecodeModeChanged(m_timecode_mode);
+}
+
 void QAtemConnection::onDcOt(const QByteArray& payload)
 {
     m_videoDownConvertType = static_cast<quint8>(payload.at(6));
@@ -1139,7 +1146,8 @@ void QAtemConnection::initCommandSlotHash()
     m_commandSlotHash.insert("FTDE", ObjectSlot(this, "onFTDE"));
     m_commandSlotHash.insert("LKOB", ObjectSlot(this, "onLKOB"));
 
-    m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));    
+    m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));
+    m_commandSlotHash.insert("TCCc", ObjectSlot(this, "onTCCc"));
 
     // Recording
     m_commandSlotHash.insert("RTMS", ObjectSlot(this, "onRTMS"));
