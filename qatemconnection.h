@@ -36,6 +36,7 @@ class QAtemCameraControl;
 class QAtemDownstreamKey;
 class QAtemFairlight;
 class QAtemSuperSource;
+class QAtemRecording;
 class QAtemStreaming;
 
 class LIBQATEMCONTROLSHARED_EXPORT QAtemConnection : public QObject
@@ -47,13 +48,11 @@ class LIBQATEMCONTROLSHARED_EXPORT QAtemConnection : public QObject
     friend class QAtemDownstreamKey;
     friend class QAtemFairlight;
     friend class QAtemSuperSource;
-    friend class QAtemStreaming;
-
+    friend class QAtemRecording;
+    friend class QAtemStreaming;    
 
     Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
     Q_PROPERTY(QTime time READ getTime NOTIFY timeChanged)
-
-    Q_PROPERTY(QTime recordingTime READ getRecordingTime NOTIFY recordingTimeChanged)
 
     Q_PROPERTY(bool timecodeLocked READ getTimecodeLocked NOTIFY timecodeLockedChanged)
 
@@ -108,8 +107,6 @@ public:
     Q_INVOKABLE QTime getTime() const { return m_time; }
     Q_INVOKABLE bool getTimecodeLocked() { return m_timecode_locked; }
     Q_INVOKABLE void requestTimeCode();
-
-    Q_INVOKABLE QTime getRecordingTime() const { return m_record_time; }
 
     /// @returns the tally state of the input @p index. 1 = program, 2 = preview and 3 = both
     Q_INVOKABLE quint8 tallyByIndex(quint8 index) const;
@@ -311,12 +308,6 @@ public slots:
     void continueMacro();
     void stopMacro();
 
-    void record(bool record);
-    void startRecording();
-    void stopRecording();
-    void requestRecordingStatus();
-
-
 protected slots:
     void handleSocketData();
 
@@ -367,10 +358,6 @@ protected slots:
     void onFTDa(const QByteArray& payload);
     void onFTDE(const QByteArray& payload);
     void onLKOB(const QByteArray& payload);
-
-    void onRTMD(const QByteArray& payload);
-    void onRTMS(const QByteArray& payload);
-    void onRTMR(const QByteArray& payload);
 
     void onTcLK(const QByteArray& payload);
     void onTCCc(const QByteArray &payload);
@@ -504,10 +491,6 @@ private:
 
     QTime m_time;
 
-    quint32 m_recording_datarate;
-    bool m_record_framedrop;
-    QTime m_record_time;
-
     QMap<quint8, QAtem::VideoMode> m_availableVideoModes;
 
     QAtemCameraControl *m_cameraControl;
@@ -546,8 +529,6 @@ signals:
     void timeChanged(QTime time, quint8 frame);
     void timecodeLockedChanged(bool locked);
     void timecodeModeChanged(QAtem::TimeCodeMode mode);
-
-    void recordingTimeChanged(QTime time);
 
     void videoFormatChanged(quint8 format);
     void videoDownConvertTypeChanged(quint8 type);
