@@ -140,6 +140,7 @@ public:
     Q_INVOKABLE QAtem::InputInfo inputInfo(quint16 index) const { return m_inputInfos.value(index); }
     Q_INVOKABLE quint16 inputInfoCount () const { return m_inputInfos.count(); }
     Q_INVOKABLE QMap<quint16, QAtem::InputInfo> inputInfos () const { return m_inputInfos; }
+    Q_INVOKABLE QList<quint16> inputInfoIndexes() const { return m_inputInfos.keys(); }
 
     Q_INVOKABLE QAtem::MediaInfo stillMediaInfo(quint8 index) const { return m_stillMediaInfos.value(index); }
     Q_INVOKABLE QAtem::MediaInfo clipMediaInfo(quint8 index) const { return m_clipMediaInfos.value(index); }
