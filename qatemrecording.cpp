@@ -71,7 +71,9 @@ void QAtemRecording::onRTMR(const QByteArray& payload)
     m_record_framedrop = static_cast<bool>(payload.at(10));
 
     m_record_time.setHMS(h, m, s);
-    emit recordingTimeChanged(m_record_time);
+    m_record_frame=f;
+
+    emit recordingTimeChanged(m_record_time, m_record_frame);
 
     qDebug() << "RTMR" << m_record_time << f << m_record_framedrop;
 }
