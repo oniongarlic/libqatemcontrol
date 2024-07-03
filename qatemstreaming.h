@@ -8,6 +8,7 @@
 class QAtemStreaming : public QAtemSubsystemBase
 {
     Q_OBJECT
+    Q_PROPERTY(bool isSupported READ isSupported NOTIFY isSupportedChanged FINAL)
     Q_PROPERTY(quint32 streamingDatarate READ getStreamingDatarate NOTIFY streamingDatarateChanged)
     Q_PROPERTY(quint16 streamingCache READ getStreamingCache NOTIFY streamingCacheChanged)
     Q_PROPERTY(QTime streamingTime READ getStreamingTime NOTIFY streamingTimeChanged)
@@ -25,6 +26,11 @@ public:
     Q_INVOKABLE QString getUsername() const { return m_username; }
     Q_INVOKABLE QString getPassword() const { return m_password; }
 
+    bool isSupported() const
+    {
+        return m_is_supported;
+    }
+
 public slots:
     void stream(bool stream);
     void startStreaming();
@@ -41,6 +47,8 @@ signals:
     void streamingServiceUpdated(QString name, QString url, QString key);
     void streamingAuthenticatonUpdated(QString username, QString password);
 
+    void isSupportedChanged();
+
 protected slots:
     void onSRSS(const QByteArray &payload);
     void onSRST(const QByteArray &payload);
@@ -51,6 +59,7 @@ protected slots:
     void onSTAB(const QByteArray &payload);
     void onSRSU(const QByteArray &payload);
 private:
+    bool m_is_supported;
     quint32 m_streaming_datarate=0;
     quint16 m_streaming_cache=0;
 
@@ -67,7 +76,7 @@ private:
     QString m_password;
 
     QVector<quint32> m_vbitrates;
-    QVector<quint32> m_abitrates;
+    QVector<quint32> m_abitrates;    
 };
 
 #endif // QATEMSTREAMING_H

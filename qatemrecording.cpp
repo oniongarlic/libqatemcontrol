@@ -5,6 +5,7 @@ QAtemRecording::QAtemRecording(QObject *parent)
 {
     m_commands << "RTMD" << "RTMS" << "RTMR";
     m_atemConnection=nullptr;
+    m_is_supported=false;
 }
 
 /**
@@ -54,6 +55,11 @@ void QAtemRecording::onRTMS(const QByteArray& payload)
     val2.u8[0] = static_cast<quint8>(payload.at(13));
 
     qDebug() << "RTMS" << payload.size() << ":" << val1.u16 << val1.u16 << val2.u32;
+
+    if (!m_is_supported) {
+        m_is_supported=true;
+        emit isSupportedChanged();
+    }
 }
 
 /**
@@ -105,3 +111,5 @@ void QAtemRecording::requestRecordingStatus()
 
     sendCommand(cmd, payload);
 }
+
+

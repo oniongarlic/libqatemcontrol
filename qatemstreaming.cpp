@@ -5,6 +5,7 @@ QAtemStreaming::QAtemStreaming(QObject *parent)
 {
     m_commands << "SRST" << "SRSS" << "StRS" << "SLow" << "SRSU" << "STAB" << "SAth";
     m_atemConnection=nullptr;
+    m_is_supported=false;
     m_vbitrates.resize(2);
     m_abitrates.resize(2);
 }
@@ -95,6 +96,11 @@ void QAtemStreaming::onStRS(const QByteArray& payload)
     val.u8[0] = static_cast<quint8>(payload.at(9));
 
     qDebug() << "StRS" << payload.size() << ":" << val.u16[0] << val.u16[1];
+
+    if (!m_is_supported) {
+        m_is_supported=true;
+        emit isSupportedChanged();
+    }
 }
 
 void QAtemStreaming::onSLow(const QByteArray& payload)
@@ -154,3 +160,5 @@ void QAtemStreaming::onSAth(const QByteArray &payload)
 
     emit streamingAuthenticatonUpdated(m_username, m_password);
 }
+
+
