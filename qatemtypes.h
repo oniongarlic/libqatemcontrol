@@ -200,6 +200,34 @@ namespace QAtem
         Q_PROPERTY(QString shortText MEMBER shortText)
     };
 
+    enum RecordingDiskStatus
+    {
+        DiskIdle = 0,
+        DiskUnformatted = 1,
+        DiskActive= 2,
+        DiskRecording = 4
+    };
+    Q_ENUM_NS(RecordingDiskStatus)
+
+    struct LIBQATEMCONTROLSHARED_EXPORT RecordingInfo
+    {
+        RecordingInfo()
+        {
+            disk=0;
+            available=0;
+        }
+
+        quint32 disk;
+        quint32 available;
+        RecordingDiskStatus status;
+        QString volumeName;
+
+        Q_GADGET
+        Q_PROPERTY(quint16 disk MEMBER disk)
+        Q_PROPERTY(RecordingDiskStatus status MEMBER status)
+        Q_PROPERTY(QString volumeName MEMBER volumeName)
+    };
+
     enum TimeCodeMode
     {
         FreeRun = 0,

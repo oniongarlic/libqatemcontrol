@@ -16,25 +16,17 @@ QAtemRecording::QAtemRecording(QObject *parent)
  */
 void QAtemRecording::onRTMD(const QByteArray& payload)
 {
-    QAtem::U32_U8 id;
-    id.u8[3] = static_cast<quint8>(payload.at(6));
-    id.u8[2] = static_cast<quint8>(payload.at(7));
-    id.u8[1] = static_cast<quint8>(payload.at(8));
-    id.u8[0] = static_cast<quint8>(payload.at(9));
 
-    QAtem::U32_U8 time;
-    time.u8[3] = static_cast<quint8>(payload.at(13));
-    time.u8[2] = static_cast<quint8>(payload.at(12));
-    time.u8[1] = static_cast<quint8>(payload.at(11));
-    time.u8[0] = static_cast<quint8>(payload.at(10));
 
-    QAtem::U16_U8 status;
-    status.u8[1] = static_cast<quint8>(payload.at(15));
-    status.u8[0] = static_cast<quint8>(payload.at(14));
+    QAtem::RecordingInfo r;
+    r.disk=QAtem::uint32at(payload, 6);
+    r.available=QAtem::uint32at(payload, 10);
+    r.volumeName=payload.mid(16, 64);
+    r.status=static_cast<QAtem::RecordingDiskStatus>(QAtem::uint16at(payload, 14));
 
-    QString volumename = payload.mid(16, 64);
+    m_info.insert(r.disk, r);
 
-    qDebug() << "RTMD" << payload.size() << ":" << id.u32 << time.u32 << status.u16 << volumename;
+    emit infoChanged(r);
 }
 
 /**

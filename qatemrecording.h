@@ -32,8 +32,8 @@ public slots:
 
 signals:
     void recordingTimeChanged(QTime time, quint8 frame);
-
     void isSupportedChanged();
+    void infoChanged(QAtem::RecordingInfo info);
 
 protected slots:
     void onRTMR(const QByteArray &payload);
@@ -44,7 +44,9 @@ private:
     quint32 m_recording_datarate;
     bool m_record_framedrop;
     QTime m_record_time;
-    quint8 m_record_frame=0;    
+    quint8 m_record_frame=0;
+
+    QMap<quint32, QAtem::RecordingInfo> m_info;
 };
 
 #endif // QATEMRECORDING_H
