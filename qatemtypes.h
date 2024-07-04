@@ -163,6 +163,42 @@ namespace QAtem
         Q_PROPERTY(quint8 layout MEMBER layout)
     };
 
+    enum InputTypeExternal
+    {
+        InputInternal = 0,
+        InputSDI = 1,
+        InputHDMI = 2,
+        InputComposite = 3,
+        InputComponents = 4,
+        InputSVideo = 5
+    };
+    Q_ENUM_NS(InputTypeExternal)
+
+    enum InputTypeInternal
+    {
+        InputExternal = 0,
+        InputBlack = 1,
+        InputColorBars = 2,
+        InputColorGenerator = 3,
+        InputMediaPlayerFill = 4,
+        InputMediaPlayerKey = 5,
+        InputSuperSource = 6,
+        InputDirect = 7,
+        InputMEOutput = 128,
+        InputAux = 129,
+        InputMask = 130,
+        InputMultiView = 131
+    };
+    Q_ENUM_NS(InputTypeInternal)
+
+    enum InputMEAvailability {
+        InputME1=1,
+        InputME2=2,
+        InputME3=4, // xxx?
+        InputME4=8,
+    };
+    Q_ENUM_NS(InputMEAvailability)
+
     struct LIBQATEMCONTROLSHARED_EXPORT InputInfo
     {
         InputInfo()
