@@ -222,6 +222,56 @@ void QAtemConnection::handleSocketData()
     }
 }
 
+void QAtemConnection::initCommandSlotHash()
+{
+    m_commandSlotHash.insert("TlIn", ObjectSlot(this, "onTlIn"));
+    m_commandSlotHash.insert("ColV", ObjectSlot(this, "onColV"));
+    m_commandSlotHash.insert("MPCE", ObjectSlot(this, "onMPCE"));
+    m_commandSlotHash.insert("AuxS", ObjectSlot(this, "onAuxS"));
+    m_commandSlotHash.insert("_pin", ObjectSlot(this, "on_pin"));
+    m_commandSlotHash.insert("_ver", ObjectSlot(this, "on_ver"));
+    m_commandSlotHash.insert("InPr", ObjectSlot(this, "onInPr"));
+    m_commandSlotHash.insert("MPSE", ObjectSlot(this, "onMPSE"));
+    m_commandSlotHash.insert("MPfe", ObjectSlot(this, "onMPfe"));
+    m_commandSlotHash.insert("MPCS", ObjectSlot(this, "onMPCS"));
+    m_commandSlotHash.insert("MvIn", ObjectSlot(this, "onMvIn"));
+    m_commandSlotHash.insert("MvPr", ObjectSlot(this, "onMvPr"));
+    m_commandSlotHash.insert("VidM", ObjectSlot(this, "onVidM"));
+    m_commandSlotHash.insert("Time", ObjectSlot(this, "onTime"));
+    m_commandSlotHash.insert("DcOt", ObjectSlot(this, "onDcOt"));
+    m_commandSlotHash.insert("AMmO", ObjectSlot(this, "onAMmO"));
+    m_commandSlotHash.insert("MPSp", ObjectSlot(this, "onMPSp"));
+    m_commandSlotHash.insert("RCPS", ObjectSlot(this, "onRCPS"));
+    m_commandSlotHash.insert("AMLv", ObjectSlot(this, "onAMLv"));
+    m_commandSlotHash.insert("AMTl", ObjectSlot(this, "onAMTl"));
+    m_commandSlotHash.insert("AMIP", ObjectSlot(this, "onAMIP"));
+    m_commandSlotHash.insert("AMMO", ObjectSlot(this, "onAMMO"));
+    m_commandSlotHash.insert("LKST", ObjectSlot(this, "onLKST"));
+    m_commandSlotHash.insert("FTCD", ObjectSlot(this, "onFTCD"));
+    m_commandSlotHash.insert("FTDC", ObjectSlot(this, "onFTDC"));
+    m_commandSlotHash.insert("_top", ObjectSlot(this, "on_top"));
+    m_commandSlotHash.insert("Powr", ObjectSlot(this, "onPowr"));
+    m_commandSlotHash.insert("_VMC", ObjectSlot(this, "onVMC"));
+    m_commandSlotHash.insert("Warn", ObjectSlot(this, "onWarn"));
+    m_commandSlotHash.insert("_mpl", ObjectSlot(this, "on_mpl"));
+    m_commandSlotHash.insert("_TlC", ObjectSlot(this, "on_TlC"));
+    m_commandSlotHash.insert("TlSr", ObjectSlot(this, "onTlSr"));
+    m_commandSlotHash.insert("_AMC", ObjectSlot(this, "on_AMC"));
+    m_commandSlotHash.insert("MPAS", ObjectSlot(this, "onMPAS"));
+    m_commandSlotHash.insert("MPfM", ObjectSlot(this, "onMPfM"));
+    m_commandSlotHash.insert("AuxP", ObjectSlot(this, "onAuxP"));
+    m_commandSlotHash.insert("MPrp", ObjectSlot(this, "onMPrp"));
+    m_commandSlotHash.insert("MRPr", ObjectSlot(this, "onMRPr"));
+    m_commandSlotHash.insert("MRcS", ObjectSlot(this, "onMRcS"));
+    m_commandSlotHash.insert("_MAC", ObjectSlot(this, "on_MAC"));
+    m_commandSlotHash.insert("FTDa", ObjectSlot(this, "onFTDa"));
+    m_commandSlotHash.insert("FTDE", ObjectSlot(this, "onFTDE"));
+    m_commandSlotHash.insert("LKOB", ObjectSlot(this, "onLKOB"));
+
+    m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));
+    m_commandSlotHash.insert("TCCc", ObjectSlot(this, "onTCCc"));
+}
+
 QByteArray QAtemConnection::createCommandHeader(Commands bitmask, quint16 payloadSize, quint16 uid, quint16 ackId)
 {
     QByteArray buffer(12, 0x0);
@@ -1029,56 +1079,6 @@ void QAtemConnection::onRCPS(const QByteArray& payload)
     m_mediaPlayerStates[index].currentFrame = static_cast<quint8>(payload.at(11));
 
     emit mediaPlayerStateChanged(index, m_mediaPlayerStates.value(index));
-}
-
-void QAtemConnection::initCommandSlotHash()
-{
-    m_commandSlotHash.insert("TlIn", ObjectSlot(this, "onTlIn"));
-    m_commandSlotHash.insert("ColV", ObjectSlot(this, "onColV"));
-    m_commandSlotHash.insert("MPCE", ObjectSlot(this, "onMPCE"));
-    m_commandSlotHash.insert("AuxS", ObjectSlot(this, "onAuxS"));
-    m_commandSlotHash.insert("_pin", ObjectSlot(this, "on_pin"));
-    m_commandSlotHash.insert("_ver", ObjectSlot(this, "on_ver"));
-    m_commandSlotHash.insert("InPr", ObjectSlot(this, "onInPr"));
-    m_commandSlotHash.insert("MPSE", ObjectSlot(this, "onMPSE"));
-    m_commandSlotHash.insert("MPfe", ObjectSlot(this, "onMPfe"));
-    m_commandSlotHash.insert("MPCS", ObjectSlot(this, "onMPCS"));
-    m_commandSlotHash.insert("MvIn", ObjectSlot(this, "onMvIn"));
-    m_commandSlotHash.insert("MvPr", ObjectSlot(this, "onMvPr"));
-    m_commandSlotHash.insert("VidM", ObjectSlot(this, "onVidM"));
-    m_commandSlotHash.insert("Time", ObjectSlot(this, "onTime"));
-    m_commandSlotHash.insert("DcOt", ObjectSlot(this, "onDcOt"));
-    m_commandSlotHash.insert("AMmO", ObjectSlot(this, "onAMmO"));
-    m_commandSlotHash.insert("MPSp", ObjectSlot(this, "onMPSp"));
-    m_commandSlotHash.insert("RCPS", ObjectSlot(this, "onRCPS"));
-    m_commandSlotHash.insert("AMLv", ObjectSlot(this, "onAMLv"));
-    m_commandSlotHash.insert("AMTl", ObjectSlot(this, "onAMTl"));
-    m_commandSlotHash.insert("AMIP", ObjectSlot(this, "onAMIP"));
-    m_commandSlotHash.insert("AMMO", ObjectSlot(this, "onAMMO"));
-    m_commandSlotHash.insert("LKST", ObjectSlot(this, "onLKST"));
-    m_commandSlotHash.insert("FTCD", ObjectSlot(this, "onFTCD"));
-    m_commandSlotHash.insert("FTDC", ObjectSlot(this, "onFTDC"));
-    m_commandSlotHash.insert("_top", ObjectSlot(this, "on_top"));
-    m_commandSlotHash.insert("Powr", ObjectSlot(this, "onPowr"));
-    m_commandSlotHash.insert("_VMC", ObjectSlot(this, "onVMC"));
-    m_commandSlotHash.insert("Warn", ObjectSlot(this, "onWarn"));
-    m_commandSlotHash.insert("_mpl", ObjectSlot(this, "on_mpl"));
-    m_commandSlotHash.insert("_TlC", ObjectSlot(this, "on_TlC"));
-    m_commandSlotHash.insert("TlSr", ObjectSlot(this, "onTlSr"));
-    m_commandSlotHash.insert("_AMC", ObjectSlot(this, "on_AMC"));
-    m_commandSlotHash.insert("MPAS", ObjectSlot(this, "onMPAS"));
-    m_commandSlotHash.insert("MPfM", ObjectSlot(this, "onMPfM"));
-    m_commandSlotHash.insert("AuxP", ObjectSlot(this, "onAuxP"));
-    m_commandSlotHash.insert("MPrp", ObjectSlot(this, "onMPrp"));
-    m_commandSlotHash.insert("MRPr", ObjectSlot(this, "onMRPr"));
-    m_commandSlotHash.insert("MRcS", ObjectSlot(this, "onMRcS"));
-    m_commandSlotHash.insert("_MAC", ObjectSlot(this, "on_MAC"));
-    m_commandSlotHash.insert("FTDa", ObjectSlot(this, "onFTDa"));
-    m_commandSlotHash.insert("FTDE", ObjectSlot(this, "onFTDE"));
-    m_commandSlotHash.insert("LKOB", ObjectSlot(this, "onLKOB"));
-
-    m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));
-    m_commandSlotHash.insert("TCCc", ObjectSlot(this, "onTCCc"));
 }
 
 void QAtemConnection::setAudioLevelsEnabled(bool enabled)
