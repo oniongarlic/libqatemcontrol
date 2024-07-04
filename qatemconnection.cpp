@@ -1079,11 +1079,6 @@ void QAtemConnection::initCommandSlotHash()
 
     m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));
     m_commandSlotHash.insert("TCCc", ObjectSlot(this, "onTCCc"));
-
-    // Recording
-    m_commandSlotHash.insert("RTMS", ObjectSlot(this, "onRTMS"));
-    m_commandSlotHash.insert("RTMD", ObjectSlot(this, "onRTMD"));
-    m_commandSlotHash.insert("RTMR", ObjectSlot(this, "onRTMR"));
 }
 
 void QAtemConnection::setAudioLevelsEnabled(bool enabled)
