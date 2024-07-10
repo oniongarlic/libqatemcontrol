@@ -914,8 +914,8 @@ void QAtemConnection::onInPr(const QByteArray& payload)
     index.u8[1] = static_cast<quint8>(payload.at(6));
     index.u8[0] = static_cast<quint8>(payload.at(7));
     info.index = index.u16;
-    info.longText = payload.mid(8, 20);
-    info.shortText = payload.mid(28, 4);
+    info.longText = QAtem::stringat(payload, 8, 20);
+    info.shortText = QAtem::stringat(payload, 28, 4);
     info.defaultName = static_cast<quint8>(payload.at(32));
     info.availableExternalTypes = static_cast<quint8>(payload.at(35)); // Bit 0: SDI, 1: HDMI, 2: Component, 3: Composite, 4: SVideo
     info.externalType = static_cast<quint8>(payload.at(37)); // 1 = SDI, 2 = HDMI, 3 = Composite, 4 = Component, 5 = SVideo, 0 = Internal
