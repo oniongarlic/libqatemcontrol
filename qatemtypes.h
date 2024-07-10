@@ -108,6 +108,12 @@ namespace QAtem
         return static_cast<bool>(ba.at(p));
     };
 
+    inline QString stringat(const QByteArray &ba, int index, int len=-1) {
+        QString a=ba.mid(index, len);
+        a.truncate(a.indexOf(QChar::Null));
+        return a;
+    };
+
     struct LIBQATEMCONTROLSHARED_EXPORT Topology
     {
         quint8 MEs;
