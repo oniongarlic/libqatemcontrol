@@ -270,6 +270,9 @@ void QAtemConnection::initCommandSlotHash()
 
     m_commandSlotHash.insert("TcLk", ObjectSlot(this, "onTcLK"));
     m_commandSlotHash.insert("TCCc", ObjectSlot(this, "onTCCc"));
+
+    m_commandSlotHash.insert("DSTV", ObjectSlot(this, "onDSTV"));
+    m_commandSlotHash.insert("DCPV", ObjectSlot(this, "onDCPV"));
 }
 
 QByteArray QAtemConnection::createCommandHeader(Commands bitmask, quint16 payloadSize, quint16 uid, quint16 ackId)
@@ -1039,6 +1042,40 @@ void QAtemConnection::onTcLK(const QByteArray &payload)
     qDebug() << "TcLK" << m_timecode_locked;
 
     emit timecodeLockedChanged(m_timecode_locked);
+}
+
+void QAtemConnection::onDSTV(const QByteArray &payload)
+{
+    quint8 h,m,s,f, fl;
+    h = static_cast<quint8>(payload.at(7));
+    m = static_cast<quint8>(payload.at(8));
+    s = static_cast<quint8>(payload.at(9));
+    f = static_cast<quint8>(payload.at(10));
+    fl = static_cast<quint8>(payload.at(11));
+
+    qDebug() << "DSTV" << h << m << s << f << fl;
+}
+
+void QAtemConnection::onDCPV(const QByteArray &payload)
+{
+    bool ena,hide;
+    quint8 opacity,size;
+    qint16 posx, posy;
+    quint8 sh,sm,ss,sf;
+
+    ena = static_cast<bool>(payload.at(7));
+    size = static_cast<quint8>(payload.at(9));
+    opacity = static_cast<quint8>(payload.at(11));
+    hide = static_cast<bool>(payload.at(16));
+
+    posx = QAtem::int16at(payload, 12);
+    posy = QAtem::int16at(payload, 14);
+
+    sh = static_cast<quint8>(payload.at(17));
+    sm = static_cast<quint8>(payload.at(18));
+    ss = static_cast<quint8>(payload.at(19));
+
+    qDebug() << "DCPV" << ena << opacity << size << posx << posy << sh << sm << ss << hide;
 }
 
 void QAtemConnection::onTCCc(const QByteArray &payload)

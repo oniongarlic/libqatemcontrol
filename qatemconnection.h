@@ -361,6 +361,8 @@ protected slots:
 
     void onTcLK(const QByteArray& payload);
     void onTCCc(const QByteArray &payload);
+    void onDSTV(const QByteArray &payload);
+    void onDCPV(const QByteArray &payload);
 
     void initDownloadToSwitcher();
     void flushTransferBuffer(quint8 count);
