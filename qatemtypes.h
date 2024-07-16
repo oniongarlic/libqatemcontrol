@@ -90,6 +90,16 @@ namespace QAtem
         return val.u32;
     };
 
+    inline qint32 int32at(const QByteArray &ba, int p) {
+        QAtem::S32_S8 val;
+        val.s8[3] = static_cast<quint8>(ba.at(p));
+        val.s8[2] = static_cast<quint8>(ba.at(p+1));
+        val.s8[1] = static_cast<quint8>(ba.at(p+2));
+        val.s8[0] = static_cast<quint8>(ba.at(p+3));
+
+        return val.s32;
+    };
+
     inline qint64 int64at(const QByteArray &ba, int p) {
         QAtem::S64_S8 val;
         val.s8[7] = static_cast<qint8>(ba.at(p));
