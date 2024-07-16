@@ -211,12 +211,15 @@ void QAtemFairlight::onFASP(const QByteArray &payload)
     qint8 mfd=static_cast<qint8>(payload.at(23));
     qint8 fd=static_cast<qint8>(payload.at(24));
 
+    qint32 gain=QAtem::int32at(payload, 26);
+
     qint8 bands=static_cast<qint8>(payload.at(34));
     bool eq=static_cast<bool>(payload.at(35));
 
-    qDebug() << "AudioSource: " << as << s << st << mfd << fd << eq << bands;
+    qDebug() << "AudioSource: " << as << gain << s << st << mfd << fd << eq << bands;
 
     m_inputs[as].index=as;
+    m_inputs[as].gain=gain;
     m_inputs[as].fairlight=true;
     m_inputs[as].eq=eq;
     m_inputs[as].eq_bands=bands;
