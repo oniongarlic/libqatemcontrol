@@ -41,6 +41,16 @@ qint16 QAtemFairlight::getFairlightInputCount()
     return m_inputs.count();
 }
 
+QList<quint16> QAtemFairlight::inputSources()
+{
+    return m_inputs.keys();
+}
+
+QAtem::AudioInput QAtemFairlight::inputInfo(qint16 source)
+{
+    return m_inputs[source];
+}
+
 /**
  * @brief QAtemFairlight::onFMLv
  * @param payload
@@ -108,23 +118,32 @@ void QAtemFairlight::onFDLv(const QByteArray &payload)
 
 void QAtemFairlight::onFAAI(const QByteArray &payload)
 {
-    qDebug() << "FAAI: " << payload;
+    // qDebug() << "FAAI: " << payload;
 
-    quint16 s=QAtem::uint16at(payload, 6);
+    quint16 as=QAtem::uint16at(payload, 6);
     quint8 sil=static_cast<qint8>(payload.at(8));
     quint8 ail=static_cast<qint8>(payload.at(8));
 
-    qDebug() << "FAIP: " << s << sil << ail;
+    m_inputs[as].input_level=as;
+
+    qDebug() << "FAAI: " << as << sil << ail;
 }
 
 void QAtemFairlight::onFAIP(const QByteArray &payload)
 {
-    qDebug() << "FAIP: " << payload;
+    // qDebug() << "FAIP: " << payload;
 
-    quint16 s=QAtem::uint16at(payload, 6);
+    quint16 as=QAtem::uint16at(payload, 6);
     quint8 it=static_cast<qint8>(payload.at(8));
+    quint16 ept=QAtem::uint16at(payload, 12);
 
-    qDebug() << "FAIP: " << s << it;
+    quint8 sc=static_cast<qint8>(payload.at(15));
+    quint8 ac=static_cast<qint8>(payload.at(16));
+
+    quint8 sil=static_cast<qint8>(payload.at(17));
+    quint8 ail=static_cast<qint8>(payload.at(18));
+
+    qDebug() << "FAIP: " << as << it << ept << sc << ac << sil << ail;
 }
 
 /**
@@ -140,6 +159,9 @@ void QAtemFairlight::onFAMP(const QByteArray &payload)
 
     qint8 eqs=static_cast<qint8>(payload.at(6));
     bool enabled=static_cast<bool>(payload.at(7));
+    qint32 eq_gain=QAtem::int32at(payload, 10);
+    qint32 makeup_gain=QAtem::int32at(payload, 14);
+    qint32 gain=QAtem::int32at(payload, 18);
     bool fftb=static_cast<bool>(payload.at(22));
 
     qDebug() << "EQ: " << eqs << enabled << fftb;

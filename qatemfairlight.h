@@ -19,6 +19,8 @@ public slots:
     void setAudioLevelsEnabled(bool enabled);
     void resetPeakLevels(bool all, bool master);
     qint16 getFairlightInputCount();
+    QList<quint16> inputSources();
+    QAtem::AudioInput inputInfo(qint16 source);
 
 protected slots:
     void onFMLv(const QByteArray &payload);
