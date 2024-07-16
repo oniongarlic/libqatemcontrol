@@ -30,8 +30,8 @@ protected slots:
     void onFMTl(const QByteArray &payload);
 
 signals:
-    void audioLevelChanged(quint16 audioSource, quint16 levelLeft, quint16 levelRight, quint16 levelPeakLeft, quint16 levelPeakRight);
-    void masterAudioLevelChanged(quint16 levelLeft, quint16 levelRight, quint16 levelPeakLeft, quint16 levelPeakRight);
+    void audioLevelChanged(quint16 audioSource, qint16 levelLeft, qint16 levelRight, qint16 levelPeakLeft, qint16 levelPeakRight);
+    void masterAudioLevelChanged(qint16 levelLeft, qint16 levelRight, qint16 levelPeakLeft, qint16 levelPeakRight);
     void tallyChanged(quint16 audioSource, qint8 state);
 
 private:    

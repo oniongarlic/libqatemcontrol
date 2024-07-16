@@ -55,24 +55,24 @@ void QAtemFairlight::onFMLv(const QByteArray &payload)
     qint64 s=QAtem::int64at(payload, 6);
     quint16 as=QAtem::uint16at(payload, 14);
 
-    quint16 ill=QAtem::uint16at(payload, 16);
-    quint16 irl=QAtem::uint16at(payload, 18);
-    quint16 ilp=QAtem::uint16at(payload, 20);
-    quint16 irp=QAtem::uint16at(payload, 22);
+    qint16 ill=QAtem::int16at(payload, 16);
+    qint16 irl=QAtem::int16at(payload, 18);
+    qint16 ilp=QAtem::int16at(payload, 20);
+    qint16 irp=QAtem::int16at(payload, 22);
 
-    quint16 egr=QAtem::uint16at(payload, 24);
-    quint16 cgr=QAtem::uint16at(payload, 26);
-    quint16 lgr=QAtem::uint16at(payload, 28);
+    qint16 egr=QAtem::int16at(payload, 24);
+    qint16 cgr=QAtem::int16at(payload, 26);
+    qint16 lgr=QAtem::int16at(payload, 28);
 
-    quint16 oll=QAtem::uint16at(payload, 30);
-    quint16 orl=QAtem::uint16at(payload, 32);
-    quint16 orp=QAtem::uint16at(payload, 34);
-    quint16 olp=QAtem::uint16at(payload, 36);
+    qint16 oll=QAtem::int16at(payload, 30);
+    qint16 orl=QAtem::int16at(payload, 32);
+    qint16 orp=QAtem::int16at(payload, 34);
+    qint16 olp=QAtem::int16at(payload, 36);
 
-    quint16 ll=QAtem::uint16at(payload, 38);
-    quint16 rl=QAtem::uint16at(payload, 40);
-    quint16 rp=QAtem::uint16at(payload, 42);
-    quint16 lp=QAtem::uint16at(payload, 44);
+    qint16 ll=QAtem::int16at(payload, 38);
+    qint16 rl=QAtem::int16at(payload, 40);
+    qint16 rp=QAtem::int16at(payload, 42);
+    qint16 lp=QAtem::int16at(payload, 44);
 
     // qDebug() << "L: " << s << as << ill << irl << oll << orl;
 
@@ -101,7 +101,7 @@ void QAtemFairlight::onFDLv(const QByteArray &payload)
     qint16 mlp=QAtem::int16at(payload, 30);
     qint16 mrp=QAtem::int16at(payload, 32);
 
-    qDebug() << "Master:" << moll << morl << molp << morp;
+    //qDebug() << "Master:" << moll << morl << molp << morp;
 
     emit masterAudioLevelChanged(mll, mrl, mrp, mlp);
 }
@@ -162,7 +162,7 @@ void QAtemFairlight::onFMTl(const QByteArray &payload)
         quint16 as=QAtem ::uint16at(payload, 22+i*11);
         qint8 state=static_cast<qint8>(payload.at(24+i*11));
 
-        qDebug() << "AT" << i << as << state;
+        //qDebug() << "AT" << i << as << state;
 
         if (m_inputs[as].state!=state) {
             m_inputs[as].state=state;
