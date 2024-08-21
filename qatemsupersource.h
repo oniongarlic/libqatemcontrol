@@ -9,7 +9,7 @@
 
 class QAtemConnection;
 
-class QAtemSuperSource : public QAtemSubsystemBase
+class LIBQATEMCONTROLSHARED_EXPORT QAtemSuperSource : public QAtemSubsystemBase
 {
     Q_OBJECT
     Q_PROPERTY(quint8 superSourceID READ superSourceID WRITE setSuperSourceID NOTIFY superSourceIDChanged FINAL)

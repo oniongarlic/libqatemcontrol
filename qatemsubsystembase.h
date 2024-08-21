@@ -5,7 +5,7 @@
 #include "libqatemcontrol_global.h"
 #include "qatemconnection.h"
 
-class QAtemSubsystemBase : public QObject
+class LIBQATEMCONTROLSHARED_EXPORT QAtemSubsystemBase : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QAtemConnection* atemConnection READ getAtemConnection WRITE setAtemConnection NOTIFY atemConnectionChanged FINAL REQUIRED)

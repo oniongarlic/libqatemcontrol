@@ -6,7 +6,7 @@
 
 #include "qatemsubsystembase.h"
 
-class QAtemRecording : public QAtemSubsystemBase
+class LIBQATEMCONTROLSHARED_EXPORT QAtemRecording : public QAtemSubsystemBase
 {
     Q_OBJECT
 

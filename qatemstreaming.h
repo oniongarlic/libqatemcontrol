@@ -5,7 +5,7 @@
 
 #include "qatemsubsystembase.h"
 
-class QAtemStreaming : public QAtemSubsystemBase
+class LIBQATEMCONTROLSHARED_EXPORT QAtemStreaming : public QAtemSubsystemBase
 {
     Q_OBJECT
     Q_PROPERTY(bool isSupported READ isSupported NOTIFY isSupportedChanged FINAL)
