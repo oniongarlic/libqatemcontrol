@@ -8,6 +8,13 @@ QAtemStreaming::QAtemStreaming(QObject *parent)
     m_is_supported=false;
     m_vbitrates.resize(2);
     m_abitrates.resize(2);
+
+    /*
+     *  To implement:
+     *  SRSD - Status of some kind
+     *  SFPr - Stream quality related
+     *  SRES - Stream
+     */
 }
 
 void QAtemStreaming::stream(bool stream)
