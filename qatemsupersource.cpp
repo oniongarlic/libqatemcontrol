@@ -3,7 +3,7 @@
 QAtemSuperSource::QAtemSuperSource(QObject *parent)
     : QAtemSubsystemBase{parent}
 {
-    m_commands << "SSBP" << "SSrc" << "SSCs" << "SSBd";
+    m_commands << "SSBP" << "SSrc" << "SSCs" << "SSBd" << "SSSB";
     m_atemConnection=nullptr;
 
     createSuperSourceBoxes();
@@ -29,7 +29,11 @@ void QAtemSuperSource::createSuperSourceBoxes()
         box.m_crop.setX(0);
         box.m_crop.setY(0);
         box.m_crop.setWidth(0);
-        box.m_crop.setHeight(0);        
+        box.m_crop.setHeight(0);
+        box.m_border_enabled=false;
+        box.m_border_color.setRgbF(0,0,0);
+        box.m_width_inner=0;
+        box.m_width_outer=0;
     }
 }
 
@@ -167,9 +171,9 @@ void QAtemSuperSource::onSSBP(const QByteArray &payload)
     quint16 cropLeft=QAtem::uint16at(payload, 24);
     quint16 cropRight=QAtem::uint16at(payload, 26);
 
-    //qDebug() << "SuperSource: " << ssid << ssboxid << enabled << source;
-    //qDebug() << "-Pos (X Y S): " << posx << posy << size;
-    //qDebug() << "-Crop (T B L R)" << crop << cropTop << cropBottom << cropLeft << cropRight;
+    qDebug() << "SuperSource: " << ssid << ssboxid << enabled << source;
+    qDebug() << "-Pos (X Y S): " << posx << posy << size;
+    qDebug() << "-Crop (T B L R)" << crop << cropTop << cropBottom << cropLeft << cropRight;
 
     m_superSourceBoxes[ssboxid].m_enabled=enabled;
     m_superSourceBoxes[ssboxid].m_source=source;
@@ -227,6 +231,38 @@ void QAtemSuperSource::onSSrc(const QByteArray &payload)
 void QAtemSuperSource::onSSBd(const QByteArray &payload)
 {
     qDebug() << "SSBd: " << payload.toHex(':');
+}
+
+void QAtemSuperSource::onSSSB(const QByteArray &payload)
+{
+    qDebug() << "SSSB: " << payload.toHex(':');
+
+    quint8 ssid=static_cast<qint8>(payload.at(6));
+    quint8 ssboxid=static_cast<qint8>(payload.at(7));
+
+    if (ssboxid>3)
+        return;
+
+    QAtem::SuperSourceBoxSettings box=m_superSourceBoxes[ssboxid];
+
+    bool enabled=static_cast<qint8>(payload.at(8));
+
+    quint16 ow1=QAtem::uint16at(payload, 10); // 0-65535
+    quint16 ow2=QAtem::uint16at(payload, 12);
+
+    quint16 iw1=QAtem::uint16at(payload, 14); // 0-65535
+    quint16 iw2=QAtem::uint16at(payload, 16);
+    quint16 iw3=QAtem::uint16at(payload, 18);
+    quint16 iw4=QAtem::uint16at(payload, 20);
+
+    quint16 ch=QAtem::uint16at(payload, 22); // 0-3600
+    quint16 cs=QAtem::uint16at(payload, 24); // 0-1000
+    quint16 cl=QAtem::uint16at(payload, 26); // 0-1000
+
+    box.m_border_enabled=enabled;
+    box.m_border_color.setHslF(ch/3600.0, cs/1000.0, cl/1000.0);
+
+    qDebug() << ssid << ssboxid << enabled << ow1 << ow2 << iw1 << iw2 << iw3 << iw4 << ch << cs << cl << box.m_border_color.toRgb();
 }
 
 quint8 QAtemSuperSource::superSourceID() const

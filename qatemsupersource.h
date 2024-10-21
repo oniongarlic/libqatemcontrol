@@ -40,6 +40,7 @@ protected slots:
     void onSSCs(const QByteArray &payload);
     void onSSrc(const QByteArray &payload);
     void onSSBd(const QByteArray &payload);
+    void onSSSB(const QByteArray &payload);
 
 private:
     quint8 m_superSourceID=0;
