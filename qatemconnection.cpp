@@ -1053,7 +1053,11 @@ void QAtemConnection::onDSTV(const QByteArray &payload)
     f = static_cast<quint8>(payload.at(10));
     fl = static_cast<quint8>(payload.at(11));
 
-    qDebug() << "DSTV" << h << m << s << f << fl;
+    // qDebug() << "DSTV" << h << m << s << f << fl;
+
+    m_displaytime.setHMS(h, m, s);
+
+    emit displayTimeChanged(m_displaytime, f);
 }
 
 void QAtemConnection::onDCPV(const QByteArray &payload)

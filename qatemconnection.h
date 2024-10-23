@@ -504,6 +504,8 @@ private:
     bool m_macroRecording=false;
     quint8 m_recordingMacro=false;
 
+    QTime m_displaytime;
+
 signals:
     void connected();
     void connectedChanged();
@@ -567,6 +569,8 @@ signals:
     void macroRecordingStateChanged(bool recording, quint8 macroIndex);
     void macroRunningChanged();
     void macroRecordingChanged();
+
+    void displayTimeChanged(QTime time, quint8 frame);
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QAtemConnection::Commands)
