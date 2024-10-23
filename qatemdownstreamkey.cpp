@@ -88,7 +88,9 @@ void QAtemDownstreamKey::doAuto()
     QByteArray cmd("DDsA");
     QByteArray payload(4, 0x0);
 
-    payload[0] = static_cast<char>(m_id);
+    payload[0] = 1;
+    payload[1] = static_cast<char>(m_id);
+    payload[2] = m_onAir ? 0 : 1;
 
     m_atemConnection->sendCommand(cmd, payload);
 }

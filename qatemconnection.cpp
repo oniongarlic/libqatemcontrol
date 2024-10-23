@@ -393,22 +393,17 @@ void QAtemConnection::parsePayLoad(const QByteArray& datagram)
         {
             QString dbg;
 
-            qDebug() << QDateTime::currentDateTime() << "Unhandled Command: " << cmd << " size " << payload.size();
-            qDebug() << payload.toHex(':');
+            qDebug() << "UC: " << cmd << " size " << payload.size() << payload.toHex(':');
 
             for(int i = 0; i < payload.size(); ++i)
             {
                 uchar ch = static_cast<uchar>(payload[i]);
-                if(ch > 31)
-                {
+                if (ch > 31) {
                     dbg.append(QChar(ch));
-                }
-                else
-                {
+                } else {
                     dbg.append(QString::number(ch, 16));
                 }
-
-                dbg.append(" ");
+                dbg.append(":");
             }
 
             qDebug() << dbg;
