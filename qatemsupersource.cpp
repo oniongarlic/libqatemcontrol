@@ -150,11 +150,14 @@ void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, quint8 source,
 void QAtemSuperSource::setBorder(quint8 boxid, bool enabled)
 {
     QByteArray cmd("CSSB");
-    QByteArray payload(28, 0x0);
+    QByteArray payload(24, 0x0);
 
+    payload[1] = 0x01;
     payload[2] = static_cast<char>(m_superSourceID);
     payload[3] = static_cast<char>(boxid);
     payload[4] = static_cast<char>(enabled);
+
+    qDebug() << "CSSB: " << payload.toHex(':');
 
     sendCommand(cmd, payload);
 }
