@@ -26,6 +26,7 @@ public:
     Q_INVOKABLE QAtem::SuperSourceArt getSuperSourceProperties();
     Q_INVOKABLE void updateSuperSourceProperties();
     Q_INVOKABLE void setBorder(quint8 boxid, bool enabled);
+    Q_INVOKABLE void setBorderColor(quint8 boxid, QColor rgb);
 public slots:
     void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop);
 

@@ -162,6 +162,54 @@ void QAtemSuperSource::setBorder(quint8 boxid, bool enabled)
     sendCommand(cmd, payload);
 }
 
+void QAtemSuperSource::setBorderColor(quint8 boxid, QColor rgb)
+{
+    QByteArray cmd("CSSB");
+    QByteArray pll(24, 0x0);
+    QByteArray pls(24, 0x0);
+    QByteArray plh(24, 0x0);
+    QAtem::U16_U8 v1;
+    float h,s,l;
+
+    QColor hsl=rgb.toHsl();
+    hsl.getHslF(&h, &s, &l);
+
+    qDebug() << "CSSB: " << boxid << h*3600 << s*1000 << l*1000;
+
+    //
+    plh[0] = 0x00;
+    plh[1] = 0x80;
+    plh[2] = static_cast<char>(m_superSourceID);
+    plh[3] = static_cast<char>(boxid);
+    v1.u16 = h*3600;
+    plh[18] = static_cast<char>(v1.u8[1]);
+    plh[19] = static_cast<char>(v1.u8[0]);
+
+    pls[0] = 0x01;
+    pls[1] = 0x00;
+    pls[2] = static_cast<char>(m_superSourceID);
+    pls[3] = static_cast<char>(boxid);
+    v1.u16 = s*1000;
+    pls[20] = static_cast<char>(v1.u8[1]);
+    pls[21] = static_cast<char>(v1.u8[0]);
+
+    pll[0] = 0x02;
+    pll[1] = 0x00;
+    pll[2] = static_cast<char>(m_superSourceID);
+    pll[3] = static_cast<char>(boxid);
+    v1.u16 = l*1000;
+    pll[22] = static_cast<char>(v1.u8[1]);
+    pll[23] = static_cast<char>(v1.u8[0]);
+
+    qDebug() << "CSSB: " << plh.toHex(':');
+    qDebug() << "CSSB: " << pls.toHex(':');
+    qDebug() << "CSSB: " << pll.toHex(':');
+
+    sendCommand(cmd, plh);
+    sendCommand(cmd, pls);
+    sendCommand(cmd, pll);
+}
+
 void QAtemSuperSource::onSSBP(const QByteArray &payload)
 {
     qDebug() << "SSBP: " << payload.toHex(':');
