@@ -300,6 +300,8 @@ void QAtemSuperSource::onSSSB(const QByteArray &payload)
 {
     qDebug() << "SSSB: " << payload.toHex(':');
 
+    QColor hsl;
+
     quint8 ssid=static_cast<qint8>(payload.at(6));
     quint8 ssboxid=static_cast<qint8>(payload.at(7));
 
@@ -323,11 +325,14 @@ void QAtemSuperSource::onSSSB(const QByteArray &payload)
     quint16 cl=QAtem::uint16at(payload, 26); // 0-1000
 
     box.m_border_enabled=enabled;
-    box.m_border_color.setHslF(ch/3600.0, cs/1000.0, cl/1000.0);
+    hsl.setHslF(ch/3600.0, cs/1000.0, cl/1000.0);
+    box.m_border_color=hsl.toRgb();
     box.m_width_inner=iw1;
     box.m_width_outer=ow1;
 
-    qDebug() << ssid << ssboxid << enabled << ow1 << ow2 << iw1 << iw2 << iw3 << iw4 << ch << cs << cl << box.m_border_color.toRgb();
+    qDebug() << ssid << ssboxid << enabled << ow1 << ow2 << iw1 << iw2 << iw3 << iw4 << ch << cs << cl << box.m_border_color;
+
+    emit superSourceBorderPropertiesChanged(ssboxid);
 }
 
 quint8 QAtemSuperSource::superSourceID() const

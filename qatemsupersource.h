@@ -34,6 +34,7 @@ signals:
     void superSourceChanged(quint8 boxid);
     void superSourceIDChanged();
     void superSourcePropertiesChanged();
+    void superSourceBorderPropertiesChanged(quint8 boxid);
 
 protected:
     void createSuperSourceBoxes();
