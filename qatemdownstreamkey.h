@@ -20,10 +20,12 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 #include "libqatemcontrol_global.h"
+#include "qatemconnection.h"
+#include "qatemsubsystembase.h"
 
 class QAtemConnection;
 
-class LIBQATEMCONTROLSHARED_EXPORT QAtemDownstreamKey : public QObject
+class LIBQATEMCONTROLSHARED_EXPORT QAtemDownstreamKey : public QAtemSubsystemBase
 {
     Q_OBJECT
 
@@ -41,7 +43,6 @@ class LIBQATEMCONTROLSHARED_EXPORT QAtemDownstreamKey : public QObject
 
 public:
     explicit QAtemDownstreamKey(quint8 id, QAtemConnection *parent);
-    ~QAtemDownstreamKey();
 
     Q_INVOKABLE bool onAir() const { return m_onAir; }
     Q_INVOKABLE bool inTransition() const { return m_inTransition; }
@@ -101,8 +102,6 @@ private:
     float m_bottomMask;
     float m_leftMask;
     float m_rightMask;
-
-    QAtemConnection *m_atemConnection;
 
 signals:
     void onAirChanged(quint8 keyer, bool state);

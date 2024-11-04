@@ -19,9 +19,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include "qatemconnection.h"
 
 QAtemDownstreamKey::QAtemDownstreamKey(quint8 id, QAtemConnection *parent) :
-    QObject(parent),
-    m_id (id),
-    m_atemConnection(parent)
+    QAtemSubsystemBase(parent),
+    m_id (id)
 {
     m_onAir = false;
     m_tie = false;
@@ -39,16 +38,8 @@ QAtemDownstreamKey::QAtemDownstreamKey(quint8 id, QAtemConnection *parent) :
     m_leftMask = 0;
     m_rightMask = 0;
 
-    m_atemConnection->registerCommand("DskS", this, "onDskS");
-    m_atemConnection->registerCommand("DskP", this, "onDskP");
-    m_atemConnection->registerCommand("DskB", this, "onDskB");
-}
-
-QAtemDownstreamKey::~QAtemDownstreamKey()
-{
-    m_atemConnection->unregisterCommand("DskS", this);
-    m_atemConnection->unregisterCommand("DskP", this);
-    m_atemConnection->unregisterCommand("DskB", this);
+    m_commands << "DskS" << "DskP" << "DskB";
+    m_atemConnection=parent;
 }
 
 void QAtemDownstreamKey::setOnAir(bool state)
@@ -64,7 +55,7 @@ void QAtemDownstreamKey::setOnAir(bool state)
     payload[0] = static_cast<char>(m_id);
     payload[1] = static_cast<char>(state);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setTie(bool state)
@@ -80,7 +71,7 @@ void QAtemDownstreamKey::setTie(bool state)
     payload[0] = static_cast<char>(m_id);
     payload[1] = static_cast<char>(state);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::doAuto()
@@ -92,7 +83,7 @@ void QAtemDownstreamKey::doAuto()
     payload[1] = static_cast<char>(m_id);
     payload[2] = m_onAir ? 0 : 1;
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setFillSource(quint16 source)
@@ -111,7 +102,7 @@ void QAtemDownstreamKey::setFillSource(quint16 source)
     payload[2] = static_cast<char>(val.u8[1]);
     payload[3] = static_cast<char>(val.u8[0]);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setKeySource(quint16 source)
@@ -130,7 +121,7 @@ void QAtemDownstreamKey::setKeySource(quint16 source)
     payload[2] = static_cast<char>(val.u8[1]);
     payload[3] = static_cast<char>(val.u8[0]);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setFrameRate(quint8 frames)
@@ -146,7 +137,7 @@ void QAtemDownstreamKey::setFrameRate(quint8 frames)
     payload[0] = static_cast<char>(m_id);
     payload[1] = static_cast<char>(frames);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setInvertKey(bool invert)
@@ -163,7 +154,7 @@ void QAtemDownstreamKey::setInvertKey(bool invert)
     payload[1] = static_cast<char>(m_id);
     payload[8] = static_cast<char>(invert);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setPreMultiplied(bool preMultiplied)
@@ -180,7 +171,7 @@ void QAtemDownstreamKey::setPreMultiplied(bool preMultiplied)
     payload[1] = static_cast<char>(m_id);
     payload[2] = preMultiplied;
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setClip(float clip)
@@ -200,7 +191,7 @@ void QAtemDownstreamKey::setClip(float clip)
     payload[4] = static_cast<char>(val.u8[1]);
     payload[5] = static_cast<char>(val.u8[0]);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setGain(float gain)
@@ -220,7 +211,7 @@ void QAtemDownstreamKey::setGain(float gain)
     payload[6] = static_cast<char>(val.u8[1]);
     payload[7] = static_cast<char>(val.u8[0]);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setEnableMask(bool enable)
@@ -237,7 +228,7 @@ void QAtemDownstreamKey::setEnableMask(bool enable)
     payload[1] = static_cast<char>(m_id);
     payload[2] = enable;
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::setMask(float top, float bottom, float left, float right)
@@ -261,7 +252,7 @@ void QAtemDownstreamKey::setMask(float top, float bottom, float left, float righ
     payload[10] = static_cast<char>(val.u8[1]);
     payload[11] = static_cast<char>(val.u8[0]);
 
-    m_atemConnection->sendCommand(cmd, payload);
+    sendCommand(cmd, payload);
 }
 
 void QAtemDownstreamKey::onDskS(const QByteArray& payload)

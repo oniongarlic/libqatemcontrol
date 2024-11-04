@@ -26,8 +26,6 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include <QColor>
 #include <QTime>
 
-#include "qatemdownstreamkey.h"
-
 class QTimer;
 class QHostAddress;
 class QAtemSubsystemBase;
