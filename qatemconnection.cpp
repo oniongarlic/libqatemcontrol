@@ -41,7 +41,7 @@ public:
 };
 
 QAtemConnection::QAtemConnection(QObject* parent)
-    : QObject(parent), m_socket(nullptr), m_downstreamKeys(2)
+    : QObject(parent), m_socket(nullptr), m_downstreamKeys(4)
 {
     m_connectionTimer = new QTimer(this);
     m_connectionTimer->setInterval(1000);
@@ -92,8 +92,9 @@ QAtemConnection::QAtemConnection(QObject* parent)
 
     m_cameraControl = new QAtemCameraControl(this);
 
-    m_downstreamKeys[0] = new QAtemDownstreamKey(0, this);
-    m_downstreamKeys[1] = new QAtemDownstreamKey(1, this);
+    for (int i=0;i<4;i++) {
+        m_downstreamKeys[i] = new QAtemDownstreamKey(i, this);
+    }
 
     m_macroInfos.resize(100);
 
