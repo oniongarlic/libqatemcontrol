@@ -6,49 +6,46 @@
 #include <QPoint>
 
 #include "qatemsubsystembase.h"
+#include "qatemsupersourcebox.h"
 
 class QAtemConnection;
 
 class LIBQATEMCONTROLSHARED_EXPORT QAtemSuperSource : public QAtemSubsystemBase
 {
     Q_OBJECT
-    Q_PROPERTY(quint8 superSourceID READ superSourceID WRITE setSuperSourceID NOTIFY superSourceIDChanged FINAL)
-    friend struct QSuperSourceBoxSettings;
+    Q_PROPERTY(uint superSourceID READ superSourceID WRITE setSuperSourceID NOTIFY superSourceIDChanged REQUIRED FINAL)
 public:
     explicit QAtemSuperSource(QObject *parent = nullptr);
+    ~QAtemSuperSource();
 
     quint8 superSourceID() const;
     void setSuperSourceID(quint8 newSuperSourceID);
 
-    Q_INVOKABLE QAtem::SuperSourceBoxSettings getSuperSourceBox(quint8 boxid);
-    Q_INVOKABLE void updateSuperSource(quint8 boxid);
+    Q_INVOKABLE QList<QAtemSuperSourceBox*> getSuperSourceBoxes() {
+        return m_boxes;
+    };
 
-    Q_INVOKABLE QAtem::SuperSourceArt getSuperSourceProperties();
+    Q_INVOKABLE QAtemSuperSourceBox *getSuperSourceBox(quint8 boxid);
+    Q_INVOKABLE QAtem::SuperSourceArt getSuperSourceProperties();    
     Q_INVOKABLE void updateSuperSourceProperties();
-    Q_INVOKABLE void setBorder(quint8 boxid, bool enabled);
-    Q_INVOKABLE void setBorderColor(quint8 boxid, QColor rgb);
-public slots:
-    void setSuperSource(quint8 boxid, bool enabled, quint8 source, QPoint pos, uint size, bool crop_enabled, QRect crop);
+    Q_INVOKABLE void setSuperSource(quint8 boxid, bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QRect crop);
 
+    void setAtemConnection(QAtemConnection *qac);
 signals:
-    void superSourceChanged(quint8 boxid);
     void superSourceIDChanged();
+    void superSourceChanged(quint8 boxid);
     void superSourcePropertiesChanged();
-    void superSourceBorderPropertiesChanged(quint8 boxid);
 
 protected:
     void createSuperSourceBoxes();
 protected slots:
-    void onSSBP(const QByteArray &payload);
-    void onSSCs(const QByteArray &payload);
-    void onSSrc(const QByteArray &payload);
-    void onSSBd(const QByteArray &payload);
-    void onSSSB(const QByteArray &payload);
+    void onSSrc(const QByteArray &payload);    
 
 private:
-    quint8 m_superSourceID=0;
-    QVector<QAtem::SuperSourceBoxSettings> m_superSourceBoxes;
+    quint8 m_ssid=0;
     QAtem::SuperSourceArt m_ssart;
+
+    QList<QAtemSuperSourceBox*> m_boxes;
 };
 
 #endif // QATEMSUPERSOURCE_H

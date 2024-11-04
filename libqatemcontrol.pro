@@ -13,7 +13,8 @@ SOURCES += qatemconnection.cpp \
     qatemrecording.cpp \
     qatemstreaming.cpp \
     qatemsubsystembase.cpp \
-    qatemsupersource.cpp
+    qatemsupersource.cpp \
+    qatemsupersourcebox.cpp
 
 HEADERS += qatemconnection.h \
         libqatemcontrol_global.h \
@@ -22,6 +23,7 @@ HEADERS += qatemconnection.h \
     qatemstreaming.h \
     qatemsubsystembase.h \
     qatemsupersource.h \
+    qatemsupersourcebox.h \
     qupstreamkeysettings.h \
     qatemmixeffect.h \
     qatemtypes.h \

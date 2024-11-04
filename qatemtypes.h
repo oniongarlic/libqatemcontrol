@@ -508,30 +508,46 @@ namespace QAtem
         Q_PROPERTY(bool invertKey MEMBER invertkey)
     };
 
+    enum SuperSourceBoxFlags
+    {
+        SuperBoxEnabled = 1 << 0,
+        SuperBoxSource = 1 << 1,
+        SuperBoxPositionX = 1 << 2,
+        SuperBoxPositionY = 1 << 3,
+        SuperBoxSize = 1 << 4,
+        SuperBoxCropped = 1 << 5,
+        SuperBoxCropTop = 1 << 6,
+        SuperBoxCropBottom = 1 << 7,
+        SuperBoxCropLeft = 1 << 8,
+        SuperBoxCropRight = 1 << 9,
+    };
+    Q_ENUM_NS(SuperSourceBoxFlags)
+    Q_DECLARE_FLAGS(SuperSourceBoxMask, SuperSourceBoxFlags)
+
     struct LIBQATEMCONTROLSHARED_EXPORT SuperSourceBoxSettings
     {
-        bool m_enabled;
-        quint8 m_source;
-        QPoint m_position;
-        double m_size;
-        bool m_crop_enabled;
-        QRect m_crop;
-        bool m_border_enabled;
-        QColor m_border_color;
-        double m_width_inner;
-        double m_width_outer;
+        bool enabled;
+        quint8 source;
+        QPoint position;
+        double size;
+        bool crop_enabled;
+        QRect crop;
+        bool border_enabled;
+        QColor border_color;
+        double width_inner;
+        double width_outer;
 
         Q_GADGET
-        Q_PROPERTY(bool enabled MEMBER m_enabled)
-        Q_PROPERTY(quint8 source MEMBER m_source)
-        Q_PROPERTY(QPoint position MEMBER m_position)
-        Q_PROPERTY(double size MEMBER m_size)
-        Q_PROPERTY(bool cropEnabled MEMBER m_crop_enabled)
-        Q_PROPERTY(QRect crop MEMBER m_crop)
-        Q_PROPERTY(bool borderEnabled MEMBER m_border_enabled)
-        Q_PROPERTY(QColor borderColor MEMBER m_border_color)
-        Q_PROPERTY(double borderWidthInner MEMBER m_width_inner)
-        Q_PROPERTY(double borderWidthOuter MEMBER m_width_outer)
+        Q_PROPERTY(bool enabled MEMBER enabled)
+        Q_PROPERTY(quint8 source MEMBER source)
+        Q_PROPERTY(QPoint position MEMBER position)
+        Q_PROPERTY(double size MEMBER size)
+        Q_PROPERTY(bool cropEnabled MEMBER crop_enabled)
+        Q_PROPERTY(QRect crop MEMBER crop)
+        Q_PROPERTY(bool borderEnabled MEMBER border_enabled)
+        Q_PROPERTY(QColor borderColor MEMBER border_color)
+        Q_PROPERTY(double borderWidthInner MEMBER width_inner)
+        Q_PROPERTY(double borderWidthOuter MEMBER width_outer)
     };
 
     enum MacroRunningState

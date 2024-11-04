@@ -14,7 +14,7 @@ public:
     explicit QAtemSubsystemBase(QObject *parent = nullptr);
     ~QAtemSubsystemBase();
 
-    void setAtemConnection(QAtemConnection *qac);    
+    virtual void setAtemConnection(QAtemConnection *qac);
     QAtemConnection *getAtemConnection() { return m_atemConnection; }
 
 signals:
