@@ -274,6 +274,7 @@ void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
 
     if (m_box.position!=p) {
         m_box.position=p;
+        emit positionChanged();
     }
 
     if (m_box.size!=size) {
@@ -362,6 +363,11 @@ uint QAtemSuperSourceBox::boxSource() const
 uint QAtemSuperSourceBox::boxSize() const
 {
     return m_box.size;
+}
+
+QPoint QAtemSuperSourceBox::boxPosition() const
+{
+    return m_box.position;
 }
 
 bool QAtemSuperSourceBox::boxBorder() const
