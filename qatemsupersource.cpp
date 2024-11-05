@@ -20,7 +20,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 QAtemSuperSource::QAtemSuperSource(QObject *parent)
     : QAtemSubsystemBase{parent}
 {
-    m_commands << "SSBP" << "SSrc" << "SSCs" << "SSBd" << "SSSB";
+    m_commands << "SSrc";
     m_atemConnection=nullptr;
 
     createSuperSourceBoxes();
