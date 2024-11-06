@@ -282,13 +282,13 @@ void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
 
     if (m_box.crop!=c) {
         m_box.crop=c;
+        emit cropRectChanged();
     }
     m_box.crop_enabled=crop;
     if (m_box.crop_enabled!=crop) {
         m_box.crop_enabled=crop;
         emit cropChanged();
     }
-
 
     emit boxPropertiesChanged();
 }
@@ -352,6 +352,11 @@ bool QAtemSuperSourceBox::boxOnAir() const
 bool QAtemSuperSourceBox::boxCrop() const
 {
     return m_box.crop_enabled;
+}
+
+QRect QAtemSuperSourceBox::boxCropRect() const
+{
+    return m_box.crop;
 }
 
 uint QAtemSuperSourceBox::boxSource() const

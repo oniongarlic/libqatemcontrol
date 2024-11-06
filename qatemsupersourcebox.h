@@ -12,6 +12,7 @@ class LIBQATEMCONTROLSHARED_EXPORT QAtemSuperSourceBox : public QAtemSubsystemBa
 
     Q_PROPERTY(bool onAir READ boxOnAir NOTIFY onAirChanged FINAL)
     Q_PROPERTY(bool crop READ boxCrop NOTIFY cropChanged FINAL)
+    Q_PROPERTY(QRect cropRect READ boxCropRect NOTIFY cropRectChanged FINAL)
     Q_PROPERTY(uint source READ boxSource NOTIFY sourceChanged FINAL)
     Q_PROPERTY(QPoint position READ boxPosition NOTIFY positionChanged FINAL)
     Q_PROPERTY(uint size READ boxSize NOTIFY sizeChanged FINAL)
@@ -36,6 +37,7 @@ public:
 
     bool boxOnAir() const;
     bool boxCrop() const;
+    QRect boxCropRect() const;
     uint boxSource() const;
     uint boxSize() const;
     QPoint boxPosition() const;
@@ -46,6 +48,7 @@ public:
 signals:
     void onAirChanged();
     void cropChanged();
+    void cropRectChanged();
     void sourceChanged();
     void sizeChanged();
     void positionChanged();
