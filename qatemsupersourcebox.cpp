@@ -226,8 +226,6 @@ void QAtemSuperSourceBox::setBorderColor(QColor rgb)
 
 void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
 {
-    qDebug() << "SSBP: " << payload.toHex(':');
-
     QRect c;
     QPoint p;
 
@@ -282,14 +280,15 @@ void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
         emit sizeChanged();
     }
 
+    if (m_box.crop!=c) {
+        m_box.crop=c;
+    }
     m_box.crop_enabled=crop;
     if (m_box.crop_enabled!=crop) {
         m_box.crop_enabled=crop;
         emit cropChanged();
     }
-    if (m_box.crop!=c) {
-        m_box.crop=c;
-    }
+
 
     emit boxPropertiesChanged();
 }
