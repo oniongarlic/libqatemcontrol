@@ -529,25 +529,25 @@ namespace QAtem
         bool enabled;
         quint8 source;
         QPoint position;
-        double size;
+        uint size;
         bool crop_enabled;
         QRect crop;
         bool border_enabled;
         QColor border_color;
-        double width_inner;
-        double width_outer;
+        uint width_inner;
+        uint width_outer;
 
         Q_GADGET
         Q_PROPERTY(bool enabled MEMBER enabled)
         Q_PROPERTY(quint8 source MEMBER source)
         Q_PROPERTY(QPoint position MEMBER position)
-        Q_PROPERTY(double size MEMBER size)
+        Q_PROPERTY(uint size MEMBER size)
         Q_PROPERTY(bool cropEnabled MEMBER crop_enabled)
         Q_PROPERTY(QRect crop MEMBER crop)
         Q_PROPERTY(bool borderEnabled MEMBER border_enabled)
         Q_PROPERTY(QColor borderColor MEMBER border_color)
-        Q_PROPERTY(double borderWidthInner MEMBER width_inner)
-        Q_PROPERTY(double borderWidthOuter MEMBER width_outer)
+        Q_PROPERTY(uint borderWidthInner MEMBER width_inner)
+        Q_PROPERTY(uint borderWidthOuter MEMBER width_outer)
     };
 
     enum MacroRunningState

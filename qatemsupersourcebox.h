@@ -25,6 +25,7 @@ public:
     ~QAtemSuperSourceBox();
 
     Q_INVOKABLE void setBox(bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QRect crop);
+    Q_INVOKABLE void setPosition(QPoint pos, uint size=9999);
     Q_INVOKABLE void setOnAir(bool enabled);
     Q_INVOKABLE void setSource(quint8 source);
     Q_INVOKABLE void setCropEnabled(bool enabled);

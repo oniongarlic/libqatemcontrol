@@ -31,12 +31,12 @@ QAtemSuperSourceBox::QAtemSuperSourceBox(quint8 ss, quint8 box, QAtemConnection 
     m_box.source=0;
     m_box.position.setX(0);
     m_box.position.setY(0);
-    m_box.size=0.5;
+    m_box.size=500;
     m_box.crop_enabled=false;
-    m_box.crop.setX(0);
-    m_box.crop.setY(0);
-    m_box.crop.setWidth(0);
-    m_box.crop.setHeight(0);
+    m_box.crop.setLeft(0);
+    m_box.crop.setRight(0);
+    m_box.crop.setTop(0);
+    m_box.crop.setBottom(0);
     m_box.border_enabled=false;
     m_box.border_color.setRgbF(0,0,0);
     m_box.width_inner=0;
@@ -104,6 +104,36 @@ void QAtemSuperSourceBox::setBox(bool enabled, uint source, QPoint pos, uint siz
     // qDebug() << pos << size << crop << payload.toHex(':');
 
     sendCommand(cmd, payload);
+}
+
+void QAtemSuperSourceBox::setPosition(QPoint pos, uint size)
+{
+    QByteArray cmd("CSBP");
+    QByteArray payload(24, 0x0);
+    QAtem::U16_U8 v1;
+    QAtem::S16_S8 v2;
+
+    v1.u16 = QAtem::SuperBoxPositionX | QAtem::SuperBoxPositionY;
+    if (size<1000) {
+        v1.u16 |= QAtem::SuperBoxSize;
+    }
+    payload[0] = static_cast<char>(v1.u8[1]);
+    payload[1] = static_cast<char>(v1.u8[0]);
+
+    payload[2] = static_cast<char>(m_ssid);
+    payload[3] = static_cast<char>(m_id);
+
+    v2.s16 = pos.x();
+    payload[8] = static_cast<char>(v2.u8[1]);
+    payload[9] = static_cast<char>(v2.u8[0]);
+
+    v2.s16 = pos.y();
+    payload[10] = static_cast<char>(v2.u8[1]);
+    payload[11] = static_cast<char>(v2.u8[0]);
+
+    v1.u16 = size;
+    payload[12] = static_cast<char>(v1.u8[1]);
+    payload[13] = static_cast<char>(v1.u8[0]);
 }
 
 void QAtemSuperSourceBox::setOnAir(bool enabled)
