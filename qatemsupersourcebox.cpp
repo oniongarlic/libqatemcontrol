@@ -256,10 +256,6 @@ void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
     c.setLeft(QAtem::uint16at(payload, 24));
     c.setRight(QAtem::uint16at(payload, 26));
 
-    qDebug() << "SuperSource: " << ssid << ssboxid << enabled << source;
-    qDebug() << "-Pos (XY S): " << p << size;
-    qDebug() << "-Crop" << c;
-
     if (m_box.enabled!=enabled) {
         m_box.enabled=enabled;
         emit onAirChanged();
@@ -284,7 +280,6 @@ void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
         m_box.crop=c;
         emit cropRectChanged();
     }
-    m_box.crop_enabled=crop;
     if (m_box.crop_enabled!=crop) {
         m_box.crop_enabled=crop;
         emit cropChanged();
@@ -325,9 +320,16 @@ void QAtemSuperSourceBox::onSSSB(const QByteArray &payload)
     quint16 cs=QAtem::uint16at(payload, 24); // 0-1000
     quint16 cl=QAtem::uint16at(payload, 26); // 0-1000
 
-    m_box.border_enabled=enabled;
+    if (m_box.border_enabled!=enabled) {
+        m_box.border_enabled=enabled;
+        emit borderChanged();
+    }
+
     hsl.setHslF(ch/3600.0, cs/1000.0, cl/1000.0);
-    m_box.border_color=hsl.toRgb();
+    if (m_box.border_color!=hsl.toRgb()) {
+        m_box.border_color=hsl.toRgb();
+        emit borderColorChanged();
+    }
     m_box.width_inner=iw1;
     m_box.width_outer=ow1;
 
