@@ -28,6 +28,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSizeF>
 #include <QColor>
 #include <QRect>
+#include <QVector4D>
 
 namespace QAtem
 {
@@ -531,7 +532,7 @@ namespace QAtem
         QPoint position;
         uint size;
         bool crop_enabled;
-        QRect crop;
+        QVector4D crop;
         bool border_enabled;
         QColor border_color;
         uint width_inner;
@@ -543,7 +544,7 @@ namespace QAtem
         Q_PROPERTY(QPoint position MEMBER position)
         Q_PROPERTY(uint size MEMBER size)
         Q_PROPERTY(bool cropEnabled MEMBER crop_enabled)
-        Q_PROPERTY(QRect crop MEMBER crop)
+        Q_PROPERTY(QVector4D crop MEMBER crop)
         Q_PROPERTY(bool borderEnabled MEMBER border_enabled)
         Q_PROPERTY(QColor borderColor MEMBER border_color)
         Q_PROPERTY(uint borderWidthInner MEMBER width_inner)

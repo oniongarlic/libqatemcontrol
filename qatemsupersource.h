@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QRect>
 #include <QPoint>
+#include <QVector4D>
 
 #include "qatemsubsystembase.h"
 #include "qatemsupersourcebox.h"
@@ -28,7 +29,7 @@ public:
     Q_INVOKABLE QAtemSuperSourceBox *getSuperSourceBox(quint8 boxid);
     Q_INVOKABLE QAtem::SuperSourceArt getSuperSourceProperties();    
     Q_INVOKABLE void updateSuperSourceProperties();
-    Q_INVOKABLE void setSuperSource(quint8 boxid, bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QRect crop);
+    Q_INVOKABLE void setSuperSource(quint8 boxid, bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QVector4D crop);
 
     void setAtemConnection(QAtemConnection *qac);
 signals:

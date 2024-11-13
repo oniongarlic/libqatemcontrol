@@ -93,7 +93,7 @@ void QAtemSuperSource::updateSuperSourceProperties()
     sendCommand(cmd, payload);
 }
 
-void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QRect crop)
+void QAtemSuperSource::setSuperSource(quint8 boxid, bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QVector4D crop)
 {
     auto b=m_boxes.at(boxid);
 

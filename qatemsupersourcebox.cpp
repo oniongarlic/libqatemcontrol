@@ -33,10 +33,10 @@ QAtemSuperSourceBox::QAtemSuperSourceBox(quint8 ss, quint8 box, QAtemConnection 
     m_box.position.setY(0);
     m_box.size=500;
     m_box.crop_enabled=false;
-    m_box.crop.setLeft(0);
-    m_box.crop.setRight(0);
-    m_box.crop.setTop(0);
-    m_box.crop.setBottom(0);
+    m_box.crop.setX(0);
+    m_box.crop.setY(0);
+    m_box.crop.setZ(0);
+    m_box.crop.setW(0);
     m_box.border_enabled=false;
     m_box.border_color.setRgbF(0,0,0);
     m_box.width_inner=0;
@@ -48,7 +48,7 @@ QAtemSuperSourceBox::~QAtemSuperSourceBox()
 
 }
 
-void QAtemSuperSourceBox::setBox(bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QRect crop)
+void QAtemSuperSourceBox::setBox(bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QVector4D crop)
 {
     QByteArray cmd("CSBP");
     QByteArray payload(24, 0x0);
@@ -81,23 +81,25 @@ void QAtemSuperSourceBox::setBox(bool enabled, uint source, QPoint pos, uint siz
 
     payload[14] = static_cast<char>(crop_enabled);
 
+    qDebug() << "setBox -- Crop" << crop.x() << crop.y() << crop.z() << crop.w();
+
     // Top
-    v1.u16 = crop.y();
+    v1.u16 = crop.x();
     payload[16] = static_cast<char>(v1.u8[1]);
     payload[17] = static_cast<char>(v1.u8[0]);
 
     // Bottom
-    v1.u16 = crop.height();
+    v1.u16 = crop.y();
     payload[18] = static_cast<char>(v1.u8[1]);
     payload[19] = static_cast<char>(v1.u8[0]);
 
     // Left
-    v1.u16 = crop.x();
+    v1.u16 = crop.z();
     payload[20] = static_cast<char>(v1.u8[1]);
     payload[21] = static_cast<char>(v1.u8[0]);
 
     // Right
-    v1.u16 = crop.width();
+    v1.u16 = crop.w();
     payload[22] = static_cast<char>(v1.u8[1]);
     payload[23] = static_cast<char>(v1.u8[0]);
 
@@ -191,6 +193,44 @@ void QAtemSuperSourceBox::setCropEnabled(bool enabled)
     sendCommand(cmd, payload);
 }
 
+void QAtemSuperSourceBox::setCrop(QVector4D crop)
+{
+    QByteArray cmd("CSBP");
+    QByteArray payload(24, 0x0);
+    QAtem::U16_U8 v1;
+
+    v1.u16 = QAtem::SuperBoxCropBottom | QAtem::SuperBoxCropTop | QAtem::SuperBoxCropLeft | QAtem::SuperBoxCropRight;
+    payload[0] = static_cast<char>(v1.u8[1]);
+    payload[1] = static_cast<char>(v1.u8[0]);
+
+    payload[2] = static_cast<char>(m_ssid);
+    payload[3] = static_cast<char>(m_id);
+
+    qDebug() << "setCrop" << crop.x() << crop.y() << crop.z() << crop.w();
+
+    // Top
+    v1.u16 = crop.x();
+    payload[16] = static_cast<char>(v1.u8[1]);
+    payload[17] = static_cast<char>(v1.u8[0]);
+
+    // Bottom
+    v1.u16 = crop.y();
+    payload[18] = static_cast<char>(v1.u8[1]);
+    payload[19] = static_cast<char>(v1.u8[0]);
+
+    // Left
+    v1.u16 = crop.z();
+    payload[20] = static_cast<char>(v1.u8[1]);
+    payload[21] = static_cast<char>(v1.u8[0]);
+
+    // Right
+    v1.u16 = crop.w();
+    payload[22] = static_cast<char>(v1.u8[1]);
+    payload[23] = static_cast<char>(v1.u8[0]);
+
+    sendCommand(cmd, payload);
+}
+
 void QAtemSuperSourceBox::setBorder(bool enabled)
 {
     QByteArray cmd("CSSB");
@@ -256,7 +296,7 @@ void QAtemSuperSourceBox::setBorderColor(QColor rgb)
 
 void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
 {
-    QRect c;
+    QVector4D c;
     QPoint p;
 
     quint8 ssid=static_cast<qint8>(payload.at(6));
@@ -281,10 +321,10 @@ void QAtemSuperSourceBox::onSSBP(const QByteArray &payload)
     // Cropping
     bool crop=static_cast<qint8>(payload.at(18));
     // 0-18000
-    c.setTop(QAtem::uint16at(payload, 20));
-    c.setBottom(QAtem::uint16at(payload, 22));
-    c.setLeft(QAtem::uint16at(payload, 24));
-    c.setRight(QAtem::uint16at(payload, 26));
+    c.setX(QAtem::uint16at(payload, 20));
+    c.setY(QAtem::uint16at(payload, 22));
+    c.setZ(QAtem::uint16at(payload, 24));
+    c.setW(QAtem::uint16at(payload, 26));
 
     if (m_box.enabled!=enabled) {
         m_box.enabled=enabled;
@@ -386,7 +426,7 @@ bool QAtemSuperSourceBox::boxCrop() const
     return m_box.crop_enabled;
 }
 
-QRect QAtemSuperSourceBox::boxCropRect() const
+QVector4D QAtemSuperSourceBox::boxCropRect() const
 {
     return m_box.crop;
 }

@@ -2,6 +2,7 @@
 #define QATEMSUPERSOURCEBOX_H
 
 #include <QObject>
+#include <QVector4D>
 #include "qatemsubsystembase.h"
 
 class LIBQATEMCONTROLSHARED_EXPORT QAtemSuperSourceBox : public QAtemSubsystemBase
@@ -12,7 +13,7 @@ class LIBQATEMCONTROLSHARED_EXPORT QAtemSuperSourceBox : public QAtemSubsystemBa
 
     Q_PROPERTY(bool onAir READ boxOnAir NOTIFY onAirChanged FINAL)
     Q_PROPERTY(bool crop READ boxCrop NOTIFY cropChanged FINAL)
-    Q_PROPERTY(QRect cropRect READ boxCropRect NOTIFY cropRectChanged FINAL)
+    Q_PROPERTY(QVector4D cropRect READ boxCropRect NOTIFY cropRectChanged FINAL)
     Q_PROPERTY(uint source READ boxSource NOTIFY sourceChanged FINAL)
     Q_PROPERTY(QPoint position READ boxPosition NOTIFY positionChanged FINAL)
     Q_PROPERTY(uint size READ boxSize NOTIFY sizeChanged FINAL)
@@ -24,11 +25,12 @@ public:
     explicit QAtemSuperSourceBox(quint8 ss, quint8 box, QAtemConnection *parent);
     ~QAtemSuperSourceBox();
 
-    Q_INVOKABLE void setBox(bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QRect crop);
+    Q_INVOKABLE void setBox(bool enabled, uint source, QPoint pos, uint size, bool crop_enabled, QVector4D crop);
     Q_INVOKABLE void setPosition(QPoint pos, uint size=9999);
     Q_INVOKABLE void setOnAir(bool enabled);
     Q_INVOKABLE void setSource(quint8 source);
     Q_INVOKABLE void setCropEnabled(bool enabled);
+    Q_INVOKABLE void setCrop(QVector4D crop);
 
     Q_INVOKABLE void setBorder(bool enabled);
     Q_INVOKABLE void setBorderColor(QColor rgb);
@@ -38,7 +40,7 @@ public:
 
     bool boxOnAir() const;
     bool boxCrop() const;
-    QRect boxCropRect() const;
+    QVector4D boxCropRect() const;
     uint boxSource() const;
     uint boxSize() const;
     QPoint boxPosition() const;
