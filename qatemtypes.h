@@ -340,6 +340,8 @@ namespace QAtem
         quint8 eq_bands;
         float eq_gain;
         quint8 input_level;
+        qint16 fbalance;
+        qint32 fgain;
         Q_GADGET
         Q_PROPERTY(quint16 index MEMBER index)
         Q_PROPERTY(quint8 type MEMBER type)
@@ -352,6 +354,8 @@ namespace QAtem
         Q_PROPERTY(quint8 eq_bands MEMBER eq_bands)
         Q_PROPERTY(float eq_gain MEMBER eq_gain)
         Q_PROPERTY(quint8 input_level MEMBER input_level)
+        Q_PROPERTY(qint16 fbalance MEMBER fbalance)
+        Q_PROPERTY(qint32 fgain MEMBER fgain)
     };
 
     struct LIBQATEMCONTROLSHARED_EXPORT AudioLevel

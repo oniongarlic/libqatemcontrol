@@ -6,6 +6,9 @@ QAtemFairlight::QAtemFairlight(QObject *parent) :
     QAtemSubsystemBase(parent)
 {
     m_commands << "FDLv" << "FMLv" << "FAAI" << "FAIP" << "FASP" << "FAMP" << "FMTl";
+
+    m_commands << "AIXP" << "AICP" << "AILP" << "AEBP";
+
     m_atemConnection=nullptr;
 }
 
@@ -36,7 +39,7 @@ void QAtemFairlight::resetPeakLevels(bool all, bool master)
     sendCommand(cmd, payload);
 }
 
-qint16 QAtemFairlight::getFairlightInputCount()
+qint16 QAtemFairlight::getInputCount()
 {
     return m_inputs.count();
 }
@@ -116,6 +119,13 @@ void QAtemFairlight::onFDLv(const QByteArray &payload)
     emit masterAudioLevelChanged(mll, mrl, mrp, mlp);
 }
 
+/**
+ * @brief QAtemFairlight::onFAAI
+ * @param payload
+ *
+ * Analog audio input level
+ *
+ */
 void QAtemFairlight::onFAAI(const QByteArray &payload)
 {
     // qDebug() << "FAAI: " << payload;
@@ -129,6 +139,13 @@ void QAtemFairlight::onFAAI(const QByteArray &payload)
     qDebug() << "FAAI: " << as << sil << ail;
 }
 
+/**
+ * @brief QAtemFairlight::onFAIP
+ * @param payload
+ *
+ * Audio input type & configuration
+ *
+ */
 void QAtemFairlight::onFAIP(const QByteArray &payload)
 {
     // qDebug() << "FAIP: " << payload;
@@ -180,11 +197,14 @@ void QAtemFairlight::onFAMP(const QByteArray &payload)
 void QAtemFairlight::onFMTl(const QByteArray &payload)
 {
     quint16 cnt=QAtem::uint16at(payload, 6);
+
+    qDebug() << "FMTl:" << cnt;
+
     for (quint16 i=0; i<cnt; i++) {
         quint16 as=QAtem ::uint16at(payload, 22+i*11);
         qint8 state=static_cast<qint8>(payload.at(24+i*11));
 
-        //qDebug() << "AT" << i << as << state;
+        // qDebug() << "FMTl:" << i << as << state;
 
         if (m_inputs[as].state!=state) {
             m_inputs[as].state=state;
@@ -192,6 +212,7 @@ void QAtemFairlight::onFMTl(const QByteArray &payload)
             emit tallyChanged(as, state);
         }
     }
+    emit tallyUpdated();
 }
 
 /**
@@ -203,10 +224,8 @@ void QAtemFairlight::onFMTl(const QByteArray &payload)
  */
 void QAtemFairlight::onFASP(const QByteArray &payload)
 {
-    // qDebug() << "FASP: " << payload;
-
     quint16 as=QAtem::uint16at(payload, 6);
-    qint64 s=QAtem::int64at(payload, 14);
+    qint64 sid=QAtem::int64at(payload, 14);
     qint8 st=static_cast<qint8>(payload.at(22));
     qint8 mfd=static_cast<qint8>(payload.at(23));
     qint8 fd=static_cast<qint8>(payload.at(24));
@@ -216,11 +235,68 @@ void QAtemFairlight::onFASP(const QByteArray &payload)
     qint8 bands=static_cast<qint8>(payload.at(34));
     bool eq=static_cast<bool>(payload.at(35));
 
-    qDebug() << "AudioSource: " << as << gain << s << st << mfd << fd << eq << bands;
+    qint16 balance=QAtem::int16at(payload, 46);
+    qint32 fgain=QAtem::int32at(payload, 50);
+
+    qDebug() << "FASP: " << payload.toHex(':');
+    qDebug() << "AudioSource: " << as << fgain << balance << gain << sid << st << mfd << fd << eq << bands;
 
     m_inputs[as].index=as;
     m_inputs[as].gain=gain;
     m_inputs[as].fairlight=true;
     m_inputs[as].eq=eq;
     m_inputs[as].eq_bands=bands;
+
+    m_inputs[as].fbalance=balance;
+    m_inputs[as].fgain=fgain;
+
+    emit audioSourceUpdated(as);
+}
+
+/**
+ * @brief QAtemFairlight::onAIXP
+ * @param payload
+ *
+ * Audio input expander/gate
+ *
+ */
+void QAtemFairlight::onAIXP(const QByteArray &payload)
+{
+    qDebug() << "AIXP: " << payload.toHex(':');
+}
+
+/**
+ * @brief QAtemFairlight::onAICP
+ * @param payload
+ *
+ * Audio input compression
+ *
+ */
+void QAtemFairlight::onAICP(const QByteArray &payload)
+{
+    qDebug() << "AICP: " << payload.toHex(':');
+}
+
+/**
+ * @brief QAtemFairlight::onAILP
+ * @param payload
+ *
+ * Audio input limiter
+ *
+ */
+void QAtemFairlight::onAILP(const QByteArray &payload)
+{
+    qDebug() << "AILP: " << payload.toHex(':');
+}
+
+/**
+ * @brief QAtemFairlight::onAEBP
+ * @param payload
+ *
+ * Audio input eq bands
+ *
+ */
+void QAtemFairlight::onAEBP(const QByteArray &payload)
+{
+    qDebug() << "AILP: " << payload.toHex(':');
 }
