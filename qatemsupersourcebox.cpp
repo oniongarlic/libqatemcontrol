@@ -136,6 +136,8 @@ void QAtemSuperSourceBox::setPosition(QPoint pos, uint size)
     v1.u16 = size;
     payload[12] = static_cast<char>(v1.u8[1]);
     payload[13] = static_cast<char>(v1.u8[0]);
+
+    sendCommand(cmd, payload);
 }
 
 void QAtemSuperSourceBox::setOnAir(bool enabled)
