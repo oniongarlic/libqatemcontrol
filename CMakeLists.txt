@@ -62,6 +62,7 @@ set(config_export_name "${PROJECT_NAME}Config")
 set(targets_export_name "${PROJECT_NAME}Targets")
 set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${config_export_name}.cmake")
 set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${config_export_name}Version.cmake")
+set(namespace "${PROJECT_NAME}::")
 
 include(GNUInstallDirs)
 include (CMakePackageConfigHelpers)
@@ -78,12 +79,17 @@ write_basic_package_version_file(
 )
 
 install(TARGETS qatemcontrol
+    EXPORT ${targets_export_name}
     BUNDLE DESTINATION .
     INCLUDES DESTINATION "include"
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     PUBLIC_HEADER DESTINATION ${include_install_dir}
 )
+
+install(EXPORT ${targets_export_name}
+    NAMESPACE ${namespace}
+    DESTINATION ${config_install_dir})
 
 install(FILES ${project_config} ${version_config}
     DESTINATION ${config_install_dir})
