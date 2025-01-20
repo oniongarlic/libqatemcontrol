@@ -1,0 +1,2 @@
+add_subdirectory(qatemswitcher)
+add_subdirectory(qatemuploader)
