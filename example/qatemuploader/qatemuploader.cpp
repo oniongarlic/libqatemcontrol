@@ -8,6 +8,8 @@
 #include <QImage>
 #include <QFileInfo>
 
+#include <QDebug>
+
 QAtemUploader::QAtemUploader(QObject *parent) :
     QObject(parent), m_state(NotConnected), m_mediaplayer (-1)
 {
@@ -41,7 +43,7 @@ void QAtemUploader::upload(const QString &filename, const QString &address, quin
 void QAtemUploader::handleError(const QString &errorString)
 {
     QTextStream out(stderr);
-    out << errorString << endl << endl;
+    qDebug() << errorString;
     QCoreApplication::exit(-1);
 }
 
@@ -86,12 +88,12 @@ void QAtemUploader::handleMediaLockState(quint8 id, bool locked)
     {
         if(m_state == AquiringLock)
         {
-            out << tr ("Trying") << endl;
+            qDebug() << tr ("Trying");
             requestLock();
         }
         else if (m_state == Inprogress)
         {
-            out << tr ("Done.") << endl << endl;
+            qDebug() << tr ("Done.");
             m_state = Done;
             QCoreApplication::exit();
         }

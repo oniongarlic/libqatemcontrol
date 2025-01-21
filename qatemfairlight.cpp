@@ -1,3 +1,19 @@
+/*
+Copyright 2023  Kaj-Michael Lang <milang@tal.org>
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "qatemfairlight.h"
 #include "qatemconnection.h"
@@ -181,7 +197,7 @@ void QAtemFairlight::onFAMP(const QByteArray &payload)
     qint32 gain=QAtem::int32at(payload, 18);
     bool fftb=static_cast<bool>(payload.at(22));
 
-    qDebug() << "EQ: " << eqs << enabled << fftb;
+    qDebug() << "EQ: " << eqs << enabled << eq_gain << makeup_gain << gain << fftb;
 }
 
 /**
