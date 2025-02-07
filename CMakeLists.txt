@@ -94,4 +94,4 @@ install(EXPORT ${targets_export_name}
 install(FILES ${project_config} ${version_config}
     DESTINATION ${config_install_dir})
 
-install(FILES ${qatemcontrol_headers} DESTINATION include/qatemcontrol)
+install(FILES ${qatemcontrol_headers} DESTINATION include/QAtemControl)
